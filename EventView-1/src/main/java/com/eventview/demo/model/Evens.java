@@ -1,4 +1,4 @@
-package com.eventview.demo.lol;
+package com.eventview.demo.model;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;

@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.eventview.demo.dao.EvenRepo;
-import com.eventview.demo.lol.Evens;
+import com.eventview.demo.model.Evens;
 
 @Controller
 public class EController {
