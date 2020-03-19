@@ -7,17 +7,17 @@ import javax.persistence.Id;
 public class Evens {
 	
 	@Id
-	private String eid;
+	private int eid;
 	private String fname;
 	private String lname;
 	private String ed;
 	private String etypes;
 	private String phone;
 	private String email;
-	public String getEid() {
+	public int getEid() {
 		return eid;
 	}
-	public void setEid(String eid) {
+	public void setEid(int eid) {
 		this.eid = eid;
 	}
 	public String getFname() {
