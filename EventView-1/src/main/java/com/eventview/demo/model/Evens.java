@@ -1,64 +1,58 @@
+
 package com.eventview.demo.model;
 
+import java.sql.Timestamp;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Table;
 
 @Entity
+@Table(name = "events")
 public class Evens {
-	
+
 	@Id
-	private int eid;
-	private String fname;
-	private String lname;
-	private String ed;
-	private String etypes;
-	private String phone;
-	private String email;
-	public int getEid() {
-		return eid;
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Integer event_id;
+	
+	private Integer user_id;
+	private Integer event_type_id;
+	private String event_date;
+
+	public Integer getEvent_id() {
+		return event_id;
 	}
-	public void setEid(int eid) {
-		this.eid = eid;
+
+	public void setEvent_id(Integer event_id) {
+		this.event_id = event_id;
 	}
-	public String getFname() {
-		return fname;
+
+	public Integer getUser_id() {
+		return user_id;
 	}
-	public void setFname(String fname) {
-		this.fname = fname;
+
+	public void setUser_id(Integer user_id) {
+		this.user_id = user_id;
 	}
-	public String getLname() {
-		return lname;
+
+	public Integer getEvent_type_id() {
+		return event_type_id;
 	}
-	public void setLname(String lname) {
-		this.lname = lname;
+
+	public void setEvent_type_id(Integer event_type_id) {
+		this.event_type_id = event_type_id;
 	}
-	public String getEd() {
-		return ed;
+
+	public String getEvent_date() {
+		return event_date;
 	}
-	public void setEd(String ed) {
-		this.ed = ed;
+
+	public void setEvent_date(String event_date) {
+		this.event_date = event_date;
 	}
-	public String getEtypes() {
-		return etypes;
-	}
-	public void setEtypes(String etypes) {
-		this.etypes = etypes;
-	}
-	public String getPhone() {
-		return phone;
-	}
-	public void setPhone(String phone) {
-		this.phone = phone;
-	}
-	public String getEmail() {
-		return email;
-	}
-	public void setEmail(String email) {
-		this.email = email;
-	}
-	@Override
-	public String toString() {
-		return "Evens [eid=" + eid + ", fname=" + fname + ", lname=" + lname + ", ed=" + ed + ", etypes=" + etypes
-				+ ", phone=" + phone + ", email=" + email + "]";
-	}
+
+	
+
 }
+

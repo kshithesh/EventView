@@ -1,38 +1,46 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-	pageEncoding="ISO-8859-1"%>
+    pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="ISO-8859-1">
 <title>Insert title here</title>
 <link rel="stylesheet"
-	href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-<link rel="stylesheet" href="/resources/demos/style.css">
-<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-<script>
-	$(function() {
-		$("#datepicker").datepicker();
-	});
-</script>
+	href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+	integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+	crossorigin="anonymous">
+<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+	integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+	crossorigin="anonymous"></script>
+<script
+	src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+	integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+	crossorigin="anonymous"></script>
+<script
+	src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+	integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+	crossorigin="anonymous"></script>
 </head>
 <body>
+<h3>Users List</h3>
+	<table border="1" cellpadding="2" cellspacing="2">
+		<tr>
+			<th>Id</th>
+			<th>first name</th>
+			<th>Last Name</th>
+			<th>Phone</th>
+			<th>Email</th>
+		</tr>
+		<c:forEach var="user" items="${Users}">
+			<tr>
+				<td>${user.user_id}</td>
+				<td>${user.first_name}</td>
+				<td>${user.last_name}</td>
+				<td>${user.phone}</td>
+				<td>${user.email}</td>
+			</tr>
+		</c:forEach>
+	</table>
 
-	<form action="addEven">
-		id<input type="text" name="eid"> <br> fname<input type="text"
-			name="fname"><br> lname<input type="text" name="lname"><br>
-		event date<input type="text" name="ed" id="datepicker"> <br> event type<select
-			name="etypes">
-			<option value="birthday">birthday</option>
-			<option value="m anniversary">manniv</option>
-			<option value="d anniversary">danniv</option>
-		phone</select> <br> <input type="text" name="phone"> <br> email <input
-			type="text" name="email"><br>
-			<input type="submit"><br>
-	</form>
-	<form action="getEven">
-		enter id <input type="text" name="eid"><br> 
-			<input type="submit"><br>
-	</form>
 </body>
 </html>
