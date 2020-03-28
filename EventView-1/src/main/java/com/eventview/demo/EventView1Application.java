@@ -1,4 +1,4 @@
-package com.eventview;
+package com.eventview.demo;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

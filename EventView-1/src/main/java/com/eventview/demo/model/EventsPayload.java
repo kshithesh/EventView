@@ -1,4 +1,4 @@
-package com.eventview.model;
+package com.eventview.demo.model;
 
 public class EventsPayload {
 
