@@ -1,4 +1,4 @@
-package com.eventview.demo.dao;
+package com.eventview.dao;
 
 import java.util.List;
 
@@ -6,10 +6,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
-import com.eventview.demo.model.EvenType;
-import com.eventview.demo.model.Evens;
-import com.eventview.demo.model.EventsPayload;
-import com.eventview.demo.model.Users;
+import com.eventview.model.EvenType;
+import com.eventview.model.Evens;
+import com.eventview.model.EventsPayload;
+import com.eventview.model.Users;
 
 @Repository
 public class EventViewRepo {

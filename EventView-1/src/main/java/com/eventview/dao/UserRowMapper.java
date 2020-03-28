@@ -1,11 +1,11 @@
-package com.eventview.demo.dao;
+package com.eventview.dao;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import org.springframework.jdbc.core.RowMapper;
 
-import com.eventview.demo.model.Users;
+import com.eventview.model.Users;
 
 public class UserRowMapper implements RowMapper<Users> {
 

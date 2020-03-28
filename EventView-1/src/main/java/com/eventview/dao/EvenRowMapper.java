@@ -1,12 +1,12 @@
-package com.eventview.demo.dao;
+package com.eventview.dao;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import org.springframework.jdbc.core.RowMapper;
 
-import com.eventview.demo.model.EvenType;
-import com.eventview.demo.model.Evens;
+import com.eventview.model.EvenType;
+import com.eventview.model.Evens;
 
 public class EvenRowMapper implements RowMapper {
 
