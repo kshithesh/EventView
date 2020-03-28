@@ -7,6 +7,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import com.eventview.model.EvenType;
+import com.eventview.model.Evens;
 import com.eventview.model.EventsPayload;
 import com.eventview.model.Users;
 
@@ -43,8 +44,29 @@ public class EventViewRepo {
 		return evens;
 	}
 
+	public Users findByUserId(Integer user_id) {
+
+        String fbui = "select * from users where user_id = ?";
+
+        return jdbcTemplate.queryForObject(fbui, new Object[]{user_id}, new UserRowMapper());
+
+    }
+	/*
 	public void insertUser(Users user) {
 		String iusql = "insert into users(user_id,first_name,last_name,phone,email) values (?,?,?,?,?)";
 		jdbcTemplate.update(iusql, new Object[] { user.getUser_id(), user.getFirst_name(), user.getLast_name() });
+	}
+	*/
+
+	public Object findByEventsId(Integer event_id) {
+
+        String fbei = "select * from events where event_id = ?";
+
+        return jdbcTemplate.queryForObject(fbei, new Object[]{event_id}, new EvenRowMapper());
+	}
+
+	public EvenType findByEventtypeId(Integer event_type_id) {
+		String fbeti = "select * from eventtypes where event_type_id = ?";
+		return jdbcTemplate.queryForObject(fbeti, new Object[] {event_type_id}, new EvenTypeRowMapper());
 	}
 }

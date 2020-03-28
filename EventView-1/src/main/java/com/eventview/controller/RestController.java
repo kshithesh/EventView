@@ -4,10 +4,12 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.eventview.dao.EventViewRepo;
 import com.eventview.model.EvenType;
+import com.eventview.model.Evens;
 import com.eventview.model.EventsPayload;
 import com.eventview.model.Users;
 
@@ -35,9 +37,18 @@ public class RestController {
 		return eventviewRepo.getAllEvenTypes();
 	}
 
-	// @GetMapping("/view")
-	// public List<Users> listAll(){
-	// return userservice.listAll1();
+	@GetMapping(path = "/users/{user_id}")
+	public Users findByUserId(@PathVariable Integer user_id) {
+		return eventviewRepo.findByUserId(user_id);
+	}
 
-	// }
+	@GetMapping(path = "/events/{event_id}")
+	public Object findByEventId(@PathVariable Integer event_id) {
+		return eventviewRepo.findByEventsId(event_id);
+	}
+
+	@GetMapping(path = "/eventtypes/{event_type_id}")
+	public EvenType findByEventtypeId(@PathVariable Integer event_type_id) {
+		return eventviewRepo.findByEventtypeId(event_type_id);
+	}
 }
