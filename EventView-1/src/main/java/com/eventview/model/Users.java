@@ -1,4 +1,4 @@
-package com.eventview.demo.model;
+package com.eventview.model;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;

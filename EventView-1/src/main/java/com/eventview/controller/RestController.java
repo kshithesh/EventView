@@ -1,4 +1,4 @@
-package com.eventview.demo.controller;
+package com.eventview.controller;
 
 import java.util.List;
 
@@ -6,10 +6,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.eventview.demo.dao.EventViewRepo;
-import com.eventview.demo.model.EvenType;
-import com.eventview.demo.model.EventsPayload;
-import com.eventview.demo.model.Users;
+import com.eventview.dao.EventViewRepo;
+import com.eventview.model.EvenType;
+import com.eventview.model.EventsPayload;
+import com.eventview.model.Users;
 
 @org.springframework.web.bind.annotation.RestController
 @RequestMapping
