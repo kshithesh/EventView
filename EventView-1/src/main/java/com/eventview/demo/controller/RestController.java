@@ -6,9 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.eventview.demo.dao.UserRepo;
+import com.eventview.demo.dao.EventViewRepo;
 import com.eventview.demo.model.EvenType;
-import com.eventview.demo.model.Evens;
 import com.eventview.demo.model.EventsPayload;
 import com.eventview.demo.model.Users;
 
@@ -17,23 +16,23 @@ import com.eventview.demo.model.Users;
 public class RestController {
 
 	@Autowired
-	UserRepo userRepository;
+	EventViewRepo eventviewRepo;
 
 	@GetMapping(path = "/users")
 	public List<Users> getAllUsers() {
 
-		return userRepository.getAllUsers();
+		return eventviewRepo.getAllUsers();
 
 	}
 
 	@GetMapping(path = "/events")
 	public List<EventsPayload> getAllEvens() {
-		return userRepository.getAllEvens();
+		return eventviewRepo.getAllEvens();
 	}
 
 	@GetMapping(path = "/eventtypes")
 	public List<EvenType> getAllEventypes() {
-		return userRepository.getAllEvenTypes();
+		return eventviewRepo.getAllEvenTypes();
 	}
 
 	// @GetMapping("/view")

@@ -7,17 +7,16 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import com.eventview.demo.model.EvenType;
-import com.eventview.demo.model.Evens;
 import com.eventview.demo.model.EventsPayload;
 import com.eventview.demo.model.Users;
 
 @Repository
-public class UserRepo {
+public class EventViewRepo {
 
 	@Autowired
 	JdbcTemplate jdbcTemplate;
 
-	/*
+	/* Using String Extractor
 	 * public List<String> getAllUserNames() { List<String> usernameList = new
 	 * ArrayList<>(); usernameList.addAll(jdbcTemplate.
 	 * query("select user_id,first_name,last_name,phone,email from users;", (rs,
@@ -26,11 +25,8 @@ public class UserRepo {
 	 */
 
 	public List<Users> getAllUsers() {
-
 		String usql = "SELECT user_id,first_name,last_name,phone,email FROM users";
-
 		List<Users> users = jdbcTemplate.query(usql, new UserRowMapper());
-
 		return users;
 
 	}
@@ -42,7 +38,7 @@ public class UserRepo {
 	}
 
 	public List<EvenType> getAllEvenTypes() {
-		String etsql = "select event_type_id,event_type from eventtypes";
+		String etsql = "select event_type_id,event_id,event_type from eventtypes";
 		List<EvenType> evens = jdbcTemplate.query(etsql, new EvenTypeRowMapper());
 		return evens;
 	}

@@ -5,10 +5,7 @@ import java.sql.SQLException;
 
 import org.springframework.jdbc.core.RowMapper;
 
-import com.eventview.demo.model.EvenType;
-import com.eventview.demo.model.Evens;
 import com.eventview.demo.model.EventsPayload;
-import com.eventview.demo.model.Users;
 
 public class EventsPayloadRowMapper implements RowMapper<EventsPayload> {
 
