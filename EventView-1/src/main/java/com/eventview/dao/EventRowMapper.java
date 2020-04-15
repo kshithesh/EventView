@@ -5,14 +5,13 @@ import java.sql.SQLException;
 
 import org.springframework.jdbc.core.RowMapper;
 
-import com.eventview.model.EvenType;
-import com.eventview.model.Evens;
+import com.eventview.model.Events;
 
-public class EvenRowMapper implements RowMapper {
+public class EventRowMapper implements RowMapper<Object> {
 
 	@Override
 	public Object mapRow(ResultSet rs, int rowNum) throws SQLException {
-		Evens events = new Evens();
+		Events events = new Events();
 		events.setEvent_id(rs.getInt("event_id"));
 		events.setUser_id(rs.getInt("user_id"));
 		events.setEvent_type_id(rs.getInt("event_type_id"));

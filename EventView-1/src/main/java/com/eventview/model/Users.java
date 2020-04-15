@@ -15,8 +15,8 @@ public class Users {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer user_id;
 
-	static String first_name;
-	static String last_name;
+	private String first_name;
+	private String last_name;
 	private String phone;
 	private String email;
 

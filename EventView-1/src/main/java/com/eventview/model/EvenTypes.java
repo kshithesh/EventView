@@ -8,11 +8,12 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "eventtypes")
-public class EvenType {
+public class EvenTypes {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer event_type_id;
+	
 	private Integer event_id;
 	private String event_type;
 

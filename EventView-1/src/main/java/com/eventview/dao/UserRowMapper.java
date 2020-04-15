@@ -1,5 +1,6 @@
 package com.eventview.dao;
 
+
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
@@ -20,5 +21,6 @@ public class UserRowMapper implements RowMapper<Users> {
 		user.setEmail(rs.getString("email"));
 		return user;
 	}
-
+	
 }
+
