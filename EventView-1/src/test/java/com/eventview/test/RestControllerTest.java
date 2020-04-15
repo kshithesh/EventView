@@ -1,4 +1,4 @@
-package com.eventview.demo;
+package com.eventview.test;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.web.client.RestTemplate;
@@ -13,10 +13,10 @@ public class RestControllerTest {
 		
 		Users user = new Users();
 		user.setUser_id(5);
-		user.setFirst_name("Ramu");
-		user.setLast_name("Dara");
-		user.setEmail("ramudara@gmail.com");
-		user.setPhone("9052432668");
+		user.setFirst_name("blank");
+		user.setLast_name("black");
+		user.setEmail("blank@gmail.com");
+		user.setPhone("8762212321");
 		
 		restTemplate.put("http://localhost:8080/usercreate", user);
 	}
