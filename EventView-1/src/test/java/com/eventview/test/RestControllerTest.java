@@ -5,8 +5,10 @@ import org.springframework.web.client.RestTemplate;
 
 import com.eventview.model.Users;
 
+
 public class RestControllerTest {
-	
+
+	/*
 	@Test
 	public void testCreateUser() {
 		RestTemplate restTemplate = new RestTemplate();
@@ -20,5 +22,6 @@ public class RestControllerTest {
 		
 		restTemplate.put("http://localhost:8080/usercreate", user);
 	}
+	*/
 
 }
