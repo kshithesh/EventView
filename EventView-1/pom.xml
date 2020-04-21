@@ -10,10 +10,10 @@
 		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.dell</groupId>
-	<artifactId>bootjpa</artifactId>
+	<artifactId>EventViewer</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>war</packaging>
-	<name>bootjpa</name>
+	<name>EventViewer</name>
 	<description>Demo project for Spring Boot</description>
 
 	<properties>
