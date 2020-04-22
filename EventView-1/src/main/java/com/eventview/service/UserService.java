@@ -10,10 +10,11 @@ public interface UserService {
 
 	Users findByUserId(Integer user_id);
 
-	Users createUser(Users user);
+	void createUser(Users user);
 
 	Users updateUser(Users user);
 
-	Users deleteUser(Users user);
- 
+	void deleteUser(Integer user_id);
+
+	boolean exists(Users users);
 }

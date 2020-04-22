@@ -20,6 +20,10 @@ public class Users {
 	private String phone;
 	private String email;
 
+	public Users() {
+
+	}
+
 	public Integer getUser_id() {
 		return user_id;
 	}
@@ -60,4 +64,11 @@ public class Users {
 		this.email = email;
 	}
 
+	public Users(Integer user_id,String first_name, String last_name, String phone, String email) {
+		this.user_id = user_id;
+		this.first_name = first_name;
+		this.last_name = last_name;
+		this.phone = phone;
+		this.email = email;
+	}
 }

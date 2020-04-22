@@ -10,32 +10,37 @@ import com.eventview.repo.UserRepo;
 
 @Service("userService")
 public class UserServiceImpl implements UserService {
-	
-	@Autowired
-	private UserRepo userRepo;
-	
-	@Override
-	public List<Users> getAllUsers(){
-		return userRepo.getAllUsers();
-	}
-	
-	@Override
-	public Users findByUserId(Integer user_id) {
-		return userRepo.findByUserId(user_id);
-	}
 
-	@Override
-	public Users createUser(Users user) {
-		return userRepo.createUser(user);
-	}
+    @Autowired
+    private UserRepo userRepo;
 
-	@Override
-	public Users updateUser(Users user) {
-		return userRepo.updateUser(user);
-	}
+    @Override
+    public List<Users> getAllUsers() {
+        return userRepo.getAllUsers();
+    }
 
-	@Override
-	public Users deleteUser(Users user) {
-		return userRepo.deleteUser(user);
-	}
+    @Override
+    public Users findByUserId(Integer user_id) {
+        return userRepo.findByUserId(user_id);
+    }
+
+    @Override
+    public void createUser(Users user) {
+        userRepo.createUser(user);
+    }
+
+    @Override
+    public Users updateUser(Users user) {
+        return userRepo.updateUser(user);
+    }
+
+    @Override
+    public void deleteUser(Integer user_id) {
+        userRepo.deleteUser(user_id);
+    }
+
+    @Override
+    public boolean exists(Users users) {
+        return findByUserId(users.getUser_id()) != null;
+    }
 }

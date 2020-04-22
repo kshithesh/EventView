@@ -44,9 +44,9 @@ public class UserRepoImpl implements UserRepo {
 	}
 
 	@Override
-	public Users deleteUser(Users user) {
-		jdbcTemplate.update("delete from users where user_id=?", user.getUser_id());
-		return user;
+	public void deleteUser(Integer user_id) {
+		Object[] del = new Object[] {user_id};
+		jdbcTemplate.update("delete from users where user_id=?", del, new UserRowMapper());
+		System.out.println("Record with id:"+ user_id + " are deleted");
 	}
-
 }
