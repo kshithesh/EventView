@@ -1,16 +1,21 @@
 package com.eventview.repo;
 
-import java.util.List;
-
+import com.eventview.dao.UserRowMapper;
+import com.eventview.model.Users;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
-import com.eventview.dao.UserRowMapper;
-import com.eventview.model.Users;
+import javax.transaction.Transactional;
+import java.util.List;
 
+@Transactional
 @Repository("userRepo")
 public class UserRepoImpl implements UserRepo {
+
+	private final Logger log = LoggerFactory.getLogger(UserRepoImpl.class);
 
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
@@ -18,8 +23,7 @@ public class UserRepoImpl implements UserRepo {
 	@Override
 	public List<Users> getAllUsers() {
 		String usql = "SELECT user_id,first_name,last_name,phone,email FROM users";
-		List<Users> users = jdbcTemplate.query(usql, new UserRowMapper());
-		return users;
+		return jdbcTemplate.query(usql, new UserRowMapper());
 	}
 
 	@Override
@@ -29,24 +33,23 @@ public class UserRepoImpl implements UserRepo {
 	}
 
 	@Override
-	public Users createUser(Users user) {
+	public void createUser(Users users) {
 		jdbcTemplate.update(
 				"INSERT INTO users (`user_id`, `first_name`, `last_name`, `phone`, `email`) VALUES (?,?,?,?,?)",
-				user.getUser_id(), user.getFirst_name(), user.getLast_name(), user.getPhone(), user.getEmail());
-		return user;
+				users.getUser_id(), users.getFirst_name(), users.getLast_name(), users.getPhone(), users.getEmail());
+		log.info("repo created");
 	}
 
 	@Override
-	public Users updateUser(Users user) {
+	public void updateUser(Users users) {
 		jdbcTemplate.update("update users set first_name=?, last_name=?, phone=?, email=? where user_id=?",
-				user.getFirst_name(), user.getLast_name(), user.getPhone(), user.getEmail(), user.getUser_id());
-		return user;
+				users.getFirst_name(), users.getLast_name(), users.getPhone(), users.getEmail(), users.getUser_id());
 	}
 
 	@Override
 	public void deleteUser(Integer user_id) {
 		Object[] del = new Object[] {user_id};
-		jdbcTemplate.update("delete from users where user_id=?", del, new UserRowMapper());
+		jdbcTemplate.update("delete from users where user_id=?", del);
 		System.out.println("Record with id:"+ user_id + " are deleted");
 	}
 }

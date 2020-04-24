@@ -51,7 +51,14 @@ public class Events {
 		this.event_date = event_date;
 	}
 
-	
+	public Events(Integer event_id, Integer user_id, Integer event_type_id, String event_date) {
+		this.event_id = event_id;
+		this.user_id = user_id;
+		this.event_type_id = event_type_id;
+		this.event_date = event_date;
+	}
 
+	public Events() {
+	}
 }
 

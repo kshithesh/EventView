@@ -1,24 +1,13 @@
 package com.eventview.model;
 
+import javax.persistence.Entity;
+
 public class EventsPayload {
 
 	private Integer event_id;
 	private String full_name;
 	private String event_type;
 	private String event_date;
-
-	public EventsPayload() {
-
-	}
-
-	public EventsPayload(Integer event_id, String full_name, String event_type_name, String event_date,
-			String event_type) {
-		super();
-		this.event_id = event_id;
-		this.full_name = full_name;
-		this.event_type = event_type;
-		this.event_date = event_date;
-	}
 
 	public Integer getEvent_id() {
 		return event_id;
@@ -52,4 +41,16 @@ public class EventsPayload {
 		this.event_date = event_date;
 	}
 
+	public EventsPayload() {
+
+	}
+
+	public EventsPayload(Integer event_id, String full_name, String event_date,
+						 String event_type) {
+		super();
+		this.event_id = event_id;
+		this.full_name = full_name;
+		this.event_type = event_type;
+		this.event_date = event_date;
+	}
 }

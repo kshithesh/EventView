@@ -17,6 +17,10 @@ public class EvenTypes {
 	private Integer event_id;
 	private String event_type;
 
+	public EvenTypes() {
+
+	}
+
 	public Integer getEvent_id() {
 		return event_id;
 	}
@@ -41,4 +45,9 @@ public class EvenTypes {
 		this.event_type = event_type;
 	}
 
+	public EvenTypes(Integer event_type_id, Integer event_id, String event_type) {
+		this.event_type_id = event_type_id;
+		this.event_id = event_id;
+		this.event_type = event_type;
+	}
 }

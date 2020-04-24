@@ -18,8 +18,7 @@ public class EventTypeRepoImpl implements EventTypeRepo{
 	@Override
 	public List<EvenTypes> getAllEvenTypes() {
 		String etsql = "select event_type_id,event_id,event_type from eventtypes";
-		List<EvenTypes> evens = jdbcTemplate.query(etsql, new EvenTypeRowMapper());
-		return evens;
+		return jdbcTemplate.query(etsql, new EvenTypeRowMapper());
 	}
 
 	@Override
@@ -29,21 +28,20 @@ public class EventTypeRepoImpl implements EventTypeRepo{
 	}
 
 	@Override
-	public EvenTypes createEventType(EvenTypes eventtype) {
+	public EvenTypes createEventType(EvenTypes evenTypes) {
 		jdbcTemplate.update(
-				"INSERT INTO eventtypes (event_type_id, event_id, event_type) VALUES (?,?,?)", eventtype.getEvent_type_id(), eventtype.getEvent_id(), eventtype.getEvent_type());
-		return eventtype;
+				"INSERT INTO eventtypes (event_type_id, event_id, event_type) VALUES (?,?,?)", evenTypes.getEvent_type_id(), evenTypes.getEvent_id(), evenTypes.getEvent_type());
+		return evenTypes;
 	}
 
 	@Override
-	public EvenTypes updateEventType(EvenTypes eventtype) {
-		jdbcTemplate.update("update eventtypes set event_id=?, event_type=? where event_type_id=?", eventtype.getEvent_id(), eventtype.getEvent_type(), eventtype.getEvent_type_id());
-		return eventtype;
+	public void updateEventType(EvenTypes evenTypes) {
+		jdbcTemplate.update("update eventtypes set event_id=?, event_type=? where event_type_id=?", evenTypes.getEvent_id(), evenTypes.getEvent_type(), evenTypes.getEvent_type_id());
 	}
 
 	@Override
-	public EvenTypes deleteEventType(EvenTypes eventtype) {
-		jdbcTemplate.update("delete from eventtypes where event_type_id=?", eventtype.getEvent_type_id());
-		return eventtype;
+	public void deleteEventType(Integer event_type_id) {
+		Object[] del = new Object[] {event_type_id};
+		jdbcTemplate.update("delete from eventtypes where event_type_id=?", del);
 	}
 }

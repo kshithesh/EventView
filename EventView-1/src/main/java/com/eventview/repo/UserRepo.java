@@ -10,9 +10,9 @@ public interface UserRepo {
 
 	Users findByUserId(Integer user_id);
 
-	Users createUser(Users user);
+	void createUser(Users users);
 
-	Users updateUser(Users user);
+	void updateUser(Users users);
 
 	void deleteUser(Integer user_id);
 }

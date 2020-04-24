@@ -1,15 +1,19 @@
 package com.eventview.service;
 
-import java.util.List;
-
+import com.eventview.model.Users;
+import com.eventview.repo.UserRepo;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.eventview.model.Users;
-import com.eventview.repo.UserRepo;
+import java.util.List;
 
 @Service("userService")
 public class UserServiceImpl implements UserService {
+
+    private final Logger log = LoggerFactory.getLogger(UserServiceImpl.class);
+
 
     @Autowired
     private UserRepo userRepo;
@@ -25,13 +29,14 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void createUser(Users user) {
-        userRepo.createUser(user);
+    public void createUser(Users users) {
+        log.info("Service done");
+        userRepo.createUser(users);
     }
 
     @Override
-    public Users updateUser(Users user) {
-        return userRepo.updateUser(user);
+    public void updateUser(Users users) {
+        userRepo.updateUser(users);
     }
 
     @Override

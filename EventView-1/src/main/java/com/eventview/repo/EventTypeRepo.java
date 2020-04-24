@@ -10,10 +10,10 @@ public interface EventTypeRepo {
 
 	EvenTypes findByEventtypeId(Integer event_type_id);
 
-	EvenTypes createEventType(EvenTypes eventtype);
+	EvenTypes createEventType(EvenTypes evenTypes);
 
-	EvenTypes updateEventType(EvenTypes eventtype);
+	void updateEventType(EvenTypes evenTypes);
 
-	EvenTypes deleteEventType(EvenTypes eventtype);
+	void deleteEventType(Integer event_type_id);
 
 }

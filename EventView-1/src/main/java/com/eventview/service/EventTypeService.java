@@ -12,9 +12,9 @@ public interface EventTypeService {
 
 	EvenTypes createEventType(EvenTypes eventtype);
 
-	EvenTypes updateEventType(EvenTypes eventtype);
+	void updateEventType(EvenTypes eventtype);
 
-	EvenTypes deleteEventType(EvenTypes eventtype);
+	void deleteEventType(Integer event_type_id);
 
-
+	boolean exists(EvenTypes eventtype);
 }
