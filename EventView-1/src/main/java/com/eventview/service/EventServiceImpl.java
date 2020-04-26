@@ -21,8 +21,8 @@ public class EventServiceImpl implements EventService {
 	}
 	
 	@Override
-	public Events findByEventsId(Integer event_id) {
-		return eventRepo.findByEventsId(event_id);
+	public Events findByEventsId(Integer eventid) {
+		return eventRepo.findByEventsId(eventid);
 	}
 
 	@Override
@@ -36,13 +36,13 @@ public class EventServiceImpl implements EventService {
 	}
 
 	@Override
-	public void deleteEvent(Integer event_id) {
-		 eventRepo.deleteEvent(event_id);
+	public void deleteEvent(Integer eventid) {
+		 eventRepo.deleteEvent(eventid);
 	}
 
 	@Override
 	public boolean exists(Events event) {
-		return findByEventsId(event.getEvent_id()) != null;
+		return findByEventsId(event.getEventid()) != null;
 	}
 
 }

@@ -1,74 +1,82 @@
 package com.eventview.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-
-import javax.persistence.Table;
+import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "users")
 public class Users {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer user_id;
+    @Id
+    @Column(name = "user_id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer userid;
 
-	private String first_name;
-	private String last_name;
-	private String phone;
-	private String email;
+    @Column(name = "first_name")
+    @NotNull
+    private String fname;
 
-	public Users() {
+    @Column(name = "last_name")
+    @NotNull
+    private String lname;
 
-	}
+    @Column(name = "phone")
+    @NotNull
+    private String phone;
 
-	public Integer getUser_id() {
-		return user_id;
-	}
+    @Column(name = "email")
+    @NotNull
+    private String email;
 
-	public void setUser_id(Integer user_id) {
-		this.user_id = user_id;
-	}
+    public Users(Integer userid, String fname, String lname, String phone, String email) {
+        this.userid = userid;
+        this.fname = fname;
+        this.lname = lname;
+        this.phone = phone;
+        this.email = email;
+    }
 
-	public String getFirst_name() {
-		return first_name;
-	}
+    public Users() {
 
-	public void setFirst_name(String first_name) {
-		this.first_name = first_name;
-	}
+    }
 
-	public String getLast_name() {
-		return last_name;
-	}
+    public Integer getUserid() {
+        return userid;
+    }
 
-	public void setLast_name(String last_name) {
-		this.last_name = last_name;
-	}
+    public void setUserid(Integer userid) {
+        this.userid = userid;
+    }
 
-	public String getPhone() {
-		return phone;
-	}
+    public String getFname() {
+        return fname;
+    }
 
-	public void setPhone(String phone) {
-		this.phone = phone;
-	}
+    public void setFname(String fname) {
+        this.fname = fname;
+    }
 
-	public String getEmail() {
-		return email;
-	}
+    public String getLname() {
+        return lname;
+    }
 
-	public void setEmail(String email) {
-		this.email = email;
-	}
+    public void setLname(String lname) {
+        this.lname = lname;
+    }
 
-	public Users(Integer user_id,String first_name, String last_name, String phone, String email) {
-		this.user_id = user_id;
-		this.first_name = first_name;
-		this.last_name = last_name;
-		this.phone = phone;
-		this.email = email;
-	}
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
 }

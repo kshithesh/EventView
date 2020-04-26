@@ -20,13 +20,13 @@ public class EventTypeServiceImpl implements EventTypeService{
 	}
 	
 	@Override
-	public EvenTypes findByEventtypeId(Integer event_type_id) {
-		return eventTypeRepo.findByEventtypeId(event_type_id);
+	public EvenTypes findByEventtypeId(Integer eventtypeid) {
+		return eventTypeRepo.findByEventtypeId(eventtypeid);
 	}
 
 	@Override
-	public EvenTypes createEventType(EvenTypes eventtype) {
-		return eventTypeRepo.createEventType(eventtype);
+	public void createEventType(EvenTypes eventtype) {
+		 eventTypeRepo.createEventType(eventtype);
 	}
 
 	@Override
@@ -35,12 +35,12 @@ public class EventTypeServiceImpl implements EventTypeService{
 	}
 
 	@Override
-	public void deleteEventType(Integer event_type_id) {
-		 eventTypeRepo.deleteEventType(event_type_id);
+	public void deleteEventType(Integer eventtypeid) {
+		 eventTypeRepo.deleteEventType(eventtypeid);
 	}
 
     @Override
     public boolean exists(EvenTypes eventtype) {
-        return findByEventtypeId(eventtype.getEvent_type_id()) !=null;
+        return eventTypeRepo.findByEventtypeId(eventtype.getEventtypeid()) !=null;
     }
 }

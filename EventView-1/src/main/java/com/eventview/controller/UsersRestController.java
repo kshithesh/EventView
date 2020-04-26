@@ -5,9 +5,11 @@ import com.eventview.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import java.util.List;
 
@@ -31,13 +33,13 @@ public class UsersRestController {
         return new ResponseEntity<List<Users>>(users, HttpStatus.OK);
     }
 
-    @GetMapping(path = "/user/{user_id}")
-    public ResponseEntity<Users> findByUserId(@PathVariable("user_id") Integer user_id) {
-        log.info("getting user by user_id{}", user_id);
-        Users users = userService.findByUserId(user_id);
+    @GetMapping(path = "/user/{userid}")
+    public ResponseEntity<Users> findByUserId(@PathVariable("userid") Integer userid) {
+        log.info("getting user by userid{}", userid);
+        Users users = userService.findByUserId(userid);
 
         if (users == null) {
-            log.info("user with the id{} doesn't exist",user_id);
+            log.info("user with the id{} doesn't exist",userid);
             return new ResponseEntity<Users>(HttpStatus.NOT_FOUND);
         }
 
@@ -46,35 +48,33 @@ public class UsersRestController {
 
     @PostMapping(path = "/user")
     public ResponseEntity<Void>
-    createUser(@RequestBody Users users) {
-        log.info("creating new user:{}", users);
+    createUser(@RequestBody Users user) {
+        log.info("creating new user:{}", user);
 
-        /*
-        if (userService.exists(users)) {
-            log.info("user with same id " + users.getUser_id() + " exists");
+        if (userService.exists(user)) {
+            log.info("user with same id " + user.getUserid() + " exists");
             return new ResponseEntity<Void>(HttpStatus.CONFLICT);
         }
-         */
-        userService.createUser(users);
+        userService.createUser(user);
         log.info("user created");
         return new ResponseEntity<Void>(HttpStatus.CREATED);
     }
 
 
-    @PostMapping(path = "/user/{user_id}")
+    @PostMapping(path = "/user/{userid}")
     public ResponseEntity<Void>
-    updateUser(@PathVariable Integer user_id, @RequestBody Users users) {
+    updateUser(@PathVariable Integer userid, @RequestBody Users users) {
         log.info("updating user:{}", users);
-        Users users1 = userService.findByUserId(user_id);
+        Users users1 = userService.findByUserId(userid);
 
         if (users1 == null) {
-            log.info("user with id{} doesn't exist", user_id);
+            log.info("user with id{} doesn't exist", userid);
             return new ResponseEntity<Void>(HttpStatus.NOT_FOUND);
         }
 
-        users1.setUser_id(users.getUser_id());
-        users1.setFirst_name(users.getFirst_name());
-        users1.setLast_name(users.getLast_name());
+        users1.setUserid(users.getUserid());
+        users1.setFname(users.getFname());
+        users1.setLname(users.getLname());
         users1.setPhone(users.getPhone());
         users1.setEmail(users.getEmail());
 
@@ -82,17 +82,17 @@ public class UsersRestController {
         return new ResponseEntity<Void>(HttpStatus.OK);
     }
 
-    @DeleteMapping(path = "/user/{user_id}")
+    @DeleteMapping(path = "/user/{userid}")
     public ResponseEntity<Void>
-    deleteUser(@PathVariable Integer user_id) {
-        log.info("deleting user with id{}:", user_id);
-        Users users = userService.findByUserId(user_id);
+    deleteUser(@PathVariable Integer userid) {
+        log.info("deleting user with id{}:", userid);
+        Users users = userService.findByUserId(userid);
 
         if (users == null) {
-            log.info("user with id{} doesn't exist", user_id);
+            log.info("user with id{} doesn't exist", userid);
             return new ResponseEntity<Void>(HttpStatus.NOT_FOUND);
         }
-        userService.deleteUser(user_id);
+        userService.deleteUser(userid);
         return new ResponseEntity<Void>(HttpStatus.OK);
     }
 }

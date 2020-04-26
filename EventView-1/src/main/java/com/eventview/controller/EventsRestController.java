@@ -34,13 +34,13 @@ public class EventsRestController {
     }
 
 
-    @GetMapping(path = "/{event_id}")
-    public ResponseEntity<Events> findByEventId(@PathVariable Integer event_id) {
-        log.info("getting event by id{}", event_id);
-        Events events = eventService.findByEventsId(event_id);
+    @GetMapping(path = "/{eventid}")
+    public ResponseEntity<Events> findByEventId(@PathVariable("eventid") Integer eventid) {
+        log.info("getting event by id{}", eventid);
+        Events events = eventService.findByEventsId(eventid);
 
         if (events == null) {
-            log.info("event by the id{} doesn't exist", event_id);
+            log.info("event by the id{} doesn't exist", eventid);
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
@@ -52,7 +52,7 @@ public class EventsRestController {
         log.info("creating event");
 
         if (eventService.exists(event)) {
-            log.info("Event by the id{} already exists", event.getEvent_id());
+            log.info("Event by the id{} already exists", event.getEventid());
             return new ResponseEntity<>(HttpStatus.CONFLICT);
         }
 
@@ -60,36 +60,36 @@ public class EventsRestController {
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
-    @PostMapping(path = "/{event_id}")
-    public ResponseEntity<Void> updateEvent(@PathVariable Integer event_id, @RequestBody Events events) {
+    @PostMapping(path = "/{eventid}")
+    public ResponseEntity<Void> updateEvent(@PathVariable Integer eventid, @RequestBody Events events) {
         log.info("Updating event{}", events);
-        Events events1 = eventService.findByEventsId(event_id);
+        Events events1 = eventService.findByEventsId(eventid);
 
         if (events == null) {
-            log.info("event by the id{} doesn't exist",event_id);
+            log.info("event by the id{} doesn't exist",eventid);
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
-        events1.setEvent_id(events.getEvent_id());
-        events1.setUser_id(events.getUser_id());
-        events1.setEvent_type_id(events.getEvent_type_id());
-        events1.setEvent_date(events.getEvent_date());
+        events1.setEventid(events.getEventid());
+        events1.setUserid(events.getUserid());
+        events1.setEventtypeid(events.getEventtypeid());
+        events1.setEventdate(events.getEventdate());
 
         eventService.updateEvent(events);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @DeleteMapping(path = "/{event_id}")
-    public ResponseEntity<Void> deleteEvent(@PathVariable Integer event_id) {
-        log.info("Deleting Event with id{}", event_id);
-        Events events = eventService.findByEventsId(event_id);
+    @DeleteMapping(path = "/{eventid}")
+    public ResponseEntity<Void> deleteEvent(@PathVariable Integer eventid) {
+        log.info("Deleting Event with id{}", eventid);
+        Events events = eventService.findByEventsId(eventid);
 
         if (events == null) {
-            log.info("event with the id{}", event_id);
+            log.info("event with the id{}", eventid);
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
-        eventService.deleteEvent(event_id);
+        eventService.deleteEvent(eventid);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 

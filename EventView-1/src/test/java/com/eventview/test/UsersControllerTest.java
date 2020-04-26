@@ -23,13 +23,11 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import java.util.Arrays;
 import java.util.List;
 
-import static org.hamcrest.Matchers.hasSize;
-import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.*;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @WebAppConfiguration
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -74,10 +72,10 @@ public class UsersControllerTest {
         mvc.perform(get("/users"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", hasSize(2)))
-                .andExpect(jsonPath("$[0].user_id", is(1)))
-                .andExpect(jsonPath("$[0].last_name", is("routhu")))
-                .andExpect(jsonPath("$[1].user_id", is(2)))
-                .andExpect(jsonPath("$[1].first_name", is("uma")));
+                .andExpect(jsonPath("$[0].userid", is(1)))
+                .andExpect(jsonPath("$[0].lname", is("routhu")))
+                .andExpect(jsonPath("$[1].userid", is(2)))
+                .andExpect(jsonPath("$[1].fname", is("uma")));
 
         verify(userService, times(1)).getAllUsers();
         verifyNoMoreInteractions(userService);
@@ -90,53 +88,54 @@ public class UsersControllerTest {
 
         when(userService.findByUserId(1)).thenReturn(users);
 
-        mvc.perform(get("/user/{user_id}", 1)
+        mvc.perform(get("/user/{userid}", 1)
                 .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.user_id").value(1))
-                .andExpect(jsonPath("$.first_name").value("kshithesh"));
+                .andExpect(jsonPath("$.userid").value(1))
+                .andExpect(jsonPath("$.fname").value("kshithesh"));
 
         verify(userService, times(1)).findByUserId(1);
         verifyNoMoreInteractions(userService);
     }
 
     @Test
-    public void createUser() throws Exception {
-        Users users = new Users(1, "kshithesh", " routhu", "9533916174",
+    public void testCreateUser() throws Exception {
+        Users user1 = new Users(1, "kshithesh", " routhu", "9533916174",
                 "kshithesh.r@gmail.com");
 
-        userService.createUser(users);
-        //doNothing().when(userService).createUser(users);
-        //log.info("print man{}", users);
+        when(userService.exists(user1)).thenReturn(false);
+        doNothing().when(userService).createUser(user1);
+        log.info("print user{}", user1);
 
         mvc.perform(
                 post("/user")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(asJsonString(users)))
+                        .content(asJsonString(user1)))
                 .andExpect(status().isCreated());
-                 //.andExpect(jsonPath("$.user_id").value(1));
+                 //.andExpect(jsonPath("$.userid").value(1));
 
-        //verify(userService, times(1)).exists(users);
-        //verify(userService, times(1)).createUser(users);
+        //verify(userService, times(1)).exists(user1);
+        //verify(userService, times(1)).createUser(user1);
         //verifyNoMoreInteractions(userService);
     }
 
     @Test
     public void updateUser() throws Exception {
-        Users users = new Users(1, "kshithesh", " routhu", "9533916174",
+        Users user = new Users(1, "kshithesh", " routhu", "9533916174",
                 "kshithesh.r@gmail.com");
-        when(userService.findByUserId(users.getUser_id())).thenReturn(users);
-        doNothing().when(userService).updateUser(users);
+        when(userService.findByUserId(user.getUserid())).thenReturn(user);
+        doNothing().when(userService).updateUser(user);
+        log.info("success");
 
         mvc.perform(
-                put("/user/{user_id}", users.getUser_id())
+                post("/user/{userid}", user.getUserid())
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(asJsonString(users)))
+                        .content(asJsonString(user)))
                 .andExpect(status().isOk());
 
-        //verify(userService, times(1)).findByUserId(users.getUser_id());
-        //verify(userService, times(1)).updateUser(users);
+        //verify(userService, times(1)).findByUserId(user.getUserid());
+        //verify(userService, times(1)).updateUser(user);
         //verifyNoMoreInteractions(userService);
 
     }
@@ -146,15 +145,15 @@ public class UsersControllerTest {
         Users users = new Users(1, "kshithesh", " routhu", "9533916174",
                 "kshithesh.r@gmail.com");
 
-        when(userService.findByUserId(users.getUser_id())).thenReturn(users);
-        doNothing().when(userService).deleteUser(users.getUser_id());
+        when(userService.findByUserId(users.getUserid())).thenReturn(users);
+        doNothing().when(userService).deleteUser(users.getUserid());
 
         mvc.perform(
-                delete("/user/{user_id}", users.getUser_id()))
+                delete("/user/{userid}", users.getUserid()))
                 .andExpect(status().isOk());
 
-        verify(userService, times(1)).findByUserId(users.getUser_id());
-        verify(userService, times(1)).deleteUser(users.getUser_id());
+        verify(userService, times(1)).findByUserId(users.getUserid());
+        verify(userService, times(1)).deleteUser(users.getUserid());
         verifyNoMoreInteractions(userService);
     }
 }

@@ -1,53 +1,54 @@
 package com.eventview.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "eventtypes")
 public class EvenTypes {
 
 	@Id
+	@Column(name="event_type_id")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer event_type_id;
-	
-	private Integer event_id;
-	private String event_type;
+	private Integer eventtypeid;
+
+	@Column(name = "event_id")
+	@NotNull
+	private Integer eventid;
+
+	@Column(name = "event_type")
+	private String eventtype;
+
+	public Integer getEventtypeid() {
+		return eventtypeid;
+	}
+
+	public void setEventtypeid(Integer eventtypeid) {
+		this.eventtypeid = eventtypeid;
+	}
+
+	public Integer getEventid() {
+		return eventid;
+	}
+
+	public void setEventid(Integer eventid) {
+		this.eventid = eventid;
+	}
+
+	public String getEventtype() {
+		return eventtype;
+	}
+
+	public void setEventtype(String eventtype) {
+		this.eventtype = eventtype;
+	}
+
+	public EvenTypes(Integer eventtypeid, @NotNull Integer eventid, String eventtype) {
+		this.eventtypeid = eventtypeid;
+		this.eventid = eventid;
+		this.eventtype = eventtype;
+	}
 
 	public EvenTypes() {
-
-	}
-
-	public Integer getEvent_id() {
-		return event_id;
-	}
-
-	public void setEvent_id(Integer event_id) {
-		this.event_id = event_id;
-	}
-
-	public Integer getEvent_type_id() {
-		return event_type_id;
-	}
-
-	public void setEvent_type_id(Integer event_type_id) {
-		this.event_type_id = event_type_id;
-	}
-
-	public String getEvent_type() {
-		return event_type;
-	}
-
-	public void setEvent_type(String event_type) {
-		this.event_type = event_type;
-	}
-
-	public EvenTypes(Integer event_type_id, Integer event_id, String event_type) {
-		this.event_type_id = event_type_id;
-		this.event_id = event_id;
-		this.event_type = event_type;
 	}
 }

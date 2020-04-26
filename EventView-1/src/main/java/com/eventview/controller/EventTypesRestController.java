@@ -32,13 +32,13 @@ public class EventTypesRestController {
         return new ResponseEntity<List<EvenTypes>>(evenTypes, HttpStatus.OK);
     }
 
-    @GetMapping(path = "/type/{event_type_id}")
-    public ResponseEntity<EvenTypes> findByEventtypeId(@PathVariable Integer event_type_id) {
-        log.info("getting eventtype by event_type_id{}", event_type_id);
-        EvenTypes evenTypes = eventTypeService.findByEventtypeId(event_type_id);
+    @GetMapping(path = "/type/{eventtypeid}")
+    public ResponseEntity<EvenTypes> findByEventtypeId(@PathVariable Integer eventtypeid) {
+        log.info("getting eventtype by eventtype_id{}", eventtypeid);
+        EvenTypes evenTypes = eventTypeService.findByEventtypeId(eventtypeid);
 
         if (evenTypes == null) {
-            log.info("eventtype with the id{} doesn't exist", event_type_id);
+            log.info("eventtype with the id{} doesn't exist", eventtypeid);
             return new ResponseEntity<EvenTypes>(HttpStatus.NOT_FOUND);
         }
 
@@ -53,7 +53,7 @@ public class EventTypesRestController {
 
 
         if (eventTypeService.exists(eventtype)) {
-            log.info("eventtype with same id " + eventtype.getEvent_type_id() + " exists");
+            log.info("eventtype with same id " + eventtype.getEventtypeid() + " exists");
             return new ResponseEntity<EvenTypes>(HttpStatus.CONFLICT);
         }
 
@@ -62,36 +62,36 @@ public class EventTypesRestController {
         return new ResponseEntity<EvenTypes>(HttpStatus.CREATED);
     }
 
-    @PostMapping(path = "/type/{event_type_id}")
+    @PostMapping(path = "/type/{eventtypeid}")
     public ResponseEntity<Void>
-    updateEventType(@PathVariable Integer event_type_id, @RequestBody EvenTypes evenTypes) {
+    updateEventType(@PathVariable Integer eventtypeid, @RequestBody EvenTypes evenTypes) {
         log.info("updating eventtype:{}", evenTypes);
-        EvenTypes evenTypes1 = eventTypeService.findByEventtypeId(event_type_id);
+        EvenTypes evenTypes1 = eventTypeService.findByEventtypeId(eventtypeid);
 
         if (evenTypes1 == null) {
-            log.info("eventtype with id{} doesn't exist", event_type_id);
+            log.info("eventtype with id{} doesn't exist", eventtypeid);
             return new ResponseEntity<Void>(HttpStatus.NOT_FOUND);
         }
 
-        evenTypes1.setEvent_type_id(evenTypes.getEvent_type_id());
-        evenTypes1.setEvent_id(evenTypes.getEvent_id());
-        evenTypes1.setEvent_type(evenTypes.getEvent_type());
+        evenTypes1.setEventtypeid(evenTypes.getEventtypeid());
+        evenTypes1.setEventid(evenTypes.getEventid());
+        evenTypes1.setEventtype(evenTypes.getEventtype());
 
         eventTypeService.updateEventType(evenTypes);
         return new ResponseEntity<Void>(HttpStatus.OK);
     }
 
-    @DeleteMapping(path = "/type/{event_type_id}")
+    @DeleteMapping(path = "/type/{eventtypeid}")
     public ResponseEntity<Void>
-    deleteEventType(@PathVariable Integer event_type_id) {
-        log.info("deleting eventTypes with event_type_id{}:", event_type_id);
-        EvenTypes evenTypes = eventTypeService.findByEventtypeId(event_type_id);
+    deleteEventType(@PathVariable Integer eventtypeid) {
+        log.info("deleting eventTypes with eventtype_id{}:", eventtypeid);
+        EvenTypes evenTypes = eventTypeService.findByEventtypeId(eventtypeid);
 
         if (evenTypes == null) {
-            log.info("eventType with event_type_id{} doesn't exist", event_type_id);
+            log.info("eventType with eventtype_id{} doesn't exist", eventtypeid);
             return new ResponseEntity<Void>(HttpStatus.NOT_FOUND);
         }
-        eventTypeService.deleteEventType(event_type_id);
+        eventTypeService.deleteEventType(eventtypeid);
         return new ResponseEntity<Void>(HttpStatus.OK);
     }
 }

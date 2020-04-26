@@ -1,61 +1,73 @@
 
 package com.eventview.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import com.fasterxml.jackson.annotation.JsonFormat;
 
-@Entity
+import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+@Entity(name="Events")
 @Table(name = "events")
 public class Events {
 
 	@Id
+	@Column(name="event_id")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer event_id;
-	
-	private Integer user_id;
-	private Integer event_type_id;
-	private String event_date;
+	private Integer eventid;
 
-	public Integer getEvent_id() {
-		return event_id;
+	@Column(name="user_id")
+	@NotNull
+	private Integer userid;
+
+	@Column(name="event_type_id")
+	@NotNull
+	private Integer eventtypeid;
+
+	@Column(name="event_date")
+	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern="dd-MM-yyyy")
+	@Temporal(TemporalType.DATE)
+	@NotNull
+	private Date eventdate;
+
+	public Integer getEventid() {
+		return eventid;
 	}
 
-	public void setEvent_id(Integer event_id) {
-		this.event_id = event_id;
+	public void setEventid(Integer eventid) {
+		this.eventid = eventid;
 	}
 
-	public Integer getUser_id() {
-		return user_id;
+	public Integer getUserid() {
+		return userid;
 	}
 
-	public void setUser_id(Integer user_id) {
-		this.user_id = user_id;
+	public void setUserid(Integer userid) {
+		this.userid = userid;
 	}
 
-	public Integer getEvent_type_id() {
-		return event_type_id;
+	public Integer getEventtypeid() {
+		return eventtypeid;
 	}
 
-	public void setEvent_type_id(Integer event_type_id) {
-		this.event_type_id = event_type_id;
+	public void setEventtypeid(Integer eventtypeid) {
+		this.eventtypeid = eventtypeid;
 	}
 
-	public String getEvent_date() {
-		return event_date;
+	public Date getEventdate() {
+		return eventdate;
 	}
 
-	public void setEvent_date(String event_date) {
-		this.event_date = event_date;
+	public void setEventdate(Date eventdate) {
+		this.eventdate = eventdate;
 	}
 
-	public Events(Integer event_id, Integer user_id, Integer event_type_id, String event_date) {
-		this.event_id = event_id;
-		this.user_id = user_id;
-		this.event_type_id = event_type_id;
-		this.event_date = event_date;
+	public Events(Integer eventid, @NotNull Integer userid, @NotNull Integer eventtypeid, @NotNull Date eventdate) {
+		this.eventid = eventid;
+		this.userid = userid;
+		this.eventtypeid = eventtypeid;
+		this.eventdate = eventdate;
 	}
 
 	public Events() {

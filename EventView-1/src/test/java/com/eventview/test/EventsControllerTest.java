@@ -17,6 +17,8 @@ import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.List;
 
@@ -32,6 +34,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest
 public class EventsControllerTest {
+
+    private final static DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
 
     private MockMvc mvc;
 
@@ -68,10 +72,10 @@ public class EventsControllerTest {
         mvc.perform(get("/"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", hasSize(2)))
-                .andExpect(jsonPath("$[0].event_id", is(101)))
-                .andExpect(jsonPath("$[0].full_name", is("kshithesh routhu")))
-                .andExpect(jsonPath("$[1].event_id", is(102)))
-                .andExpect(jsonPath("$[1].full_name", is("hrishikesh routhu")));
+                .andExpect(jsonPath("$[0].eventid", is(101)))
+                .andExpect(jsonPath("$[0].fname", is("kshithesh routhu")))
+                .andExpect(jsonPath("$[1].eventid", is(102)))
+                .andExpect(jsonPath("$[1].fname", is("hrishikesh routhu")));
 
         verify(eventService, times(1)).getAllEvens();
         verifyNoMoreInteractions(eventService);
@@ -79,16 +83,16 @@ public class EventsControllerTest {
 
     @Test
     public void findByEventId() throws Exception {
-        Events events = new Events(102,2,2, "10-09-2000");
+        Events events = new Events(102,2,2, dateFormat.parse("10-09-2000"));
 
         when(eventService.findByEventsId(102)).thenReturn(events);
 
-        mvc.perform(get("/{event_id}", 102)
+        mvc.perform(get("/{eventid}", 102)
                 .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.event_id").value(1))
-                .andExpect(jsonPath("$.event_date").value("10-09-2000"));
+                .andExpect(jsonPath("$.eventid").value(1))
+                .andExpect(jsonPath("$.eventdate").value(dateFormat.parse("10-09-2000")));
 
         verify(eventService, times(1)).findByEventsId(102);
         verifyNoMoreInteractions(eventService);
@@ -97,7 +101,7 @@ public class EventsControllerTest {
 
     @Test
     public void createEvent() throws Exception {
-        Events events = new Events(102,2,2, "10-09-2000");
+        Events events = new Events(102,2,2, dateFormat.parse("10-09-2000"));
 
         when(eventService.exists(events)).thenReturn(false);
         doNothing().when(eventService).createEvent(events);
@@ -117,18 +121,18 @@ public class EventsControllerTest {
 
     @Test
     public void updateEvent() throws Exception {
-        Events events = new Events(102,2,2, "10-09-2000");
+        Events events = new Events(102,2,2, dateFormat.parse("10-09-2000"));
 
-        when(eventService.findByEventsId(events.getEvent_type_id())).thenReturn(events);
+        when(eventService.findByEventsId(events.getEventtypeid())).thenReturn(events);
         doNothing().when(eventService).updateEvent(events);
 
         mvc.perform(
-                put("/{event_id}", events.getEvent_id())
+                put("/{eventid}", events.getEventid())
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(asJsonString(events)))
                 .andExpect(status().isOk());
 
-        verify(eventService, times(1)).findByEventsId(events.getEvent_id());
+        verify(eventService, times(1)).findByEventsId(events.getEventid());
         verify(eventService, times(1)).updateEvent(events);
         verifyNoMoreInteractions(eventService);
 
@@ -136,17 +140,17 @@ public class EventsControllerTest {
 
     @Test
     public void deleteEvent() throws Exception {
-        Events events = new Events(102,2,2, "10-09-2000");
+        Events events = new Events(102,2,2, dateFormat.parse("10-09-2000"));
 
-        when(eventService.findByEventsId(events.getEvent_id())).thenReturn(events);
-        doNothing().when(eventService).deleteEvent(events.getEvent_id());
+        when(eventService.findByEventsId(events.getEventid())).thenReturn(events);
+        doNothing().when(eventService).deleteEvent(events.getEventid());
 
         mvc.perform(
-                delete("/{event_id}", events.getEvent_id()))
+                delete("/{eventid}", events.getEventid()))
                 .andExpect(status().isOk());
 
-        verify(eventService, times(1)).findByEventsId(events.getEvent_id());
-        verify(eventService, times(1)).deleteEvent(events.getEvent_id());
+        verify(eventService, times(1)).findByEventsId(events.getEventid());
+        verify(eventService, times(1)).deleteEvent(events.getEventid());
         verifyNoMoreInteractions(eventService);
     }
 }

@@ -23,26 +23,26 @@ public class EventRepoImpl implements EventRepo {
     }
 
     @Override
-    public Events findByEventsId(Integer event_id) {
+    public Events findByEventsId(Integer eventid) {
         String fbei = "select * from events where event_id = ?";
-        return (Events) jdbcTemplate.queryForObject(fbei, new Object[]{event_id}, new EventRowMapper());
+        return (Events) jdbcTemplate.queryForObject(fbei, new Object[] {eventid}, new EventRowMapper());
     }
 
     @Override
     public void createEvent(Events event) {
         String ce = "INSERT INTO events (event_id, user_id,event_type_id, event_date) VALUES (?,?,?,?)";
-        jdbcTemplate.update(ce,event.getUser_id(), event.getEvent_type_id(), event.getEvent_date());
+        jdbcTemplate.update(ce,event.getEventid(),event.getUserid(), event.getEventtypeid(), event.getEventdate());
     }
 
     @Override
     public void updateEvent(Events event) {
         jdbcTemplate.update("update events set user_id=?,event_type_id=?, event_date=? where event_id=?",
-                event.getEvent_id());
+                event.getEventid());
     }
 
     @Override
-    public void deleteEvent(Integer event_id) {
-        jdbcTemplate.update("delete from events where event_id=?", new Object[]{event_id}, new EventRowMapper());
-        System.out.println("Record with id:" + event_id + " are deleted");
+    public void deleteEvent(Integer eventid) {
+        jdbcTemplate.update("delete from events where event_id=?", new Object[]{eventid}, new EventRowMapper());
+        System.out.println("Record with id:" + eventid + " are deleted");
     }
 }

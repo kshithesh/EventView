@@ -27,29 +27,29 @@ public class UserRepoImpl implements UserRepo {
 	}
 
 	@Override
-	public Users findByUserId(Integer user_id) {
+	public Users findByUserId(Integer userid) {
 		String fbui = "select * from users where user_id = ?";
-		return jdbcTemplate.queryForObject(fbui, new Object[] { user_id }, new UserRowMapper());
+		return jdbcTemplate.queryForObject(fbui, new Object[] { userid }, new UserRowMapper());
 	}
 
 	@Override
 	public void createUser(Users users) {
 		jdbcTemplate.update(
 				"INSERT INTO users (`user_id`, `first_name`, `last_name`, `phone`, `email`) VALUES (?,?,?,?,?)",
-				users.getUser_id(), users.getFirst_name(), users.getLast_name(), users.getPhone(), users.getEmail());
+				users.getUserid(), users.getFname(), users.getLname(), users.getPhone(), users.getEmail());
 		log.info("repo created");
 	}
 
 	@Override
 	public void updateUser(Users users) {
 		jdbcTemplate.update("update users set first_name=?, last_name=?, phone=?, email=? where user_id=?",
-				users.getFirst_name(), users.getLast_name(), users.getPhone(), users.getEmail(), users.getUser_id());
+				users.getFname(), users.getLname(), users.getPhone(), users.getEmail(), users.getUserid());
 	}
 
 	@Override
-	public void deleteUser(Integer user_id) {
-		Object[] del = new Object[] {user_id};
+	public void deleteUser(Integer userid) {
+		Object[] del = new Object[] {userid};
 		jdbcTemplate.update("delete from users where user_id=?", del);
-		System.out.println("Record with id:"+ user_id + " are deleted");
+		System.out.println("Record with id:"+ userid + " are deleted");
 	}
 }

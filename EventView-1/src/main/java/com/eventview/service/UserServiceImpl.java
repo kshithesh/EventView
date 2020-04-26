@@ -24,8 +24,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Users findByUserId(Integer user_id) {
-        return userRepo.findByUserId(user_id);
+    public Users findByUserId(Integer userid) {
+        return userRepo.findByUserId(userid);
     }
 
     @Override
@@ -40,12 +40,12 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void deleteUser(Integer user_id) {
-        userRepo.deleteUser(user_id);
+    public void deleteUser(Integer userid) {
+        userRepo.deleteUser(userid);
     }
 
     @Override
     public boolean exists(Users users) {
-        return findByUserId(users.getUser_id()) != null;
+        return userRepo.findByUserId(users.getUserid()) != null;
     }
 }
