@@ -30,12 +30,12 @@ public class EventTypeRepoImpl implements EventTypeRepo{
 	@Override
 	public void createEventType(EvenTypes evenTypes) {
 		jdbcTemplate.update(
-				"INSERT INTO eventtypes (event_type_id, event_id, event_type) VALUES (?,?,?)", evenTypes.getEventtypeid(), evenTypes.getEventid(), evenTypes.getEventtype());
+				"INSERT INTO eventtypes (event_type_id, event_id, event_type) VALUES (?,?,?)", evenTypes.getEventTypeId(), evenTypes.getEventid(), evenTypes.getEventType());
 	}
 
 	@Override
 	public void updateEventType(EvenTypes evenTypes) {
-		jdbcTemplate.update("update eventtypes set event_id=?, event_type=? where event_type_id=?", evenTypes.getEventid(), evenTypes.getEventtype(), evenTypes.getEventtypeid());
+		jdbcTemplate.update("update eventtypes set event_id=?, event_type=? where event_type_id=?", evenTypes.getEventid(), evenTypes.getEventType(), evenTypes.getEventTypeId());
 	}
 
 	@Override

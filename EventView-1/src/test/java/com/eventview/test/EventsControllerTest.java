@@ -123,16 +123,16 @@ public class EventsControllerTest {
     public void updateEvent() throws Exception {
         Events events = new Events(102,2,2, dateFormat.parse("10-09-2000"));
 
-        when(eventService.findByEventsId(events.getEventtypeid())).thenReturn(events);
+        when(eventService.findByEventsId(events.getEventTypeId())).thenReturn(events);
         doNothing().when(eventService).updateEvent(events);
 
         mvc.perform(
-                put("/{eventid}", events.getEventid())
+                put("/{eventid}", events.getEventId())
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(asJsonString(events)))
                 .andExpect(status().isOk());
 
-        verify(eventService, times(1)).findByEventsId(events.getEventid());
+        verify(eventService, times(1)).findByEventsId(events.getEventId());
         verify(eventService, times(1)).updateEvent(events);
         verifyNoMoreInteractions(eventService);
 
@@ -142,15 +142,15 @@ public class EventsControllerTest {
     public void deleteEvent() throws Exception {
         Events events = new Events(102,2,2, dateFormat.parse("10-09-2000"));
 
-        when(eventService.findByEventsId(events.getEventid())).thenReturn(events);
-        doNothing().when(eventService).deleteEvent(events.getEventid());
+        when(eventService.findByEventsId(events.getEventId())).thenReturn(events);
+        doNothing().when(eventService).deleteEvent(events.getEventId());
 
         mvc.perform(
-                delete("/{eventid}", events.getEventid()))
+                delete("/{eventid}", events.getEventId()))
                 .andExpect(status().isOk());
 
-        verify(eventService, times(1)).findByEventsId(events.getEventid());
-        verify(eventService, times(1)).deleteEvent(events.getEventid());
+        verify(eventService, times(1)).findByEventsId(events.getEventId());
+        verify(eventService, times(1)).deleteEvent(events.getEventId());
         verifyNoMoreInteractions(eventService);
     }
 }

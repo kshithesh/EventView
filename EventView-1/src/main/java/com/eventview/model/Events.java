@@ -5,7 +5,6 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 
 @Entity(name="Events")
@@ -15,15 +14,15 @@ public class Events {
 	@Id
 	@Column(name="event_id")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer eventid;
+	private Integer eventId;
 
 	@Column(name="user_id")
 	@NotNull
-	private Integer userid;
+	private Integer userId;
 
 	@Column(name="event_type_id")
 	@NotNull
-	private Integer eventtypeid;
+	private Integer eventTypeId;
 
 	@Column(name="event_date")
 	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern="dd-MM-yyyy")
@@ -31,28 +30,28 @@ public class Events {
 	@NotNull
 	private Date eventdate;
 
-	public Integer getEventid() {
-		return eventid;
+	public Integer getEventId() {
+		return eventId;
 	}
 
-	public void setEventid(Integer eventid) {
-		this.eventid = eventid;
+	public void setEventId(Integer eventid) {
+		this.eventId = eventid;
 	}
 
-	public Integer getUserid() {
-		return userid;
+	public Integer getUserId() {
+		return userId;
 	}
 
-	public void setUserid(Integer userid) {
-		this.userid = userid;
+	public void setUserId(Integer userid) {
+		this.userId = userid;
 	}
 
-	public Integer getEventtypeid() {
-		return eventtypeid;
+	public Integer getEventTypeId() {
+		return eventTypeId;
 	}
 
-	public void setEventtypeid(Integer eventtypeid) {
-		this.eventtypeid = eventtypeid;
+	public void setEventTypeId(Integer eventtypeid) {
+		this.eventTypeId = eventtypeid;
 	}
 
 	public Date getEventdate() {
@@ -63,10 +62,10 @@ public class Events {
 		this.eventdate = eventdate;
 	}
 
-	public Events(Integer eventid, @NotNull Integer userid, @NotNull Integer eventtypeid, @NotNull Date eventdate) {
-		this.eventid = eventid;
-		this.userid = userid;
-		this.eventtypeid = eventtypeid;
+	public Events(Integer eventId, @NotNull Integer userId, @NotNull Integer eventTypeId, @NotNull Date eventdate) {
+		this.eventId = eventId;
+		this.userId = userId;
+		this.eventTypeId = eventTypeId;
 		this.eventdate = eventdate;
 	}
 

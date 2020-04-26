@@ -51,11 +51,13 @@ public class EventTypesRestController {
     createEventType(@RequestBody EvenTypes eventtype) {
         log.info("creating new eventtype:{}", eventtype);
 
-
+        /*
         if (eventTypeService.exists(eventtype)) {
-            log.info("eventtype with same id " + eventtype.getEventtypeid() + " exists");
+            log.info("eventtype with same id " + eventtype.getEventTypeId() + " exists");
             return new ResponseEntity<EvenTypes>(HttpStatus.CONFLICT);
         }
+
+         */
 
         eventTypeService.createEventType(eventtype);
         log.info("eventtype created");
@@ -73,9 +75,9 @@ public class EventTypesRestController {
             return new ResponseEntity<Void>(HttpStatus.NOT_FOUND);
         }
 
-        evenTypes1.setEventtypeid(evenTypes.getEventtypeid());
+        evenTypes1.setEventTypeId(evenTypes.getEventTypeId());
         evenTypes1.setEventid(evenTypes.getEventid());
-        evenTypes1.setEventtype(evenTypes.getEventtype());
+        evenTypes1.setEventType(evenTypes.getEventType());
 
         eventTypeService.updateEventType(evenTypes);
         return new ResponseEntity<Void>(HttpStatus.OK);

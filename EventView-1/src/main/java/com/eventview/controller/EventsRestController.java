@@ -21,41 +21,41 @@ public class EventsRestController {
     private EventService eventService;
 
     @GetMapping(path = "/")
-    public ResponseEntity<List<EventsPayload>> getAllEvens() {
+    public ResponseEntity<List<EventsPayload>> getAllEvents(){
         log.info("getting all events");
-        List<EventsPayload> payloads = eventService.getAllEvens();
+        List<EventsPayload> eventsPayload = eventService.getAllEvens();
 
-        if (payloads == null || payloads.isEmpty()) {
-            log.info("no events found");
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        if (eventsPayload == null || eventsPayload.isEmpty()) {
+            log.info("no users found");
+            return new ResponseEntity<List<EventsPayload>>(HttpStatus.NO_CONTENT);
         }
-        log.info("events received");
-        return new ResponseEntity<>(HttpStatus.OK);
+        return new ResponseEntity<List<EventsPayload>>(eventsPayload,HttpStatus.OK);
     }
+
 
 
     @GetMapping(path = "/{eventid}")
     public ResponseEntity<Events> findByEventId(@PathVariable("eventid") Integer eventid) {
-        log.info("getting event by id{}", eventid);
+        log.debug("getting event by id - {}", eventid);
         Events events = eventService.findByEventsId(eventid);
 
         if (events == null) {
             log.info("event by the id{} doesn't exist", eventid);
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<Events>(HttpStatus.NOT_FOUND);
         }
 
-        return new ResponseEntity<>(HttpStatus.OK);
+        return new ResponseEntity<Events>(events, HttpStatus.OK);
     }
 
     @PostMapping(path = "/")
     public ResponseEntity<Void> createEvent(@RequestBody Events event) {
-        log.info("creating event");
-
+        log.info("creating event" +event);
+        /*
         if (eventService.exists(event)) {
             log.info("Event by the id{} already exists", event.getEventid());
             return new ResponseEntity<>(HttpStatus.CONFLICT);
         }
-
+        */
         eventService.createEvent(event);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
@@ -70,9 +70,9 @@ public class EventsRestController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
-        events1.setEventid(events.getEventid());
-        events1.setUserid(events.getUserid());
-        events1.setEventtypeid(events.getEventtypeid());
+        events1.setEventId(events.getEventId());
+        events1.setUserId(events.getUserId());
+        events1.setEventTypeId(events.getEventTypeId());
         events1.setEventdate(events.getEventdate());
 
         eventService.updateEvent(events);

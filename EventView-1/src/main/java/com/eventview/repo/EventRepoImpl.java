@@ -4,6 +4,8 @@ import com.eventview.dao.EventRowMapper;
 import com.eventview.dao.EventsPayloadRowMapper;
 import com.eventview.model.Events;
 import com.eventview.model.EventsPayload;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -12,6 +14,9 @@ import java.util.List;
 
 @Repository("eventRepo")
 public class EventRepoImpl implements EventRepo {
+
+    private final Logger log = LoggerFactory.getLogger(EventRepoImpl.class);
+
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
@@ -23,21 +28,22 @@ public class EventRepoImpl implements EventRepo {
     }
 
     @Override
-    public Events findByEventsId(Integer eventid) {
+    public Events findByEventsId(Integer eventId) {
         String fbei = "select * from events where event_id = ?";
-        return (Events) jdbcTemplate.queryForObject(fbei, new Object[] {eventid}, new EventRowMapper());
+        log.info("query generated "+ fbei + "-----" + eventId);
+        return (Events) jdbcTemplate.queryForObject(fbei, new Object[] { eventId }, new EventRowMapper());
     }
 
     @Override
     public void createEvent(Events event) {
         String ce = "INSERT INTO events (event_id, user_id,event_type_id, event_date) VALUES (?,?,?,?)";
-        jdbcTemplate.update(ce,event.getEventid(),event.getUserid(), event.getEventtypeid(), event.getEventdate());
+        jdbcTemplate.update(ce,event.getEventId(),event.getUserId(), event.getEventTypeId(), event.getEventdate());
     }
 
     @Override
     public void updateEvent(Events event) {
         jdbcTemplate.update("update events set user_id=?,event_type_id=?, event_date=? where event_id=?",
-                event.getEventid());
+                event.getUserId(),event.getEventTypeId(),event.getEventdate(),event.getEventId());
     }
 
     @Override

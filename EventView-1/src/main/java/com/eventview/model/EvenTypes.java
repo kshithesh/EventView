@@ -10,21 +10,21 @@ public class EvenTypes {
 	@Id
 	@Column(name="event_type_id")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer eventtypeid;
+	private Integer eventTypeId;
 
 	@Column(name = "event_id")
 	@NotNull
 	private Integer eventid;
 
 	@Column(name = "event_type")
-	private String eventtype;
+	private String eventType;
 
-	public Integer getEventtypeid() {
-		return eventtypeid;
+	public Integer getEventTypeId() {
+		return eventTypeId;
 	}
 
-	public void setEventtypeid(Integer eventtypeid) {
-		this.eventtypeid = eventtypeid;
+	public void setEventTypeId(Integer eventtypeid) {
+		this.eventTypeId = eventtypeid;
 	}
 
 	public Integer getEventid() {
@@ -35,18 +35,18 @@ public class EvenTypes {
 		this.eventid = eventid;
 	}
 
-	public String getEventtype() {
-		return eventtype;
+	public String getEventType() {
+		return eventType;
 	}
 
-	public void setEventtype(String eventtype) {
-		this.eventtype = eventtype;
+	public void setEventType(String eventtype) {
+		this.eventType = eventtype;
 	}
 
-	public EvenTypes(Integer eventtypeid, @NotNull Integer eventid, String eventtype) {
-		this.eventtypeid = eventtypeid;
+	public EvenTypes(Integer eventTypeId, @NotNull Integer eventid, String eventType) {
+		this.eventTypeId = eventTypeId;
 		this.eventid = eventid;
-		this.eventtype = eventtype;
+		this.eventType = eventType;
 	}
 
 	public EvenTypes() {

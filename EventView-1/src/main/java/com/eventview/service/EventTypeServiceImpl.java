@@ -41,6 +41,6 @@ public class EventTypeServiceImpl implements EventTypeService{
 
     @Override
     public boolean exists(EvenTypes eventtype) {
-        return eventTypeRepo.findByEventtypeId(eventtype.getEventtypeid()) !=null;
+        return eventTypeRepo.findByEventtypeId(eventtype.getEventTypeId()) !=null;
     }
 }

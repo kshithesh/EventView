@@ -1,11 +1,8 @@
 package com.eventview.test;
 
 import com.eventview.controller.EventTypesRestController;
-import com.eventview.controller.UsersRestController;
 import com.eventview.model.EvenTypes;
-import com.eventview.model.Users;
 import com.eventview.service.EventTypeService;
-import com.eventview.service.UserService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Before;
 import org.junit.Test;
@@ -123,11 +120,11 @@ public class EventTypesControllerTest {
         EvenTypes evenTypes = new EvenTypes(1,101,
                 "birthday");
 
-        when(eventTypeService.findByEventtypeId(evenTypes.getEventtypeid())).thenReturn(evenTypes);
+        when(eventTypeService.findByEventtypeId(evenTypes.getEventTypeId())).thenReturn(evenTypes);
         doNothing().when(eventTypeService).updateEventType(evenTypes);
 
         mvc.perform(
-                post("/type/{eventtypeid}", evenTypes.getEventtypeid())
+                post("/type/{eventtypeid}", evenTypes.getEventTypeId())
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(asJsonString(evenTypes)))
                 .andExpect(status().isOk());
@@ -144,15 +141,15 @@ public class EventTypesControllerTest {
         EvenTypes evenTypes = new EvenTypes(1,101,
                 "birthday");
 
-        when(eventTypeService.findByEventtypeId(evenTypes.getEventtypeid())).thenReturn(evenTypes);
-        doNothing().when(eventTypeService).deleteEventType(evenTypes.getEventtypeid());
+        when(eventTypeService.findByEventtypeId(evenTypes.getEventTypeId())).thenReturn(evenTypes);
+        doNothing().when(eventTypeService).deleteEventType(evenTypes.getEventTypeId());
 
         mvc.perform(
-                delete("/type/{eventtypeid}", evenTypes.getEventtypeid()))
+                delete("/type/{eventtypeid}", evenTypes.getEventTypeId()))
                 .andExpect(status().isOk());
 
-        verify(eventTypeService, times(1)).findByEventtypeId(evenTypes.getEventtypeid());
-        verify(eventTypeService, times(1)).deleteEventType(evenTypes.getEventtypeid());
+        verify(eventTypeService, times(1)).findByEventtypeId(evenTypes.getEventTypeId());
+        verify(eventTypeService, times(1)).deleteEventType(evenTypes.getEventTypeId());
         verifyNoMoreInteractions(eventTypeService);
     }
 }

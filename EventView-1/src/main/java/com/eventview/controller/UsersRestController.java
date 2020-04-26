@@ -50,11 +50,13 @@ public class UsersRestController {
     public ResponseEntity<Void>
     createUser(@RequestBody Users user) {
         log.info("creating new user:{}", user);
-
+        /*
         if (userService.exists(user)) {
             log.info("user with same id " + user.getUserid() + " exists");
             return new ResponseEntity<Void>(HttpStatus.CONFLICT);
         }
+
+         */
         userService.createUser(user);
         log.info("user created");
         return new ResponseEntity<Void>(HttpStatus.CREATED);

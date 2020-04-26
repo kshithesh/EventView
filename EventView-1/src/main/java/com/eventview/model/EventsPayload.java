@@ -1,51 +1,49 @@
 package com.eventview.model;
 
-import java.util.Date;
-
 public class EventsPayload {
 
-    private Integer eventid;
-    private String fname;
-    private String eventtype;
-    private String eventdate;
+    private Integer eventId;
+    private String fullName;
+    private String eventType;
+    private String eventDate;
 
-	public Integer getEventid() {
-		return eventid;
+	public Integer getEventId() {
+		return eventId;
 	}
 
-	public void setEventid(Integer eventid) {
-		this.eventid = eventid;
+	public void setEventId(Integer eventId) {
+		this.eventId = eventId;
 	}
 
-	public String getFname() {
-		return fname;
+	public String getFullName() {
+		return fullName;
 	}
 
-	public void setFname(String fullname) {
-		this.fname = fullname;
+	public void setFullName(String fullName) {
+		this.fullName = fullName;
 	}
 
-	public String getEventtype() {
-		return eventtype;
+	public String getEventType() {
+		return eventType;
 	}
 
-	public void setEventtype(String eventtype) {
-		this.eventtype = eventtype;
+	public void setEventType(String eventType) {
+		this.eventType = eventType;
 	}
 
-	public String getEventdate() {
-		return eventdate;
+	public String getEventDate() {
+		return eventDate;
 	}
 
-	public void setEventdate(String eventdate) {
-		this.eventdate = eventdate;
+	public void setEventDate(String eventDate) {
+		this.eventDate = eventDate;
 	}
 
-	public EventsPayload(Integer eventid, String fullname, String eventtype, String eventdate) {
-		this.eventid = eventid;
-		this.fname = fullname;
-		this.eventtype = eventtype;
-		this.eventdate = eventdate;
+	public EventsPayload(Integer eventId, String fullName, String eventType, String eventDate) {
+		this.eventId = eventId;
+		this.fullName = fullName;
+		this.eventType = eventType;
+		this.eventDate = eventDate;
 	}
 
 	public EventsPayload() {

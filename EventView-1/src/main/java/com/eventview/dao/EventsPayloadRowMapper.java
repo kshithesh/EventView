@@ -12,10 +12,10 @@ public class EventsPayloadRowMapper implements RowMapper<EventsPayload> {
 	@Override
 	public EventsPayload mapRow(ResultSet rs, int rowNum) throws SQLException {
 		EventsPayload payload = new EventsPayload();
-		payload.setEventid(rs.getInt("eventid"));
-		payload.setFname(rs.getString("fullname"));
-		payload.setEventtype(rs.getString("eventtype"));
-		payload.setEventdate(rs.getString("eventdate"));
+		payload.setEventId(rs.getInt("event_id"));
+		payload.setFullName(rs.getString("full_name"));
+		payload.setEventType(rs.getString("event_type"));
+		payload.setEventDate(rs.getString("event_date"));
 		return payload;
 	}
 

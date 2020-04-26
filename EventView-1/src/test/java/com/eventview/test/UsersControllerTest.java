@@ -134,7 +134,7 @@ public class UsersControllerTest {
                         .content(asJsonString(user)))
                 .andExpect(status().isOk());
 
-        //verify(userService, times(1)).findByUserId(user.getUserid());
+        verify(userService, times(1)).findByUserId(user.getUserid());
         //verify(userService, times(1)).updateUser(user);
         //verifyNoMoreInteractions(userService);
 
