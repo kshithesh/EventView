@@ -8,11 +8,11 @@ public interface UserRepo {
 
 	List<Users> getAllUsers();
 
-	Users findByUserId(Integer user_id);
+	Users findByUserId(Integer userid);
 
-	Users createUser(Users user);
+	void createUser(Users users);
 
-	Users updateUser(Users user);
+	void updateUser(Users users);
 
-	Users deleteUser(Users user);
+	void deleteUser(Integer userid);
 }

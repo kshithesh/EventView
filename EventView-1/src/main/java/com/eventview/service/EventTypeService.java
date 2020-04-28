@@ -8,13 +8,13 @@ public interface EventTypeService {
 
 	List<EvenTypes> getAllEvenTypes();
 
-	EvenTypes findByEventtypeId(Integer event_type_id);
+	EvenTypes findByEventtypeId(Integer eventtypeid);
 
-	EvenTypes createEventType(EvenTypes eventtype);
+	void createEventType(EvenTypes eventtype);
 
-	EvenTypes updateEventType(EvenTypes eventtype);
+	void updateEventType(EvenTypes eventtype);
 
-	EvenTypes deleteEventType(EvenTypes eventtype);
+	void deleteEventType(Integer eventtypeid);
 
-
+	boolean exists(EvenTypes eventtype);
 }

@@ -5,15 +5,16 @@ import java.util.List;
 import com.eventview.model.Users;
 
 public interface UserService {
-	
+
 	List<Users> getAllUsers();
 
-	Users findByUserId(Integer user_id);
+	Users findByUserId(Integer userid);
 
-	Users createUser(Users user);
+	void createUser(Users users);
 
-	Users updateUser(Users user);
+	void updateUser(Users users);
 
-	Users deleteUser(Users user);
- 
+	void deleteUser(Integer userid);
+
+	boolean exists(Users users);
 }

@@ -1,44 +1,54 @@
 package com.eventview.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "eventtypes")
 public class EvenTypes {
 
 	@Id
+	@Column(name="event_type_id")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer event_type_id;
-	
-	private Integer event_id;
-	private String event_type;
+	private Integer eventTypeId;
 
-	public Integer getEvent_id() {
-		return event_id;
+	@Column(name = "event_id")
+	@NotNull
+	private Integer eventid;
+
+	@Column(name = "event_type")
+	private String eventType;
+
+	public Integer getEventTypeId() {
+		return eventTypeId;
 	}
 
-	public void setEvent_id(Integer event_id) {
-		this.event_id = event_id;
+	public void setEventTypeId(Integer eventtypeid) {
+		this.eventTypeId = eventtypeid;
 	}
 
-	public Integer getEvent_type_id() {
-		return event_type_id;
+	public Integer getEventid() {
+		return eventid;
 	}
 
-	public void setEvent_type_id(Integer event_type_id) {
-		this.event_type_id = event_type_id;
+	public void setEventid(Integer eventid) {
+		this.eventid = eventid;
 	}
 
-	public String getEvent_type() {
-		return event_type;
+	public String getEventType() {
+		return eventType;
 	}
 
-	public void setEvent_type(String event_type) {
-		this.event_type = event_type;
+	public void setEventType(String eventtype) {
+		this.eventType = eventtype;
 	}
 
+	public EvenTypes(Integer eventTypeId, @NotNull Integer eventid, String eventType) {
+		this.eventTypeId = eventTypeId;
+		this.eventid = eventid;
+		this.eventType = eventType;
+	}
+
+	public EvenTypes() {
+	}
 }

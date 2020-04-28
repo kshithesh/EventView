@@ -20,23 +20,27 @@ public class EventTypeServiceImpl implements EventTypeService{
 	}
 	
 	@Override
-	public EvenTypes findByEventtypeId(Integer event_type_id) {
-		return eventTypeRepo.findByEventtypeId(event_type_id);
+	public EvenTypes findByEventtypeId(Integer eventtypeid) {
+		return eventTypeRepo.findByEventtypeId(eventtypeid);
 	}
 
 	@Override
-	public EvenTypes createEventType(EvenTypes eventtype) {
-		return eventTypeRepo.createEventType(eventtype);
+	public void createEventType(EvenTypes eventtype) {
+		 eventTypeRepo.createEventType(eventtype);
 	}
 
 	@Override
-	public EvenTypes updateEventType(EvenTypes eventtype) {
-		return eventTypeRepo.updateEventType(eventtype);
-
+	public void updateEventType(EvenTypes evenTypes) {
+		eventTypeRepo.updateEventType(evenTypes);
 	}
 
 	@Override
-	public EvenTypes deleteEventType(EvenTypes eventtype) {
-		return eventTypeRepo.deleteEventType(eventtype);
+	public void deleteEventType(Integer eventtypeid) {
+		 eventTypeRepo.deleteEventType(eventtypeid);
 	}
+
+    @Override
+    public boolean exists(EvenTypes eventtype) {
+        return eventTypeRepo.findByEventtypeId(eventtype.getEventTypeId()) !=null;
+    }
 }

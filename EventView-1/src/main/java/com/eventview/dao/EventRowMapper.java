@@ -12,10 +12,10 @@ public class EventRowMapper implements RowMapper<Object> {
 	@Override
 	public Object mapRow(ResultSet rs, int rowNum) throws SQLException {
 		Events events = new Events();
-		events.setEvent_id(rs.getInt("event_id"));
-		events.setUser_id(rs.getInt("user_id"));
-		events.setEvent_type_id(rs.getInt("event_type_id"));
-		events.setEvent_date(rs.getString("event_date"));
+		events.setEventId(rs.getInt("event_id"));
+		events.setUserId(rs.getInt("user_id"));
+		events.setEventTypeId(rs.getInt("event_type_id"));
+		events.setEventdate(rs.getDate("event_date"));
 		return events;
 	}
 

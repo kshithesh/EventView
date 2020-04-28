@@ -1,41 +1,51 @@
 package com.eventview.service;
 
-import java.util.List;
-
+import com.eventview.model.Users;
+import com.eventview.repo.UserRepo;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.eventview.model.Users;
-import com.eventview.repo.UserRepo;
+import java.util.List;
 
 @Service("userService")
 public class UserServiceImpl implements UserService {
-	
-	@Autowired
-	private UserRepo userRepo;
-	
-	@Override
-	public List<Users> getAllUsers(){
-		return userRepo.getAllUsers();
-	}
-	
-	@Override
-	public Users findByUserId(Integer user_id) {
-		return userRepo.findByUserId(user_id);
-	}
 
-	@Override
-	public Users createUser(Users user) {
-		return userRepo.createUser(user);
-	}
+    private final Logger log = LoggerFactory.getLogger(UserServiceImpl.class);
 
-	@Override
-	public Users updateUser(Users user) {
-		return userRepo.updateUser(user);
-	}
 
-	@Override
-	public Users deleteUser(Users user) {
-		return userRepo.deleteUser(user);
-	}
+    @Autowired
+    private UserRepo userRepo;
+
+    @Override
+    public List<Users> getAllUsers() {
+        return userRepo.getAllUsers();
+    }
+
+    @Override
+    public Users findByUserId(Integer userid) {
+        return userRepo.findByUserId(userid);
+    }
+
+    @Override
+    public void createUser(Users users) {
+        log.info("Service done");
+        userRepo.createUser(users);
+    }
+
+    @Override
+    public void updateUser(Users users) {
+        userRepo.updateUser(users);
+    }
+
+    @Override
+    public void deleteUser(Integer userid) {
+        userRepo.deleteUser(userid);
+    }
+
+    @Override
+    public boolean exists(Users users) {
+        return userRepo.findByUserId(users.getUserid()) != null;
+    }
 }
