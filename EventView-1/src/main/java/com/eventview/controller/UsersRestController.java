@@ -5,11 +5,9 @@ import com.eventview.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.util.UriComponentsBuilder;
 
 import java.util.List;
 
@@ -27,74 +25,71 @@ public class UsersRestController {
         List<Users> users = userService.getAllUsers();
         if (users == null || users.isEmpty()) {
             log.info("no users found");
-            return new ResponseEntity<List<Users>>(HttpStatus.NO_CONTENT);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
         log.info("users received");
-        return new ResponseEntity<List<Users>>(users, HttpStatus.OK);
+        return new ResponseEntity<>(users, HttpStatus.OK);
     }
 
-    @GetMapping(path = "/user/{userid}")
-    public ResponseEntity<Users> findByUserId(@PathVariable("userid") Integer userid) {
-        log.info("getting user by userid{}", userid);
-        Users users = userService.findByUserId(userid);
+    @GetMapping(path = "/user/{userId}")
+    public ResponseEntity<Users> findByUserId(@PathVariable("userId") Integer userId) {
+        log.info("getting user by userId{}", userId);
+        Users users = userService.findByUserId(userId);
 
         if (users == null) {
-            log.info("user with the id{} doesn't exist",userid);
-            return new ResponseEntity<Users>(HttpStatus.NOT_FOUND);
+            log.info("user with the id{} doesn't exist",userId);
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
-        return new ResponseEntity<Users>(users, HttpStatus.OK);
+        return new ResponseEntity<>(users, HttpStatus.OK);
     }
 
     @PostMapping(path = "/user")
     public ResponseEntity<Void>
     createUser(@RequestBody Users user) {
         log.info("creating new user:{}", user);
-        /*
         if (userService.exists(user)) {
-            log.info("user with same id " + user.getUserid() + " exists");
-            return new ResponseEntity<Void>(HttpStatus.CONFLICT);
+            log.info("user with same id " + user.getUserId() + " exists");
+            return new ResponseEntity<>(HttpStatus.CONFLICT);
         }
-
-         */
         userService.createUser(user);
         log.info("user created");
-        return new ResponseEntity<Void>(HttpStatus.CREATED);
+        return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
 
-    @PostMapping(path = "/user/{userid}")
+    @PostMapping(path = "/user/{userId}")
     public ResponseEntity<Void>
-    updateUser(@PathVariable Integer userid, @RequestBody Users users) {
+    updateUser(@PathVariable Integer userId, @RequestBody Users users) {
         log.info("updating user:{}", users);
-        Users users1 = userService.findByUserId(userid);
+        Users users1 = userService.findByUserId(userId);
 
         if (users1 == null) {
-            log.info("user with id{} doesn't exist", userid);
-            return new ResponseEntity<Void>(HttpStatus.NOT_FOUND);
+            log.info("user with id{} doesn't exist", userId);
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
-        users1.setUserid(users.getUserid());
-        users1.setFname(users.getFname());
-        users1.setLname(users.getLname());
+        users1.setUserId(users.getUserId());
+        users1.setFName(users.getFName());
+        users1.setLName(users.getLName());
         users1.setPhone(users.getPhone());
         users1.setEmail(users.getEmail());
 
         userService.updateUser(users);
-        return new ResponseEntity<Void>(HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @DeleteMapping(path = "/user/{userid}")
+    @DeleteMapping(path = "/user/{userId}")
     public ResponseEntity<Void>
-    deleteUser(@PathVariable Integer userid) {
-        log.info("deleting user with id{}:", userid);
-        Users users = userService.findByUserId(userid);
+    deleteUser(@PathVariable Integer userId) {
+        log.info("deleting user with id{}:", userId);
+        Users users = userService.findByUserId(userId);
 
         if (users == null) {
-            log.info("user with id{} doesn't exist", userid);
-            return new ResponseEntity<Void>(HttpStatus.NOT_FOUND);
+            log.info("user with id{} doesn't exist", userId);
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        userService.deleteUser(userid);
-        return new ResponseEntity<Void>(HttpStatus.OK);
+        userService.deleteUser(userId);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }

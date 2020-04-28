@@ -9,12 +9,14 @@ public interface EventRepo {
 
 	List<EventsPayload> getAllEvens();
 
-	Events findByEventsId(Integer event_id);
+	List<Events> getAllEvents();
+
+	Events findByEventsId(Integer eventId);
 
 	void createEvent(Events event);
 
 	void updateEvent(Events event);
 
-	void deleteEvent(Integer event_id);
+	void deleteEvent(Integer eventId);
 
 }

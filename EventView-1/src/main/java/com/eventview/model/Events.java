@@ -28,45 +28,45 @@ public class Events {
 	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern="dd-MM-yyyy")
 	@Temporal(TemporalType.DATE)
 	@NotNull
-	private Date eventdate;
+	private Date eventDate;
 
 	public Integer getEventId() {
 		return eventId;
 	}
 
-	public void setEventId(Integer eventid) {
-		this.eventId = eventid;
+	public void setEventId(Integer eventId) {
+		this.eventId = eventId;
 	}
 
 	public Integer getUserId() {
 		return userId;
 	}
 
-	public void setUserId(Integer userid) {
-		this.userId = userid;
+	public void setUserId(Integer userId) {
+		this.userId = userId;
 	}
 
 	public Integer getEventTypeId() {
 		return eventTypeId;
 	}
 
-	public void setEventTypeId(Integer eventtypeid) {
-		this.eventTypeId = eventtypeid;
+	public void setEventTypeId(Integer eventTypeId) {
+		this.eventTypeId = eventTypeId;
 	}
 
-	public Date getEventdate() {
-		return eventdate;
+	public Date getEventDate() {
+		return eventDate;
 	}
 
-	public void setEventdate(Date eventdate) {
-		this.eventdate = eventdate;
+	public void setEventDate(Date eventDate) {
+		this.eventDate = eventDate;
 	}
 
-	public Events(Integer eventId, @NotNull Integer userId, @NotNull Integer eventTypeId, @NotNull Date eventdate) {
+	public Events(Integer eventId, @NotNull Integer userId, @NotNull Integer eventTypeId, @NotNull Date eventDate) {
 		this.eventId = eventId;
 		this.userId = userId;
 		this.eventTypeId = eventTypeId;
-		this.eventdate = eventdate;
+		this.eventDate = eventDate;
 	}
 
 	public Events() {

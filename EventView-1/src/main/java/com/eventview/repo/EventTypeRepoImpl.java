@@ -1,13 +1,12 @@
 package com.eventview.repo;
 
-import java.util.List;
-
+import com.eventview.dao.EvenTypeRowMapper;
+import com.eventview.model.EvenTypes;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
-import com.eventview.dao.EvenTypeRowMapper;
-import com.eventview.model.EvenTypes;
+import java.util.List;
 
 @Repository("eventTypeRepo")
 public class EventTypeRepoImpl implements EventTypeRepo{
@@ -22,9 +21,14 @@ public class EventTypeRepoImpl implements EventTypeRepo{
 	}
 
 	@Override
-	public EvenTypes findByEventtypeId(Integer eventtypeid) {
-		String fbeti = "select * from eventtypes where event_type_id = ?";
-		return jdbcTemplate.queryForObject(fbeti, new Object[] { eventtypeid }, new EvenTypeRowMapper());
+	public EvenTypes findByEventtypeId(Integer eventTypeId) {
+		for (EvenTypes evenTypes : getAllEvenTypes()) {
+			if (evenTypes.getEventTypeId().equals(eventTypeId)) {
+				String fbeti = "select * from eventtypes where event_type_id = ?";
+				return jdbcTemplate.queryForObject(fbeti, new Object[] {eventTypeId}, new EvenTypeRowMapper());
+			}
+		}
+		return null;
 	}
 
 	@Override
@@ -39,8 +43,8 @@ public class EventTypeRepoImpl implements EventTypeRepo{
 	}
 
 	@Override
-	public void deleteEventType(Integer eventtypeid) {
-		Object[] del = new Object[] {eventtypeid};
+	public void deleteEventType(Integer eventTypeId) {
+		Object[] del = new Object[] {eventTypeId};
 		jdbcTemplate.update("delete from eventtypes where event_type_id=?", del);
 	}
 }

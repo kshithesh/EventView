@@ -24,8 +24,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Users findByUserId(Integer userid) {
-        return userRepo.findByUserId(userid);
+    public Users findByUserId(Integer userId) {
+        return userRepo.findByUserId(userId);
     }
 
     @Override
@@ -46,6 +46,6 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public boolean exists(Users users) {
-        return userRepo.findByUserId(users.getUserid()) != null;
+        return userRepo.findByUserId(users.getUserId()) != null;
     }
 }

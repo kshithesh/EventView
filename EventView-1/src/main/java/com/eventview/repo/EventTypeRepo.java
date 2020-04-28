@@ -8,12 +8,12 @@ public interface EventTypeRepo {
 
 	List<EvenTypes> getAllEvenTypes();
 
-	EvenTypes findByEventtypeId(Integer eventtypeid);
+	EvenTypes findByEventtypeId(Integer eventTypeId);
 
 	void createEventType(EvenTypes evenTypes);
 
 	void updateEventType(EvenTypes evenTypes);
 
-	void deleteEventType(Integer eventtypeid);
+	void deleteEventType(Integer eventTypeId);
 
 }

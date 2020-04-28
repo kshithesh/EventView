@@ -27,69 +27,66 @@ public class EventsRestController {
 
         if (eventsPayload == null || eventsPayload.isEmpty()) {
             log.info("no users found");
-            return new ResponseEntity<List<EventsPayload>>(HttpStatus.NO_CONTENT);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
-        return new ResponseEntity<List<EventsPayload>>(eventsPayload,HttpStatus.OK);
+        return new ResponseEntity<>(eventsPayload, HttpStatus.OK);
     }
 
 
 
-    @GetMapping(path = "/{eventid}")
-    public ResponseEntity<Events> findByEventId(@PathVariable("eventid") Integer eventid) {
-        log.debug("getting event by id - {}", eventid);
-        Events events = eventService.findByEventsId(eventid);
+    @GetMapping(path = "/{eventId}")
+    public ResponseEntity<Events> findByEventsId(@PathVariable("eventId") Integer eventId) {
+        log.debug("getting event by id - {}", eventId);
+        Events events = eventService.findByEventsId(eventId);
 
         if (events == null) {
-            log.info("event by the id{} doesn't exist", eventid);
-            return new ResponseEntity<Events>(HttpStatus.NOT_FOUND);
+            log.info("event by the id{} doesn't exist", eventId);
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-
-        return new ResponseEntity<Events>(events, HttpStatus.OK);
+        return new ResponseEntity<>(events, HttpStatus.OK);
     }
 
     @PostMapping(path = "/")
     public ResponseEntity<Void> createEvent(@RequestBody Events event) {
         log.info("creating event" +event);
-        /*
         if (eventService.exists(event)) {
-            log.info("Event by the id{} already exists", event.getEventid());
+            log.info("Event by the id{} already exists", event.getEventId());
             return new ResponseEntity<>(HttpStatus.CONFLICT);
         }
-        */
         eventService.createEvent(event);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
-    @PostMapping(path = "/{eventid}")
-    public ResponseEntity<Void> updateEvent(@PathVariable Integer eventid, @RequestBody Events events) {
+    @PostMapping(path = "/{eventId}")
+    public ResponseEntity<Void> updateEvent(@PathVariable Integer eventId, @RequestBody Events events) {
         log.info("Updating event{}", events);
-        Events events1 = eventService.findByEventsId(eventid);
+        Events events1 = eventService.findByEventsId(eventId);
 
         if (events == null) {
-            log.info("event by the id{} doesn't exist",eventid);
+            log.info("event by the id{} doesn't exist",eventId);
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
         events1.setEventId(events.getEventId());
         events1.setUserId(events.getUserId());
         events1.setEventTypeId(events.getEventTypeId());
-        events1.setEventdate(events.getEventdate());
+        events1.setEventDate(events.getEventDate());
 
         eventService.updateEvent(events);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @DeleteMapping(path = "/{eventid}")
-    public ResponseEntity<Void> deleteEvent(@PathVariable Integer eventid) {
-        log.info("Deleting Event with id{}", eventid);
-        Events events = eventService.findByEventsId(eventid);
+    @DeleteMapping(path = "/{eventId}")
+    public ResponseEntity<Void> deleteEvent(@PathVariable("eventId") Integer eventId) {
+        log.info("Deleting Event with id{}", eventId);
+        Events events = eventService.findByEventsId(eventId);
 
         if (events == null) {
-            log.info("event with the id{}", eventid);
+            log.info("event with the id{}", eventId);
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
-        eventService.deleteEvent(eventid);
+        eventService.deleteEvent(eventId);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 

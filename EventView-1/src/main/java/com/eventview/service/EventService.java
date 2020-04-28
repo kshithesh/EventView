@@ -9,13 +9,15 @@ public interface EventService {
 
 	List<EventsPayload> getAllEvens();
 
-	Events findByEventsId(Integer eventid);
+    List<Events> getAllEvents();
+
+    Events findByEventsId(Integer eventId);
 
 	void createEvent(Events event);
 
 	void updateEvent(Events event);
 
-	void deleteEvent(Integer eventid);
+	void deleteEvent(Integer eventId);
 
 	boolean exists(Events event);
 }

@@ -23,32 +23,43 @@ public class EventRepoImpl implements EventRepo {
 
     @Override
     public List<EventsPayload> getAllEvens() {
-        String esql = "select e.event_id,concat(u.first_name,' ',u.last_name) as full_name, et.event_type,e.event_date from events e left join users u on e.user_id = u.user_id left join eventtypes et on et.event_type_id=e.event_type_id";
-        return jdbcTemplate.query(esql, new EventsPayloadRowMapper());
+        String sql1 = "select e.event_id,concat(u.first_name,' ',u.last_name) as full_name, et.event_type,e.event_date from events e left join users u on e.user_id = u.user_id left join eventtypes et on et.event_type_id=e.event_type_id";
+        return jdbcTemplate.query(sql1, new EventsPayloadRowMapper());
+    }
+
+    @Override
+    public List<Events> getAllEvents() {
+        String sql2 = "select event_id,user_id,event_type_id,event_date from events";
+        return jdbcTemplate.query(sql2, new EventRowMapper());
     }
 
     @Override
     public Events findByEventsId(Integer eventId) {
-        String fbei = "select * from events where event_id = ?";
-        log.info("query generated "+ fbei + "-----" + eventId);
-        return (Events) jdbcTemplate.queryForObject(fbei, new Object[] { eventId }, new EventRowMapper());
+        for (Events events : getAllEvents()) {
+            if (events.getEventId().equals(eventId)) {
+                String sql3 = "select * from events where event_id = ?";
+                log.info("query generated " + sql3 + "-----" + eventId);
+                return jdbcTemplate.queryForObject(sql3, new Object[]{eventId}, new EventRowMapper());
+            }
+        }
+        return null;
     }
 
     @Override
     public void createEvent(Events event) {
-        String ce = "INSERT INTO events (event_id, user_id,event_type_id, event_date) VALUES (?,?,?,?)";
-        jdbcTemplate.update(ce,event.getEventId(),event.getUserId(), event.getEventTypeId(), event.getEventdate());
+        String sql4 = "INSERT INTO events (event_id, user_id,event_type_id, event_date) VALUES (?,?,?,?)";
+        jdbcTemplate.update(sql4, event.getEventId(), event.getUserId(), event.getEventTypeId(), event.getEventDate());
     }
 
     @Override
     public void updateEvent(Events event) {
         jdbcTemplate.update("update events set user_id=?,event_type_id=?, event_date=? where event_id=?",
-                event.getUserId(),event.getEventTypeId(),event.getEventdate(),event.getEventId());
+                event.getUserId(), event.getEventTypeId(), event.getEventDate(), event.getEventId());
     }
 
     @Override
-    public void deleteEvent(Integer eventid) {
-        jdbcTemplate.update("delete from events where event_id=?", new Object[]{eventid}, new EventRowMapper());
-        System.out.println("Record with id:" + eventid + " are deleted");
+    public void deleteEvent(Integer eventId) {
+        jdbcTemplate.update("delete from events where event_id=?", new Object[]{eventId}, new EventRowMapper());
+        System.out.println("Record with id:" + eventId + " are deleted");
     }
 }

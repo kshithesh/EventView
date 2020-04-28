@@ -23,29 +23,29 @@ public class EvenTypes {
 		return eventTypeId;
 	}
 
-	public void setEventTypeId(Integer eventtypeid) {
-		this.eventTypeId = eventtypeid;
+	public void setEventTypeId(Integer eventTypeId) {
+		this.eventTypeId = eventTypeId;
 	}
 
 	public Integer getEventid() {
 		return eventid;
 	}
 
-	public void setEventid(Integer eventid) {
-		this.eventid = eventid;
+	public void setEventid(Integer eventId) {
+		this.eventid = eventId;
 	}
 
 	public String getEventType() {
 		return eventType;
 	}
 
-	public void setEventType(String eventtype) {
-		this.eventType = eventtype;
+	public void setEventType(String eventType) {
+		this.eventType = eventType;
 	}
 
-	public EvenTypes(Integer eventTypeId, @NotNull Integer eventid, String eventType) {
+	public EvenTypes(Integer eventTypeId, @NotNull Integer eventId, String eventType) {
 		this.eventTypeId = eventTypeId;
-		this.eventid = eventid;
+		this.eventid = eventId;
 		this.eventType = eventType;
 	}
 

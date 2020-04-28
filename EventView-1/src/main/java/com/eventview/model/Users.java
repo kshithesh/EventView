@@ -10,15 +10,15 @@ public class Users {
     @Id
     @Column(name = "user_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer userid;
+    private Integer userId;
 
     @Column(name = "first_name")
     @NotNull
-    private String fname;
+    private String fName;
 
     @Column(name = "last_name")
     @NotNull
-    private String lname;
+    private String lName;
 
     @Column(name = "phone")
     @NotNull
@@ -28,10 +28,10 @@ public class Users {
     @NotNull
     private String email;
 
-    public Users(Integer userid, String fname, String lname, String phone, String email) {
-        this.userid = userid;
-        this.fname = fname;
-        this.lname = lname;
+    public Users(Integer userId, String fName, String lName, String phone, String email) {
+        this.userId = userId;
+        this.fName = fName;
+        this.lName = lName;
         this.phone = phone;
         this.email = email;
     }
@@ -40,28 +40,28 @@ public class Users {
 
     }
 
-    public Integer getUserid() {
-        return userid;
+    public Integer getUserId() {
+        return userId;
     }
 
-    public void setUserid(Integer userid) {
-        this.userid = userid;
+    public void setUserId(Integer userid) {
+        this.userId = userid;
     }
 
-    public String getFname() {
-        return fname;
+    public String getFName() {
+        return fName;
     }
 
-    public void setFname(String fname) {
-        this.fname = fname;
+    public void setFName(String fname) {
+        this.fName = fname;
     }
 
-    public String getLname() {
-        return lname;
+    public String getLName() {
+        return lName;
     }
 
-    public void setLname(String lname) {
-        this.lname = lname;
+    public void setLName(String lname) {
+        this.lName = lname;
     }
 
     public String getPhone() {

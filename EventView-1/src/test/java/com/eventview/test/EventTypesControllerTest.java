@@ -69,9 +69,9 @@ public class EventTypesControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", hasSize(2)))
                 .andExpect(jsonPath("$[0].eventid", is(101)))
-                .andExpect(jsonPath("$[0].eventtype", is("birthday")))
+                .andExpect(jsonPath("$[0].eventType", is("birthday")))
                 .andExpect(jsonPath("$[1].eventid", is(102)))
-                .andExpect(jsonPath("$[1].eventtype", is("anniversary")));
+                .andExpect(jsonPath("$[1].eventType", is("anniversary")));
 
         verify(eventTypeService, times(1)).getAllEvenTypes();
         verifyNoMoreInteractions(eventTypeService);
@@ -79,20 +79,20 @@ public class EventTypesControllerTest {
 
 
     @Test
-    public void findByEventtypeId() throws Exception {
+    public void findByEventTypeId() throws Exception {
         EvenTypes evenTypes = new EvenTypes(1,101,
                 "birthday");
 
-        when(eventTypeService.findByEventtypeId(1)).thenReturn(evenTypes);
+        when(eventTypeService.findByEventTypeId(1)).thenReturn(evenTypes);
 
-        mvc.perform(get("/type/{eventtypeid}", 1)
+        mvc.perform(get("/type/{eventTypeId}", 1)
                 .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.eventtypeid").value(1))
-                .andExpect(jsonPath("$.eventtype").value("birthday"));
+                .andExpect(jsonPath("$.eventTypeId").value(1))
+                .andExpect(jsonPath("$.eventType").value("birthday"));
 
-        verify(eventTypeService, times(1)).findByEventtypeId(1);
+        verify(eventTypeService, times(1)).findByEventTypeId(1);
         verifyNoMoreInteractions(eventTypeService);
     }
 
@@ -120,7 +120,7 @@ public class EventTypesControllerTest {
         EvenTypes evenTypes = new EvenTypes(1,101,
                 "birthday");
 
-        when(eventTypeService.findByEventtypeId(evenTypes.getEventTypeId())).thenReturn(evenTypes);
+        when(eventTypeService.findByEventTypeId(evenTypes.getEventTypeId())).thenReturn(evenTypes);
         doNothing().when(eventTypeService).updateEventType(evenTypes);
 
         mvc.perform(
@@ -141,14 +141,14 @@ public class EventTypesControllerTest {
         EvenTypes evenTypes = new EvenTypes(1,101,
                 "birthday");
 
-        when(eventTypeService.findByEventtypeId(evenTypes.getEventTypeId())).thenReturn(evenTypes);
+        when(eventTypeService.findByEventTypeId(evenTypes.getEventTypeId())).thenReturn(evenTypes);
         doNothing().when(eventTypeService).deleteEventType(evenTypes.getEventTypeId());
 
         mvc.perform(
                 delete("/type/{eventtypeid}", evenTypes.getEventTypeId()))
                 .andExpect(status().isOk());
 
-        verify(eventTypeService, times(1)).findByEventtypeId(evenTypes.getEventTypeId());
+        verify(eventTypeService, times(1)).findByEventTypeId(evenTypes.getEventTypeId());
         verify(eventTypeService, times(1)).deleteEventType(evenTypes.getEventTypeId());
         verifyNoMoreInteractions(eventTypeService);
     }
