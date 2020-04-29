@@ -1,5 +1,6 @@
 package com.eventview.controller;
 
+import com.eventview.exceptions.EventNotFoundException;
 import com.eventview.model.Events;
 import com.eventview.model.EventsPayload;
 import com.eventview.service.EventService;
@@ -81,10 +82,8 @@ public class EventsRestController {
         log.info("Deleting Event with id{}", eventId);
         Events events = eventService.findByEventsId(eventId);
 
-        if (events == null) {
-            log.info("event with the id{}", eventId);
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
+        if (events == null) throw new EventNotFoundException();
+        log.info("event with id{} doesn't exist", eventId);
 
         eventService.deleteEvent(eventId);
         return new ResponseEntity<>(HttpStatus.OK);

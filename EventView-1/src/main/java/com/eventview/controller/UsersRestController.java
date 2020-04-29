@@ -1,5 +1,6 @@
 package com.eventview.controller;
 
+import com.eventview.exceptions.UserNotFoundException;
 import com.eventview.model.Users;
 import com.eventview.service.UserService;
 import org.slf4j.Logger;
@@ -85,10 +86,9 @@ public class UsersRestController {
         log.info("deleting user with id{}:", userId);
         Users users = userService.findByUserId(userId);
 
-        if (users == null) {
-            log.info("user with id{} doesn't exist", userId);
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
+        if (users == null) throw new UserNotFoundException();
+        log.info("user with id{} doesn't exist", userId);
+
         userService.deleteUser(userId);
         return new ResponseEntity<>(HttpStatus.OK);
     }

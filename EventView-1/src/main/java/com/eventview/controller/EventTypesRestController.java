@@ -1,6 +1,7 @@
 package com.eventview.controller;
 
 
+import com.eventview.exceptions.EventTypeNotFoundException;
 import com.eventview.model.EvenTypes;
 import com.eventview.service.EventTypeService;
 import org.slf4j.Logger;
@@ -84,10 +85,9 @@ public class EventTypesRestController {
         log.info("deleting eventTypes with eventTypeId{}:", eventTypeId);
         EvenTypes evenTypes = eventTypeService.findByEventTypeId(eventTypeId);
 
-        if (evenTypes == null) {
-            log.info("eventType with eventTypeId{} doesn't exist", eventTypeId);
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
+        if (evenTypes == null) throw new EventTypeNotFoundException();
+        log.info("eventType with eventTypeId{} doesn't exist", eventTypeId);
+
         eventTypeService.deleteEventType(eventTypeId);
         return new ResponseEntity<>(HttpStatus.OK);
     }
