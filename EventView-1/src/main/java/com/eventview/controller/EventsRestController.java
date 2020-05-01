@@ -37,11 +37,8 @@ public class EventsRestController {
 
     @GetMapping(path = "/{eventId}")
     public ResponseEntity<Events> findByEventsId(@PathVariable("eventId") Integer eventId) {
-
-        Events events = eventService.findByEventsId(eventId);
         log.debug("getting event by id - {}", eventId);
-
-        if (events == null) throw new EventNotFoundException("Event doesn't exist");
+        Events events = eventService.findByEventsId(eventId);
 
         return new ResponseEntity<>(events, HttpStatus.OK);
     }

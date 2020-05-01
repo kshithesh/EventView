@@ -37,11 +37,8 @@ public class EventTypesRestController {
 
     @GetMapping(path = "/type/{eventTypeId}")
     public ResponseEntity<EvenTypes> findByEventTypeId(@PathVariable Integer eventTypeId) {
-
-        EvenTypes evenTypes = eventTypeService.findByEventTypeId(eventTypeId);
         log.info("getting eventType by eventTypeId{}", eventTypeId);
-
-        if (evenTypes == null) throw new EventTypeNotFoundException("EventType not found");
+        EvenTypes evenTypes = eventTypeService.findByEventTypeId(eventTypeId);
 
         return new ResponseEntity<>(evenTypes, HttpStatus.OK);
     }

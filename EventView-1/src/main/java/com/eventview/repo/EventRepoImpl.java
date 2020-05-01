@@ -36,15 +36,14 @@ public class EventRepoImpl implements EventRepo {
 
     @Override
     public Events findByEventsId(Integer eventId) {
-        Events events = null;
+        String sql3 = "select * from events where event_id = ?";
         try {
-            String sql3 = "select * from events where event_id = ?";
-            jdbcTemplate.queryForObject(sql3, new Object[]{eventId}, new EventRowMapper());
+            Events events = jdbcTemplate.queryForObject(sql3, new Object[]{eventId}, new EventRowMapper());
             log.info("query generated " + sql3 + "-----" + eventId);
-        } catch (Exception e){
-            throw new EventNotFoundException("Event not found with id: "+eventId);
+            return events;
+        } catch (Exception e) {
+            throw new EventNotFoundException("Event not found with id: " + eventId);
         }
-        return events;
     }
 
     @Override

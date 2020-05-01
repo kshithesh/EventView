@@ -35,11 +35,8 @@ public class UsersRestController {
 
     @GetMapping(path = "/user/{userId}")
     public ResponseEntity<Users> findByUserId(@PathVariable("userId") Integer userId) {
-
-        Users users = userService.findByUserId(userId);
         log.info("getting user by userId{}", userId);
-
-        if (users == null) throw new UserNotFoundException("User doesn't exist");
+        Users users = userService.findByUserId(userId);
 
         return new ResponseEntity<>(users, HttpStatus.OK);
     }

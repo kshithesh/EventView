@@ -29,15 +29,14 @@ public class UserRepoImpl implements UserRepo {
 
     @Override
     public Users findByUserId(Integer userId) {
-        Users users = null;
         try {
             String sql = "select * from users where user_id = ?";
-            jdbcTemplate.queryForObject(sql, new Object[]{userId}, new UserRowMapper());
+            Users users = jdbcTemplate.queryForObject(sql, new Object[]{userId}, new UserRowMapper());
             log.info("query generated " + sql + "-----" + userId);
+            return users;
         } catch (Exception e) {
-            throw new UserNotFoundException("User not found");
+            throw new UserNotFoundException("User not found with id: "+userId);
         }
-        return users;
     }
 
     @Override
