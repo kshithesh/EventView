@@ -21,7 +21,7 @@ public class EventTypeServiceImpl implements EventTypeService{
 	
 	@Override
 	public EvenTypes findByEventTypeId(Integer eventTypeId) {
-		return eventTypeRepo.findByEventtypeId(eventTypeId);
+		return eventTypeRepo.findByEventTypeId(eventTypeId);
 	}
 
 	@Override
@@ -41,6 +41,6 @@ public class EventTypeServiceImpl implements EventTypeService{
 
     @Override
     public boolean exists(EvenTypes evenTypes) {
-        return eventTypeRepo.findByEventtypeId(evenTypes.getEventTypeId()) !=null;
+        return eventTypeRepo.findByEventTypeId(evenTypes.getEventTypeId()) !=null;
     }
 }

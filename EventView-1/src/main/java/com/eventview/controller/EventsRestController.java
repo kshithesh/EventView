@@ -23,7 +23,7 @@ public class EventsRestController {
     private EventService eventService;
 
     @GetMapping(path = "/")
-    public ResponseEntity<List<EventsPayload>> getAllEvents(){
+    public ResponseEntity<List<EventsPayload>> getAllEvents() {
         log.info("getting all events");
         List<EventsPayload> eventsPayload = eventService.getAllEvens();
 
@@ -35,23 +35,21 @@ public class EventsRestController {
     }
 
 
-
     @GetMapping(path = "/{eventId}")
     public ResponseEntity<Events> findByEventsId(@PathVariable("eventId") Integer eventId) {
-        log.debug("getting event by id - {}", eventId);
-        Events events = eventService.findByEventsId(eventId);
 
-        if (events == null) throw new EventNotFoundException();
-            log.info("event by the id{} doesn't exist", eventId);
+        Events events = eventService.findByEventsId(eventId);
+        log.debug("getting event by id - {}", eventId);
+
+        if (events == null) throw new EventNotFoundException("Event doesn't exist");
 
         return new ResponseEntity<>(events, HttpStatus.OK);
     }
 
     @PostMapping(path = "/")
     public ResponseEntity<Void> createEvent(@RequestBody Events event) {
-        log.info("creating event" +event);
-        if (eventService.exists(event)) throw new EventExistsException();
-            log.info("Event by the id{} already exists", event.getEventId());
+        log.info("creating event" + event);
+        if (eventService.exists(event)) throw new EventExistsException("Event already exists");
 
         eventService.createEvent(event);
         return new ResponseEntity<>(HttpStatus.CREATED);
@@ -62,14 +60,13 @@ public class EventsRestController {
         log.info("Updating event{}", events);
         Events events1 = eventService.findByEventsId(eventId);
 
-        if (events == null) throw new EventNotFoundException();
-            log.info("event by the id{} doesn't exist",eventId);
+        if (events != null) {
 
-        events1.setEventId(events.getEventId());
-        events1.setUserId(events.getUserId());
-        events1.setEventTypeId(events.getEventTypeId());
-        events1.setEventDate(events.getEventDate());
-
+            events1.setEventId(events.getEventId());
+            events1.setUserId(events.getUserId());
+            events1.setEventTypeId(events.getEventTypeId());
+            events1.setEventDate(events.getEventDate());
+        }
         eventService.updateEvent(events);
         return new ResponseEntity<>(HttpStatus.OK);
     }
@@ -79,11 +76,10 @@ public class EventsRestController {
         log.info("Deleting Event with id{}", eventId);
         Events events = eventService.findByEventsId(eventId);
 
-        if (events == null) throw new EventNotFoundException();
-        log.info("event with id{} doesn't exist", eventId);
-
-        eventService.deleteEvent(eventId);
-        return new ResponseEntity<>(HttpStatus.OK);
+        if (events != null) {
+            eventService.deleteEvent(eventId);
+        }
+        return new ResponseEntity<>(HttpStatus.ACCEPTED);
     }
 
 }

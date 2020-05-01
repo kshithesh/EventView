@@ -35,11 +35,11 @@ public class UsersRestController {
 
     @GetMapping(path = "/user/{userId}")
     public ResponseEntity<Users> findByUserId(@PathVariable("userId") Integer userId) {
-        log.info("getting user by userId{}", userId);
-        Users users = userService.findByUserId(userId);
 
-        if (users == null) throw new UserNotFoundException();
-            log.info("user with the id{} doesn't exist",userId);
+        Users users = userService.findByUserId(userId);
+        log.info("getting user by userId{}", userId);
+
+        if (users == null) throw new UserNotFoundException("User doesn't exist");
 
         return new ResponseEntity<>(users, HttpStatus.OK);
     }
@@ -48,8 +48,7 @@ public class UsersRestController {
     public ResponseEntity<Void>
     createUser(@RequestBody Users user) {
         log.info("creating new user:{}", user);
-        if (userService.exists(user)) throw new UserExistsException();
-            log.info("user with same id " + user.getUserId() + " exists");
+        if (userService.exists(user)) throw new UserExistsException("User already exists");
 
         userService.createUser(user);
         log.info("user created");
@@ -63,14 +62,13 @@ public class UsersRestController {
         log.info("updating user:{}", users);
         Users users1 = userService.findByUserId(userId);
 
-        if (users1 == null) throw new UserNotFoundException();
-            log.info("user with id{} doesn't exist", userId);
-
-        users1.setUserId(users.getUserId());
-        users1.setFName(users.getFName());
-        users1.setLName(users.getLName());
-        users1.setPhone(users.getPhone());
-        users1.setEmail(users.getEmail());
+        if (users1 != null) {
+            users1.setUserId(users.getUserId());
+            users1.setFName(users.getFName());
+            users1.setLName(users.getLName());
+            users1.setPhone(users.getPhone());
+            users1.setEmail(users.getEmail());
+        }
 
         userService.updateUser(users);
         return new ResponseEntity<>(HttpStatus.OK);
@@ -82,10 +80,10 @@ public class UsersRestController {
         log.info("deleting user with id{}:", userId);
         Users users = userService.findByUserId(userId);
 
-        if (users == null) throw new UserNotFoundException();
-        log.info("user with id{} doesn't exist", userId);
-
-        userService.deleteUser(userId);
+        if (users != null) {
+            userService.deleteUser(userId);
+        }
+        log.info("User with id{} deleted",userId);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 }

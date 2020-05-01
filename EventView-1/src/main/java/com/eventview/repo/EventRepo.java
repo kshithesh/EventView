@@ -17,6 +17,6 @@ public interface EventRepo {
 
 	void updateEvent(Events event);
 
-	void deleteEvent(Integer eventId);
+	int deleteEvent(Integer eventId);
 
 }

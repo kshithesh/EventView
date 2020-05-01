@@ -2,6 +2,7 @@ package com.eventview.repo;
 
 import com.eventview.dao.EventRowMapper;
 import com.eventview.dao.EventsPayloadRowMapper;
+import com.eventview.exceptions.EventNotFoundException;
 import com.eventview.model.Events;
 import com.eventview.model.EventsPayload;
 import org.slf4j.Logger;
@@ -35,14 +36,15 @@ public class EventRepoImpl implements EventRepo {
 
     @Override
     public Events findByEventsId(Integer eventId) {
-        for (Events events : getAllEvents()) {
-            if (events.getEventId().equals(eventId)) {
-                String sql3 = "select * from events where event_id = ?";
-                log.info("query generated " + sql3 + "-----" + eventId);
-                return jdbcTemplate.queryForObject(sql3, new Object[]{eventId}, new EventRowMapper());
-            }
+        Events events = null;
+        try {
+            String sql3 = "select * from events where event_id = ?";
+            jdbcTemplate.queryForObject(sql3, new Object[]{eventId}, new EventRowMapper());
+            log.info("query generated " + sql3 + "-----" + eventId);
+        } catch (Exception e){
+            throw new EventNotFoundException("Event not found with id: "+eventId);
         }
-        return null;
+        return events;
     }
 
     @Override
@@ -58,8 +60,12 @@ public class EventRepoImpl implements EventRepo {
     }
 
     @Override
-    public void deleteEvent(Integer eventId) {
-        jdbcTemplate.update("delete from events where event_id=?", new Object[]{eventId}, new EventRowMapper());
-        System.out.println("Record with id:" + eventId + " are deleted");
+    public int deleteEvent(Integer eventId) {
+        String del = "delete from events where event_id=?";
+        int size = jdbcTemplate.update(del, new Object[]{eventId}, new EventRowMapper());
+        if(size==0) {
+            throw new EventNotFoundException("No Event found to delete: "+eventId);
+        }
+        return size;
     }
 }

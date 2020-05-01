@@ -1,6 +1,7 @@
 package com.eventview.repo;
 
 import com.eventview.dao.UserRowMapper;
+import com.eventview.exceptions.UserNotFoundException;
 import com.eventview.model.Users;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,33 +29,40 @@ public class UserRepoImpl implements UserRepo {
 
     @Override
     public Users findByUserId(Integer userId) {
-        for (Users users : getAllUsers()) {
-            if (users.getUserId().equals(userId)) {
-                String fbui = "select * from users where user_id = ?";
-                return jdbcTemplate.queryForObject(fbui, new Object[]{userId}, new UserRowMapper());
-            }
+        Users users = null;
+        try {
+            String sql = "select * from users where user_id = ?";
+            jdbcTemplate.queryForObject(sql, new Object[]{userId}, new UserRowMapper());
+            log.info("query generated " + sql + "-----" + userId);
+        } catch (Exception e) {
+            throw new UserNotFoundException("User not found");
         }
-        return null;
+        return users;
     }
 
     @Override
     public void createUser(Users users) {
-        jdbcTemplate.update(
-                "INSERT INTO users (`user_id`, `first_name`, `last_name`, `phone`, `email`) VALUES (?,?,?,?,?)",
+        String sql = "INSERT INTO users (`user_id`, `first_name`, `last_name`, `phone`, `email`) VALUES (?,?,?,?,?)";
+        jdbcTemplate.update(sql,
                 users.getUserId(), users.getFName(), users.getLName(), users.getPhone(), users.getEmail());
         log.info("repo created");
     }
 
     @Override
     public void updateUser(Users users) {
-        jdbcTemplate.update("update users set first_name=?, last_name=?, phone=?, email=? where user_id=?",
+        String sql = "update users set first_name=?, last_name=?, phone=?, email=? where user_id=?";
+        jdbcTemplate.update(sql,
                 users.getFName(), users.getLName(), users.getPhone(), users.getEmail(), users.getUserId());
     }
 
     @Override
-    public void deleteUser(Integer userId) {
+    public int deleteUser(Integer userId) {
+        String sql = "delete from users where user_id=?";
         Object[] del = new Object[]{userId};
-        jdbcTemplate.update("delete from users where user_id=?", del);
-        System.out.println("Record with id:" + userId + " are deleted");
+        int size = jdbcTemplate.update(sql, del);
+        if (size == 0) {
+            throw new UserNotFoundException("No User found to delete: " + userId);
+        }
+        return size;
     }
 }

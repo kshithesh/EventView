@@ -37,11 +37,11 @@ public class EventTypesRestController {
 
     @GetMapping(path = "/type/{eventTypeId}")
     public ResponseEntity<EvenTypes> findByEventTypeId(@PathVariable Integer eventTypeId) {
-        log.info("getting eventType by eventTypeId{}", eventTypeId);
-        EvenTypes evenTypes = eventTypeService.findByEventTypeId(eventTypeId);
 
-        if (evenTypes == null) throw new EventTypeNotFoundException();
-            log.info("eventType with the id{} doesn't exist", eventTypeId);
+        EvenTypes evenTypes = eventTypeService.findByEventTypeId(eventTypeId);
+        log.info("getting eventType by eventTypeId{}", eventTypeId);
+
+        if (evenTypes == null) throw new EventTypeNotFoundException("EventType not found");
 
         return new ResponseEntity<>(evenTypes, HttpStatus.OK);
     }
@@ -52,8 +52,7 @@ public class EventTypesRestController {
     createEventType(@RequestBody EvenTypes evenTypes) {
         log.info("creating new evenTypes:{}", evenTypes);
 
-        if (eventTypeService.exists(evenTypes)) throw new EventExistsException();
-            log.info("evenTypes with same id " + evenTypes.getEventTypeId() + " exists");
+        if (eventTypeService.exists(evenTypes)) throw new EventTypeExistsException("EventType already exists");
 
         eventTypeService.createEventType(evenTypes);
         log.info("evenTypes created");
@@ -66,13 +65,11 @@ public class EventTypesRestController {
         log.info("updating eventType:{}", evenTypes);
         EvenTypes evenTypes1 = eventTypeService.findByEventTypeId(eventTypeId);
 
-        if (evenTypes1 == null) throw new EventTypeNotFoundException();
-            log.info("eventType with id{} doesn't exist", eventTypeId);
-
-        evenTypes1.setEventTypeId(evenTypes.getEventTypeId());
-        evenTypes1.setEventid(evenTypes.getEventid());
-        evenTypes1.setEventType(evenTypes.getEventType());
-
+        if (evenTypes1 != null) {
+            evenTypes1.setEventTypeId(evenTypes.getEventTypeId());
+            evenTypes1.setEventid(evenTypes.getEventid());
+            evenTypes1.setEventType(evenTypes.getEventType());
+        }
         eventTypeService.updateEventType(evenTypes);
         return new ResponseEntity<>(HttpStatus.OK);
     }
@@ -83,10 +80,10 @@ public class EventTypesRestController {
         log.info("deleting eventTypes with eventTypeId{}:", eventTypeId);
         EvenTypes evenTypes = eventTypeService.findByEventTypeId(eventTypeId);
 
-        if (evenTypes == null) throw new EventTypeNotFoundException();
-        log.info("eventType with eventTypeId{} doesn't exist", eventTypeId);
-
-        eventTypeService.deleteEventType(eventTypeId);
+        if (evenTypes != null){
+            eventTypeService.deleteEventType(eventTypeId);
+        }
+        log.info("eventType deleted");
         return new ResponseEntity<>(HttpStatus.OK);
     }
 }

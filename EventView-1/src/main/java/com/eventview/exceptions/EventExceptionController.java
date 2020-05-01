@@ -5,14 +5,24 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
+import java.sql.Timestamp;
+
 @ControllerAdvice
 public class EventExceptionController {
     @ExceptionHandler(value = EventNotFoundException.class)
-    public ResponseEntity<Object> notFoundException(EventNotFoundException notFoundException) {
-        return new ResponseEntity<>("Event Not Found", HttpStatus.NOT_FOUND);
+    public ResponseEntity<ErrorResponse> notFoundException(EventNotFoundException enf) {
+        ErrorResponse errorResponse = new ErrorResponse();
+        errorResponse.setStatus(HttpStatus.NOT_FOUND.value());
+        errorResponse.setMessage(enf.getMessage());
+        errorResponse.setTimeStamp(new Timestamp(System.currentTimeMillis()));
+        return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
     }
     @ExceptionHandler(value = EventExistsException.class)
-    public ResponseEntity<Object> existException(EventExistsException existException){
-        return new ResponseEntity<>("Event Exists", HttpStatus.CONFLICT);
+    public ResponseEntity<ErrorResponse> existException(EventExistsException ee){
+        ErrorResponse errorResponse = new ErrorResponse();
+        errorResponse.setStatus(HttpStatus.CONFLICT.value());
+        errorResponse.setMessage(ee.getMessage());
+        errorResponse.setTimeStamp(new Timestamp(System.currentTimeMillis()));
+        return new ResponseEntity<>(errorResponse, HttpStatus.CONFLICT);
     }
 }
