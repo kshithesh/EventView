@@ -1,5 +1,6 @@
 package com.eventview.controller;
 
+import com.eventview.exceptions.EventExistsException;
 import com.eventview.exceptions.EventNotFoundException;
 import com.eventview.model.Events;
 import com.eventview.model.EventsPayload;
@@ -40,20 +41,18 @@ public class EventsRestController {
         log.debug("getting event by id - {}", eventId);
         Events events = eventService.findByEventsId(eventId);
 
-        if (events == null) {
+        if (events == null) throw new EventNotFoundException();
             log.info("event by the id{} doesn't exist", eventId);
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
+
         return new ResponseEntity<>(events, HttpStatus.OK);
     }
 
     @PostMapping(path = "/")
     public ResponseEntity<Void> createEvent(@RequestBody Events event) {
         log.info("creating event" +event);
-        if (eventService.exists(event)) {
+        if (eventService.exists(event)) throw new EventExistsException();
             log.info("Event by the id{} already exists", event.getEventId());
-            return new ResponseEntity<>(HttpStatus.CONFLICT);
-        }
+
         eventService.createEvent(event);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
@@ -63,10 +62,8 @@ public class EventsRestController {
         log.info("Updating event{}", events);
         Events events1 = eventService.findByEventsId(eventId);
 
-        if (events == null) {
+        if (events == null) throw new EventNotFoundException();
             log.info("event by the id{} doesn't exist",eventId);
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
 
         events1.setEventId(events.getEventId());
         events1.setUserId(events.getUserId());

@@ -1,5 +1,6 @@
 package com.eventview.controller;
 
+import com.eventview.exceptions.UserExistsException;
 import com.eventview.exceptions.UserNotFoundException;
 import com.eventview.model.Users;
 import com.eventview.service.UserService;
@@ -37,10 +38,8 @@ public class UsersRestController {
         log.info("getting user by userId{}", userId);
         Users users = userService.findByUserId(userId);
 
-        if (users == null) {
+        if (users == null) throw new UserNotFoundException();
             log.info("user with the id{} doesn't exist",userId);
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
 
         return new ResponseEntity<>(users, HttpStatus.OK);
     }
@@ -49,10 +48,9 @@ public class UsersRestController {
     public ResponseEntity<Void>
     createUser(@RequestBody Users user) {
         log.info("creating new user:{}", user);
-        if (userService.exists(user)) {
+        if (userService.exists(user)) throw new UserExistsException();
             log.info("user with same id " + user.getUserId() + " exists");
-            return new ResponseEntity<>(HttpStatus.CONFLICT);
-        }
+
         userService.createUser(user);
         log.info("user created");
         return new ResponseEntity<>(HttpStatus.CREATED);
@@ -65,10 +63,8 @@ public class UsersRestController {
         log.info("updating user:{}", users);
         Users users1 = userService.findByUserId(userId);
 
-        if (users1 == null) {
+        if (users1 == null) throw new UserNotFoundException();
             log.info("user with id{} doesn't exist", userId);
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
 
         users1.setUserId(users.getUserId());
         users1.setFName(users.getFName());

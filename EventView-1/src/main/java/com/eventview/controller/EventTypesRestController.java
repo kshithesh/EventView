@@ -1,6 +1,8 @@
 package com.eventview.controller;
 
 
+import com.eventview.exceptions.EventExistsException;
+import com.eventview.exceptions.EventTypeExistsException;
 import com.eventview.exceptions.EventTypeNotFoundException;
 import com.eventview.model.EvenTypes;
 import com.eventview.service.EventTypeService;
@@ -38,10 +40,8 @@ public class EventTypesRestController {
         log.info("getting eventType by eventTypeId{}", eventTypeId);
         EvenTypes evenTypes = eventTypeService.findByEventTypeId(eventTypeId);
 
-        if (evenTypes == null) {
+        if (evenTypes == null) throw new EventTypeNotFoundException();
             log.info("eventType with the id{} doesn't exist", eventTypeId);
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
 
         return new ResponseEntity<>(evenTypes, HttpStatus.OK);
     }
@@ -51,10 +51,10 @@ public class EventTypesRestController {
     public ResponseEntity<EvenTypes>
     createEventType(@RequestBody EvenTypes evenTypes) {
         log.info("creating new evenTypes:{}", evenTypes);
-        if (eventTypeService.exists(evenTypes)) {
+
+        if (eventTypeService.exists(evenTypes)) throw new EventExistsException();
             log.info("evenTypes with same id " + evenTypes.getEventTypeId() + " exists");
-            return new ResponseEntity<>(HttpStatus.CONFLICT);
-        }
+
         eventTypeService.createEventType(evenTypes);
         log.info("evenTypes created");
         return new ResponseEntity<>(HttpStatus.CREATED);
@@ -66,10 +66,8 @@ public class EventTypesRestController {
         log.info("updating eventType:{}", evenTypes);
         EvenTypes evenTypes1 = eventTypeService.findByEventTypeId(eventTypeId);
 
-        if (evenTypes1 == null) {
+        if (evenTypes1 == null) throw new EventTypeNotFoundException();
             log.info("eventType with id{} doesn't exist", eventTypeId);
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
 
         evenTypes1.setEventTypeId(evenTypes.getEventTypeId());
         evenTypes1.setEventid(evenTypes.getEventid());
