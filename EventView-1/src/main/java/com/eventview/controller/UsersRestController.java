@@ -1,7 +1,6 @@
 package com.eventview.controller;
 
 import com.eventview.exceptions.UserExistsException;
-import com.eventview.exceptions.UserNotFoundException;
 import com.eventview.model.Users;
 import com.eventview.service.UserService;
 import org.slf4j.Logger;
@@ -21,7 +20,7 @@ public class UsersRestController {
     @Autowired
     private UserService userService;
 
-    @GetMapping(path = "/users")
+    @GetMapping(path = "/user")
     public ResponseEntity<List<Users>> getAllUsers() {
         log.info("getting all users");
         List<Users> users = userService.getAllUsers();

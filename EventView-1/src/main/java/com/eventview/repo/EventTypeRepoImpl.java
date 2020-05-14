@@ -56,7 +56,7 @@ public class EventTypeRepoImpl implements EventTypeRepo {
         Object[] del = new Object[]{eventTypeId};
         int size = jdbcTemplate.update(sql, del);
         if (size == 0) {
-            throw new EventNotFoundException("No Event found to delete: " + eventTypeId);
+            throw new EventTypeNotFoundException("No Event found to delete: " + eventTypeId);
         }
         return size;
     }

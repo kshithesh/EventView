@@ -1,9 +1,7 @@
 package com.eventview.controller;
 
 
-import com.eventview.exceptions.EventExistsException;
 import com.eventview.exceptions.EventTypeExistsException;
-import com.eventview.exceptions.EventTypeNotFoundException;
 import com.eventview.model.EvenTypes;
 import com.eventview.service.EventTypeService;
 import org.slf4j.Logger;
@@ -23,7 +21,7 @@ public class EventTypesRestController {
     @Autowired
     private EventTypeService eventTypeService;
 
-    @GetMapping(path = "/types")
+    @GetMapping(path = "/event/types")
     public ResponseEntity<List<EvenTypes>> getAllEvenTypes() {
         log.info("getting all eventTypes");
         List<EvenTypes> evenTypes = eventTypeService.getAllEvenTypes();
@@ -35,7 +33,7 @@ public class EventTypesRestController {
         return new ResponseEntity<>(evenTypes, HttpStatus.OK);
     }
 
-    @GetMapping(path = "/type/{eventTypeId}")
+    @GetMapping(path = "/event/type/{eventTypeId}")
     public ResponseEntity<EvenTypes> findByEventTypeId(@PathVariable Integer eventTypeId) {
         log.info("getting eventType by eventTypeId{}", eventTypeId);
         EvenTypes evenTypes = eventTypeService.findByEventTypeId(eventTypeId);
@@ -44,7 +42,7 @@ public class EventTypesRestController {
     }
 
 
-    @PostMapping(path = "/type")
+    @PostMapping(path = "/event/type")
     public ResponseEntity<EvenTypes>
     createEventType(@RequestBody EvenTypes evenTypes) {
         log.info("creating new evenTypes:{}", evenTypes);
@@ -56,7 +54,7 @@ public class EventTypesRestController {
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
-    @PostMapping(path = "/type/{eventTypeId}")
+    @PostMapping(path = "/event/type/{eventTypeId}")
     public ResponseEntity<Void>
     updateEventType(@PathVariable Integer eventTypeId, @RequestBody EvenTypes evenTypes) {
         log.info("updating eventType:{}", evenTypes);

@@ -1,7 +1,6 @@
 package com.eventview.controller;
 
 import com.eventview.exceptions.EventExistsException;
-import com.eventview.exceptions.EventNotFoundException;
 import com.eventview.model.Events;
 import com.eventview.model.EventsPayload;
 import com.eventview.service.EventService;
@@ -22,7 +21,7 @@ public class EventsRestController {
     @Autowired
     private EventService eventService;
 
-    @GetMapping(path = "/")
+    @GetMapping(path = "/event")
     public ResponseEntity<List<EventsPayload>> getAllEvents() {
         log.info("getting all events");
         List<EventsPayload> eventsPayload = eventService.getAllEvens();
@@ -35,7 +34,7 @@ public class EventsRestController {
     }
 
 
-    @GetMapping(path = "/{eventId}")
+    @GetMapping(path = "/event/{eventId}")
     public ResponseEntity<Events> findByEventsId(@PathVariable("eventId") Integer eventId) {
         log.debug("getting event by id - {}", eventId);
         Events events = eventService.findByEventsId(eventId);
@@ -43,7 +42,7 @@ public class EventsRestController {
         return new ResponseEntity<>(events, HttpStatus.OK);
     }
 
-    @PostMapping(path = "/")
+    @PostMapping(path = "/event")
     public ResponseEntity<Void> createEvent(@RequestBody Events event) {
         log.info("creating event" + event);
         if (eventService.exists(event)) throw new EventExistsException("Event already exists");
@@ -52,7 +51,7 @@ public class EventsRestController {
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
-    @PostMapping(path = "/{eventId}")
+    @PostMapping(path = "/event/{eventId}")
     public ResponseEntity<Void> updateEvent(@PathVariable Integer eventId, @RequestBody Events events) {
         log.info("Updating event{}", events);
         Events events1 = eventService.findByEventsId(eventId);
