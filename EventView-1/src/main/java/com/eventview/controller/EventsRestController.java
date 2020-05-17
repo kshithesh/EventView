@@ -56,7 +56,7 @@ public class EventsRestController {
         log.info("Updating event{}", events);
         Events events1 = eventService.findByEventsId(eventId);
 
-        if (events != null) {
+        if (events1 != null) {
 
             events1.setEventId(events.getEventId());
             events1.setUserId(events.getUserId());

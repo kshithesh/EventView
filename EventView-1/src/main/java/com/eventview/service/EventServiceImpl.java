@@ -3,7 +3,6 @@ package com.eventview.service;
 import com.eventview.model.Events;
 import com.eventview.model.EventsPayload;
 import com.eventview.repo.EventRepo;
-import javassist.tools.rmi.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,12 +16,12 @@ public class EventServiceImpl implements EventService {
 
     @Override
     public List<EventsPayload> getAllEvens() {
-        return eventRepo.getAllEvens();
+        return eventRepo.getAllEvents();
     }
 
     @Override
     public List<Events> getAllEvents() {
-        return eventRepo.getAllEvents();
+        return eventRepo.getAllEventsCustom();
     }
 
     @Override

@@ -65,7 +65,6 @@ public class UsersRestController {
             users1.setPhone(users.getPhone());
             users1.setEmail(users.getEmail());
         }
-
         userService.updateUser(users);
         return new ResponseEntity<>(HttpStatus.OK);
     }
@@ -79,7 +78,7 @@ public class UsersRestController {
         if (users != null) {
             userService.deleteUser(userId);
         }
-        log.info("User with id{} deleted",userId);
+        log.info("User with id{} deleted", userId);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 }

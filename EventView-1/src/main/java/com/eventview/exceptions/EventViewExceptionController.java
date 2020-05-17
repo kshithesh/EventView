@@ -9,6 +9,7 @@ import java.sql.Timestamp;
 
 @ControllerAdvice
 public class EventViewExceptionController {
+
     @ExceptionHandler(value = EventNotFoundException.class)
     public ResponseEntity<ErrorResponse> notFoundException(EventNotFoundException enf) {
         ErrorResponse errorResponse = new ErrorResponse();

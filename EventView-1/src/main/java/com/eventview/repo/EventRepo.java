@@ -7,9 +7,9 @@ import com.eventview.model.EventsPayload;
 
 public interface EventRepo {
 
-	List<EventsPayload> getAllEvens();
+	List<EventsPayload> getAllEvents();
 
-	List<Events> getAllEvents();
+	List<Events> getAllEventsCustom();
 
 	Events findByEventsId(Integer eventId);
 

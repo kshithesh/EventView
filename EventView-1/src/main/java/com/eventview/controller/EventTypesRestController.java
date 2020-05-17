@@ -21,7 +21,7 @@ public class EventTypesRestController {
     @Autowired
     private EventTypeService eventTypeService;
 
-    @GetMapping(path = "/event/types")
+    @GetMapping(path = "/event/type")
     public ResponseEntity<List<EvenTypes>> getAllEvenTypes() {
         log.info("getting all eventTypes");
         List<EvenTypes> evenTypes = eventTypeService.getAllEvenTypes();

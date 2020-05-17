@@ -5,6 +5,7 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
@@ -14,25 +15,26 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.inMemoryAuthentication()
                 .withUser("routhu")
-                .password("root")
+                .password(getPasswordEncoder().encode("root"))
                 .roles("ADMIN")
                 .and()
                 .withUser("pallerla")
-                .password("user")
+                .password(getPasswordEncoder().encode("user"))
                 .roles("USER");
     }
 
     @Bean
     public PasswordEncoder getPasswordEncoder(){
-        return NoOpPasswordEncoder.getInstance();
+        return new BCryptPasswordEncoder();
     }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-                .antMatchers("/user").hasAnyRole("USER","ADMIN")
-                .antMatchers("/**").hasRole("ADMIN")
+                .antMatchers("/user/**").hasAnyRole("USER","ADMIN")
+                .antMatchers("/event/**","/event/type/**","/actuator/**").hasRole("ADMIN")
                 .antMatchers("/").permitAll()
-                .and().formLogin();
+                .and().httpBasic();
+        http.csrf().disable();
     }
 }

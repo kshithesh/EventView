@@ -1,7 +1,6 @@
 package com.eventview.repo;
 
 import com.eventview.dao.EvenTypeRowMapper;
-import com.eventview.exceptions.EventNotFoundException;
 import com.eventview.exceptions.EventTypeNotFoundException;
 import com.eventview.model.EvenTypes;
 import org.slf4j.Logger;
@@ -22,16 +21,16 @@ public class EventTypeRepoImpl implements EventTypeRepo {
 
     @Override
     public List<EvenTypes> getAllEvenTypes() {
-        String sql = "select event_type_id,event_id,event_type from eventtypes";
-        return jdbcTemplate.query(sql, new EvenTypeRowMapper());
+        String SELECT_ALL_EVENT_TYPE = "select event_type_id,event_id,event_type from eventtypes";
+        return jdbcTemplate.query(SELECT_ALL_EVENT_TYPE, new EvenTypeRowMapper());
     }
 
     @Override
     public EvenTypes findByEventTypeId(Integer eventTypeId) {
         try {
-            String sql = "select * from eventtypes where event_type_id = ?";
-            EvenTypes evenTypes = jdbcTemplate.queryForObject(sql, new Object[]{eventTypeId}, new EvenTypeRowMapper());
-            log.info("query generated " + sql + "-----" + eventTypeId);
+            String SELECT_EVENT_TYPE_BY_ID = "select * from eventtypes where event_type_id = ?";
+            EvenTypes evenTypes = jdbcTemplate.queryForObject(SELECT_EVENT_TYPE_BY_ID, new Object[]{eventTypeId}, new EvenTypeRowMapper());
+            log.info("query generated " + SELECT_EVENT_TYPE_BY_ID + "-----" + eventTypeId);
 			return evenTypes;
         } catch (Exception e) {
             throw new EventTypeNotFoundException("EventType not found with id: "+ eventTypeId);
@@ -40,21 +39,21 @@ public class EventTypeRepoImpl implements EventTypeRepo {
 
     @Override
     public void createEventType(EvenTypes evenTypes) {
-        String sql = "INSERT INTO eventtypes (event_type_id, event_id, event_type) VALUES (?,?,?)";
-        jdbcTemplate.update(sql, evenTypes.getEventTypeId(), evenTypes.getEventid(), evenTypes.getEventType());
+        String INSERT_EVENT_TYPE = "INSERT INTO eventtypes (event_type_id, event_id, event_type) VALUES (?,?,?)";
+        jdbcTemplate.update(INSERT_EVENT_TYPE, evenTypes.getEventTypeId(), evenTypes.getEventid(), evenTypes.getEventType());
     }
 
     @Override
     public void updateEventType(EvenTypes evenTypes) {
-        String sql = "update eventtypes set event_id=?, event_type=? where event_type_id=?";
-        jdbcTemplate.update(sql, evenTypes.getEventid(), evenTypes.getEventType(), evenTypes.getEventTypeId());
+        String UPDATE_EVENT_TYPE = "update eventtypes set event_id=?, event_type=? where event_type_id=?";
+        jdbcTemplate.update(UPDATE_EVENT_TYPE, evenTypes.getEventid(), evenTypes.getEventType(), evenTypes.getEventTypeId());
     }
 
     @Override
     public int deleteEventType(Integer eventTypeId) {
-        String sql = "delete from eventtypes where event_type_id=?";
+        String DELETE_EVENT_TYPE = "delete from eventtypes where event_type_id=?";
         Object[] del = new Object[]{eventTypeId};
-        int size = jdbcTemplate.update(sql, del);
+        int size = jdbcTemplate.update(DELETE_EVENT_TYPE, del);
         if (size == 0) {
             throw new EventTypeNotFoundException("No Event found to delete: " + eventTypeId);
         }

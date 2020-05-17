@@ -12,5 +12,8 @@
 </head>
 <body>
     <h1>EventViewer</h1>
+    <a href="/event">Events</a>
+    <a href="/user">Users</a>
+    <a href="/event/type">Event Types</a>
 </body>
 </html>
