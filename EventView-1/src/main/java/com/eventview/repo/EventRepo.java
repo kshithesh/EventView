@@ -19,4 +19,6 @@ public interface EventRepo {
 
 	int deleteEvent(Integer eventId);
 
+	boolean eventExists(Integer eventTypeId);
+
 }

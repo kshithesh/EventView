@@ -46,7 +46,7 @@ public class EventServiceImpl implements EventService {
 
     @Override
     public boolean exists(Events event) {
-        return eventRepo.findByEventsId(event.getEventId()) != null;
+        return eventRepo.eventExists(event.getEventId());
     }
 
 }

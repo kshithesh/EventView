@@ -46,7 +46,6 @@ public class EventTypesRestController {
     public ResponseEntity<EvenTypes>
     createEventType(@RequestBody EvenTypes evenTypes) {
         log.info("creating new evenTypes:{}", evenTypes);
-
         if (eventTypeService.exists(evenTypes)) throw new EventTypeExistsException("EventType already exists");
 
         eventTypeService.createEventType(evenTypes);

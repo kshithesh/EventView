@@ -15,4 +15,6 @@ public interface UserRepo {
 	void updateUser(Users users);
 
 	int deleteUser(Integer userId);
+
+	boolean userExists(Integer userId);
 }

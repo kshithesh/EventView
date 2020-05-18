@@ -46,6 +46,6 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public boolean exists(Users users) {
-        return userRepo.findByUserId(users.getUserId()) != null;
+        return userRepo.userExists(users.getUserId());
     }
 }

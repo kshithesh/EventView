@@ -68,4 +68,11 @@ public class UserRepoImpl implements UserRepo {
         }
         return size;
     }
+
+    @SuppressWarnings("ConstantConditions")
+    public boolean userExists(Integer userId) {
+        String USER_EXISTS = "SELECT count(*) FROM USERS WHERE user_id = ?";
+        int count = jdbcTemplate.queryForObject(USER_EXISTS, new Object[] { userId }, Integer.class);
+        return count > 0;
+    }
 }

@@ -59,4 +59,10 @@ public class EventTypeRepoImpl implements EventTypeRepo {
         }
         return size;
     }
+    @SuppressWarnings("ConstantConditions")
+    public boolean eventTypeExists(Integer eventTypeId) {
+        String EVENT_TYPE_EXISTS = "SELECT count(*) FROM USERS WHERE user_id = ?";
+        int count = jdbcTemplate.queryForObject(EVENT_TYPE_EXISTS, new Object[]{ eventTypeId }, Integer.class);
+        return count > 0;
+    }
 }
