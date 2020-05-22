@@ -1,7 +1,9 @@
 package com.eventview.controller;
 
 import com.eventview.exceptions.UserExistsException;
+import com.eventview.model.EmailTemplate;
 import com.eventview.model.Users;
+import com.eventview.service.EmailService;
 import com.eventview.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,6 +21,8 @@ public class UsersRestController {
 
     @Autowired
     private UserService userService;
+    @Autowired
+    private EmailService emailService;
 
     @GetMapping(path = "/user")
     public ResponseEntity<List<Users>> getAllUsers() {
@@ -81,4 +85,17 @@ public class UsersRestController {
         log.info("User with id{} deleted", userId);
         return new ResponseEntity<>(HttpStatus.OK);
     }
+
+    /*
+    @PostMapping(value="/textemail",consumes = "application/json", produces = "application/json")
+    public String sendEmail(@RequestBody EmailTemplate emailTemplate) {
+        try {
+            log.info("Sending Simple Text Email....");
+            emailService.sendTextEmail(emailTemplate);
+            return "Email Sent!";
+        } catch (Exception ex) {
+            return "Error in sending email: " + ex;
+        }
+    }
+     */
 }

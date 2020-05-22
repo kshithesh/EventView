@@ -1,5 +1,6 @@
 package com.eventview.repo;
 
+import java.util.Date;
 import java.util.List;
 
 import com.eventview.model.Events;
@@ -20,5 +21,7 @@ public interface EventRepo {
 	int deleteEvent(Integer eventId);
 
 	boolean eventExists(Integer eventTypeId);
+
+	List<Date> getAllEventDates();
 
 }

@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
+import java.util.Date;
 import java.util.List;
 
 @Repository("eventRepo")
@@ -24,14 +25,14 @@ public class EventRepoImpl implements EventRepo {
 
     @Override
     public List<EventsPayload> getAllEvents() {
-        String SELECT_ALL_EVENTS_CUS = "select e.event_id,concat(u.first_name,' ',u.last_name) as full_name, et.event_type,e.event_date from events e left join users u on e.user_id = u.user_id left join eventtypes et on et.event_type_id=e.event_type_id";
-        return jdbcTemplate.query(SELECT_ALL_EVENTS_CUS, new EventsPayloadRowMapper());
+        String SELECT_ALL_EVENTS = "select e.event_id,concat(u.first_name,' ',u.last_name) as full_name, et.event_type,e.event_date from events e left join users u on e.user_id = u.user_id left join eventtypes et on et.event_type_id=e.event_type_id";
+        return jdbcTemplate.query(SELECT_ALL_EVENTS, new EventsPayloadRowMapper());
     }
 
     @Override
     public List<Events> getAllEventsCustom() {
-        String SELECT_ALL_EVENTS = "select event_id,user_id,event_type_id,event_date from events";
-        return jdbcTemplate.query(SELECT_ALL_EVENTS, new EventRowMapper());
+        String SELECT_ALL_EVENTS_CUS = "select event_id,user_id,event_type_id,event_date from events";
+        return jdbcTemplate.query(SELECT_ALL_EVENTS_CUS, new EventRowMapper());
     }
 
     @Override
@@ -76,4 +77,12 @@ public class EventRepoImpl implements EventRepo {
         int count = jdbcTemplate.queryForObject(EVENT_EXISTS, new Object[]{ eventId }, Integer.class);
         return count > 0;
     }
+
+    @Override
+    public List<Date> getAllEventDates() {
+        String SELECT_DATES = " SELECT event_date FROM events";
+        return jdbcTemplate.queryForList(SELECT_DATES,Date.class);
+    }
+
+
 }
