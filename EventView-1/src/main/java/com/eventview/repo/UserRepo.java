@@ -17,4 +17,8 @@ public interface UserRepo {
 	int deleteUser(Integer userId);
 
 	boolean userExists(Integer userId);
+
+	String getEmailByEvent(Integer eventId);
+
+	String getFNameByEvent(Integer eventId);
 }

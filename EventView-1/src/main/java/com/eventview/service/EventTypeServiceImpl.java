@@ -43,4 +43,9 @@ public class EventTypeServiceImpl implements EventTypeService{
     public boolean exists(EvenTypes evenTypes) {
         return eventTypeRepo.eventTypeExists(evenTypes.getEventTypeId());
     }
+
+	@Override
+	public String getEventType(Integer eventId) {
+		return eventTypeRepo.getEventType(eventId);
+	}
 }

@@ -18,4 +18,5 @@ public interface EventTypeRepo {
 
 	boolean eventTypeExists(Integer eventTypeId);
 
+	String getEventType(Integer eventId);
 }

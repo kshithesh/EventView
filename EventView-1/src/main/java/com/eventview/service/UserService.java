@@ -17,4 +17,8 @@ public interface UserService {
 	void deleteUser(Integer userId);
 
 	boolean exists(Users users);
+
+	String getEmailByEvent(Integer eventId);
+
+	String getFNameByEvent(Integer eventId);
 }

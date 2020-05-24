@@ -48,4 +48,14 @@ public class UserServiceImpl implements UserService {
     public boolean exists(Users users) {
         return userRepo.userExists(users.getUserId());
     }
+
+    @Override
+    public String getEmailByEvent(Integer eventId) {
+        return userRepo.getEmailByEvent(eventId);
+    }
+
+    @Override
+    public String getFNameByEvent(Integer eventId) {
+        return userRepo.getFNameByEvent(eventId);
+    }
 }

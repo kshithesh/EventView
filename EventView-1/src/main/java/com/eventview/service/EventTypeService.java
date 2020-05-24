@@ -17,4 +17,6 @@ public interface EventTypeService {
 	void deleteEventType(Integer eventTypeId);
 
 	boolean exists(EvenTypes evenTypes);
+
+	String getEventType(Integer eventId);
 }

@@ -71,8 +71,20 @@ public class UserRepoImpl implements UserRepo {
 
     @SuppressWarnings("ConstantConditions")
     public boolean userExists(Integer userId) {
-        String USER_EXISTS = "SELECT count(*) FROM USERS WHERE user_id = ?";
+        String USER_EXISTS = "SELECT count(*) FROM users WHERE user_id = ?";
         int count = jdbcTemplate.queryForObject(USER_EXISTS, new Object[] { userId }, Integer.class);
         return count > 0;
     }
+
+    public String getEmailByEvent(Integer eventId) {
+        String SELECT_USER_EMAIL = "SELECT email FROM users WHERE user_id = (SELECT user_id from events where event_id = ?)";
+        return jdbcTemplate.queryForObject(SELECT_USER_EMAIL, new Object[]{eventId}, String.class);
+    }
+
+    @Override
+    public String getFNameByEvent(Integer eventId) {
+        String SELECT_USERNAME_BY_EVENT = "SELECT first_name FROM users WHERE user_id = (SELECT user_id from events where event_id = ?)";
+        return jdbcTemplate.queryForObject(SELECT_USERNAME_BY_EVENT, new Object[]{eventId}, String.class);
+    }
+
 }
