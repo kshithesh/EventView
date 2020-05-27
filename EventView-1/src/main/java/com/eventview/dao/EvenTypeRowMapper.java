@@ -12,7 +12,6 @@ public class EvenTypeRowMapper implements RowMapper<EvenTypes> {
 	@Override
 	public EvenTypes mapRow(ResultSet rs, int rowNum) throws SQLException {
 		EvenTypes evenTypes = new EvenTypes();
-		evenTypes.setEventid(rs.getInt("event_id"));
 		evenTypes.setEventTypeId(rs.getInt("event_type_id"));
 		evenTypes.setEventType(rs.getString("event_type"));
 		return evenTypes;

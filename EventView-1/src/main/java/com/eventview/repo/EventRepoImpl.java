@@ -1,8 +1,10 @@
 package com.eventview.repo;
 
+import ch.qos.logback.core.encoder.EchoEncoder;
 import com.eventview.dao.EventRowMapper;
 import com.eventview.dao.EventsPayloadRowMapper;
 import com.eventview.exceptions.EventNotFoundException;
+import com.eventview.exceptions.EventTypeNotFoundException;
 import com.eventview.model.Events;
 import com.eventview.model.EventsPayload;
 import org.slf4j.Logger;
@@ -11,7 +13,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
-import java.util.Date;
 import java.util.List;
 
 @Repository("eventRepo")
@@ -25,7 +26,7 @@ public class EventRepoImpl implements EventRepo {
 
     @Override
     public List<EventsPayload> getAllEvents() {
-        String SELECT_ALL_EVENTS = "select e.event_id,concat(u.first_name,' ',u.last_name) as full_name, et.event_type,e.event_date from events e left join users u on e.user_id = u.user_id left join eventtypes et on et.event_type_id=e.event_type_id";
+        String SELECT_ALL_EVENTS = "select e.event_id,u.first_name,u.last_name,et.event_type,e.event_date from events e left join users u on e.user_id = u.user_id left join eventtypes et on et.event_type_id=e.event_type_id";
         return jdbcTemplate.query(SELECT_ALL_EVENTS, new EventsPayloadRowMapper());
     }
 
@@ -37,11 +38,23 @@ public class EventRepoImpl implements EventRepo {
 
     @Override
     public Events findByEventsId(Integer eventId) {
-        String SELECT_EVENT_BYID = "select * from events where event_id = ?";
+        String SELECT_EVENT_BY_ID = "SELECT * FROM events WHERE event_id =?";
         try {
-            Events events = jdbcTemplate.queryForObject(SELECT_EVENT_BYID, new Object[]{eventId}, new EventRowMapper());
-            log.info("query generated " + SELECT_EVENT_BYID + "-----" + eventId);
+            Events events = jdbcTemplate.queryForObject(SELECT_EVENT_BY_ID, new Object[]{eventId}, new EventRowMapper());
+            log.info("query generated " + SELECT_EVENT_BY_ID + "-----" + eventId);
             return events;
+        } catch (Exception e) {
+            throw new EventTypeNotFoundException("Event not founf with id: " + eventId);
+        }
+    }
+
+    @Override
+    public EventsPayload findByEventsIdCustom(Integer eventId) {
+        String SELECT_EVENT_BY_ID_CUS = "select e.event_id,u.first_name,u.last_name, et.event_type,e.event_date from events e left join users u on e.user_id = u.user_id left join eventtypes et on et.event_type_id=e.event_type_id where event_id = ?";
+        try {
+            EventsPayload eventsPayload = jdbcTemplate.queryForObject(SELECT_EVENT_BY_ID_CUS, new Object[]{eventId}, new EventsPayloadRowMapper());
+            log.info("query generated " + SELECT_EVENT_BY_ID_CUS + "-----" + eventId);
+            return eventsPayload;
         } catch (Exception e) {
             throw new EventNotFoundException("Event not found with id: " + eventId);
         }
@@ -63,7 +76,7 @@ public class EventRepoImpl implements EventRepo {
     @Override
     public int deleteEvent(Integer eventId) {
         String DELETE_EVENT = "delete from events where event_id=?";
-        int size = jdbcTemplate.update(DELETE_EVENT, new Object[]{eventId}, new EventRowMapper());
+        int size = jdbcTemplate.update(DELETE_EVENT, eventId);
         if(size==0) {
             throw new EventNotFoundException("No Event found to delete: "+eventId);
         }
@@ -73,16 +86,20 @@ public class EventRepoImpl implements EventRepo {
     @SuppressWarnings("ConstantConditions")
     @Override
     public boolean eventExists(Integer eventId) {
-        String EVENT_EXISTS = "SELECT count(*) FROM USERS WHERE event_id = ?";
+        String EVENT_EXISTS = "SELECT count(*) FROM events WHERE event_id = ?";
         int count = jdbcTemplate.queryForObject(EVENT_EXISTS, new Object[]{ eventId }, Integer.class);
         return count > 0;
     }
 
     @Override
-    public List<Date> getAllEventDates() {
-        String SELECT_DATES = " SELECT event_date FROM events";
-        return jdbcTemplate.queryForList(SELECT_DATES,Date.class);
+    public List<Integer> getAllEventMonths() {
+        String SELECT_MONTHS = "SELECT month(event_date) from events where month(now()) = MONTH(event_date)";
+        return jdbcTemplate.queryForList(SELECT_MONTHS,Integer.class);
     }
 
-
+    @Override
+    public List<Integer> getAllEventDay() {
+        String SELECT_DAYS = "select day(event_date) from events where day(now()) = day(event_date)";
+        return jdbcTemplate.queryForList(SELECT_DAYS,Integer.class);
+    }
 }

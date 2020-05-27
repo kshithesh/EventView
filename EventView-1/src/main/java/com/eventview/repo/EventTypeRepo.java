@@ -18,5 +18,7 @@ public interface EventTypeRepo {
 
 	boolean eventTypeExists(Integer eventTypeId);
 
-	String getEventType(Integer eventId);
+	List<String> getEventTypeToday();
+
+	List<String> getEventTypeWeek();
 }

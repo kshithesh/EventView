@@ -59,9 +59,9 @@ public class EventTypesControllerTest {
 
     @Test
     public void getAllEventTypes() throws Exception {
-        List<EvenTypes> evenTypes = Arrays.asList(new EvenTypes(1,101,
+        List<EvenTypes> evenTypes = Arrays.asList(new EvenTypes(1,
                         "birthday"),
-                new EvenTypes(2, 102, "anniversary"));
+                new EvenTypes(2, "anniversary"));
 
         when(eventTypeService.getAllEvenTypes()).thenReturn(evenTypes);
 
@@ -80,7 +80,7 @@ public class EventTypesControllerTest {
 
     @Test
     public void findByEventTypeId() throws Exception {
-        EvenTypes evenTypes = new EvenTypes(1,101,
+        EvenTypes evenTypes = new EvenTypes(1,
                 "birthday");
 
         when(eventTypeService.findByEventTypeId(1)).thenReturn(evenTypes);
@@ -98,7 +98,7 @@ public class EventTypesControllerTest {
 
     @Test
     public void createEventType() throws Exception {
-        EvenTypes evenTypes = new EvenTypes(1,101,
+        EvenTypes evenTypes = new EvenTypes(1,
                 "birthday");
 
         when(eventTypeService.exists(evenTypes)).thenReturn(false);
@@ -117,7 +117,7 @@ public class EventTypesControllerTest {
 
     @Test
     public void updateEventType() throws Exception {
-        EvenTypes evenTypes = new EvenTypes(1,101,
+        EvenTypes evenTypes = new EvenTypes(1,
                 "birthday");
 
         when(eventTypeService.findByEventTypeId(evenTypes.getEventTypeId())).thenReturn(evenTypes);
@@ -138,7 +138,7 @@ public class EventTypesControllerTest {
 
     @Test
     public void deleteEventType() throws Exception {
-        EvenTypes evenTypes = new EvenTypes(1,101,
+        EvenTypes evenTypes = new EvenTypes(1,
                 "birthday");
 
         when(eventTypeService.findByEventTypeId(evenTypes.getEventTypeId())).thenReturn(evenTypes);

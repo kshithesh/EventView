@@ -3,7 +3,6 @@ package com.eventview.service;
 import com.eventview.model.Events;
 import com.eventview.model.EventsPayload;
 
-import java.util.Date;
 import java.util.List;
 
 public interface EventService {
@@ -11,6 +10,8 @@ public interface EventService {
 	List<EventsPayload> getAllEvens();
 
     List<Events> getAllEventsCustom();
+
+    EventsPayload findByEventsIdCustom(Integer eventId);
 
     Events findByEventsId(Integer eventId);
 
@@ -22,5 +23,8 @@ public interface EventService {
 
 	boolean exists(Events event);
 
-	List<Date> getAllEventDates();
+	List<Integer> getAllEventMonths();
+
+	List<Integer> getAllEventDay();
+
 }

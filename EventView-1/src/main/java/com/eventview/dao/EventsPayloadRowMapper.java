@@ -13,7 +13,7 @@ public class EventsPayloadRowMapper implements RowMapper<EventsPayload> {
 	public EventsPayload mapRow(ResultSet rs, int rowNum) throws SQLException {
 		EventsPayload payload = new EventsPayload();
 		payload.setEventId(rs.getInt("event_id"));
-		payload.setFullName(rs.getString("full_name"));
+		payload.setFullName(rs.getString("first_name") + " " + rs.getString("last_name"));
 		payload.setEventType(rs.getString("event_type"));
 		payload.setEventDate(rs.getString("event_date"));
 		return payload;

@@ -65,8 +65,8 @@ public class EventsControllerTest {
 
     @Test
     public void getAllEvens() throws Exception {
-        List<EventsPayload> payloads = Arrays.asList(new EventsPayload(101,"kshithesh routhu","25-08-1996", "anniversary"),
-                new EventsPayload(102,"hrishikesh routhu","10-09-2000", "birthday"));
+        List<EventsPayload> payloads = Arrays.asList(new EventsPayload(101, "kshithesh", "routhu", "25-08-1996", "anniversary"),
+                new EventsPayload(102, "hrishikesh", "routhu", "10-09-2000", "birthday"));
 
         when(eventService.getAllEvens()).thenReturn(payloads);
 
@@ -84,7 +84,7 @@ public class EventsControllerTest {
 
     @Test
     public void findByEventId() throws Exception {
-        Events events = new Events(102,2,2, dateFormat.parse("10-09-2000"));
+        Events events = new Events(102, 2, 2, dateFormat.parse("10-09-2000"));
 
         when(eventService.findByEventsId(102)).thenReturn(events);
 
@@ -102,7 +102,7 @@ public class EventsControllerTest {
 
     @Test
     public void createEvent() throws Exception {
-        Events events = new Events(102,2,2, dateFormat.parse("10-09-2000"));
+        Events events = new Events(102, 2, 2, dateFormat.parse("10-09-2000"));
 
         when(eventService.exists(events)).thenReturn(false);
         doNothing().when(eventService).createEvent(events);
@@ -121,7 +121,7 @@ public class EventsControllerTest {
 
     @Test
     public void updateEvent() throws Exception {
-        Events events = new Events(102,2,2, dateFormat.parse("10-09-2000"));
+        Events events = new Events(102, 2, 2, dateFormat.parse("10-09-2000"));
 
         when(eventService.findByEventsId(events.getEventId())).thenReturn(events);
         doNothing().when(eventService).updateEvent(events);
@@ -130,7 +130,7 @@ public class EventsControllerTest {
                 put("/{eventId}", events.getEventId())
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(asJsonString(events)));
-                //.andExpect(status().isOk());
+        //.andExpect(status().isOk());
 
         //verify(eventService, times(1)).findByEventsId(events.getEventId());
         //verify(eventService, times(1)).updateEvent(events);
@@ -140,7 +140,7 @@ public class EventsControllerTest {
 
     @Test
     public void deleteEvent() throws Exception {
-        Events events = new Events(102,2,2, dateFormat.parse("10-09-2000"));
+        Events events = new Events(102, 2, 2, dateFormat.parse("10-09-2000"));
 
         when(eventService.findByEventsId(events.getEventId())).thenReturn(events);
         doNothing().when(eventService).deleteEvent(events.getEventId());

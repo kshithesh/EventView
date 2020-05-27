@@ -21,7 +21,7 @@ public class EventsRestController {
     @Autowired
     private EventService eventService;
 
-    @GetMapping(path = "/event")
+    @GetMapping(path = "/events")
     public ResponseEntity<List<EventsPayload>> getAllEvents() {
         log.info("getting all events");
         List<EventsPayload> eventsPayload = eventService.getAllEvens();
@@ -35,11 +35,11 @@ public class EventsRestController {
 
 
     @GetMapping(path = "/event/{eventId}")
-    public ResponseEntity<Events> findByEventsId(@PathVariable("eventId") Integer eventId) {
+    public ResponseEntity<EventsPayload> findByEventsId(@PathVariable("eventId") Integer eventId) {
         log.debug("getting event by id - {}", eventId);
-        Events events = eventService.findByEventsId(eventId);
+        EventsPayload eventsPayload = eventService.findByEventsIdCustom(eventId);
 
-        return new ResponseEntity<>(events, HttpStatus.OK);
+        return new ResponseEntity<>(eventsPayload, HttpStatus.OK);
     }
 
     @PostMapping(path = "/event")
@@ -51,23 +51,23 @@ public class EventsRestController {
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
-    @PostMapping(path = "/event/{eventId}")
+    @PutMapping(path = "/event/{eventId}")
     public ResponseEntity<Void> updateEvent(@PathVariable Integer eventId, @RequestBody Events events) {
         log.info("Updating event{}", events);
         Events events1 = eventService.findByEventsId(eventId);
 
         if (events1 != null) {
-
-            events1.setEventId(events.getEventId());
+            events1.setEventId(eventId);
             events1.setUserId(events.getUserId());
             events1.setEventTypeId(events.getEventTypeId());
             events1.setEventDate(events.getEventDate());
         }
-        eventService.updateEvent(events);
+        eventService.updateEvent(events1);
+        log.debug("update successful");
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @DeleteMapping(path = "/{eventId}")
+    @DeleteMapping(path = "/event/{eventId}")
     public ResponseEntity<Void> deleteEvent(@PathVariable("eventId") Integer eventId) {
         log.info("Deleting Event with id{}", eventId);
         Events events = eventService.findByEventsId(eventId);

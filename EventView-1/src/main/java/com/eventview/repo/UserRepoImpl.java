@@ -76,15 +76,20 @@ public class UserRepoImpl implements UserRepo {
         return count > 0;
     }
 
-    public String getEmailByEvent(Integer eventId) {
+    public List<String> getEmailByEvent(Integer eventId) {
         String SELECT_USER_EMAIL = "SELECT email FROM users WHERE user_id = (SELECT user_id from events where event_id = ?)";
-        return jdbcTemplate.queryForObject(SELECT_USER_EMAIL, new Object[]{eventId}, String.class);
+        return jdbcTemplate.queryForList(SELECT_USER_EMAIL, new Object[]{eventId}, String.class);
     }
 
     @Override
-    public String getFNameByEvent(Integer eventId) {
-        String SELECT_USERNAME_BY_EVENT = "SELECT first_name FROM users WHERE user_id = (SELECT user_id from events where event_id = ?)";
-        return jdbcTemplate.queryForObject(SELECT_USERNAME_BY_EVENT, new Object[]{eventId}, String.class);
+    public List<String> getFNameToday() {
+        String SELECT_USERNAME_BY_TODAY = "select first_name from users where user_id in (select user_id from events where day(now()) = day(event_date))";
+        return jdbcTemplate.queryForList(SELECT_USERNAME_BY_TODAY, String.class);
     }
 
+    @Override
+    public List<String> getFNameWeek() {
+        String SELECT_NAME_BY_WEEK = "select first_name from users where user_id in (select user_id from events where day(event_date) BETWEEN day(now()) and day(NOW()) + 7)";
+        return jdbcTemplate.queryForList(SELECT_NAME_BY_WEEK, String.class);
+    }
 }

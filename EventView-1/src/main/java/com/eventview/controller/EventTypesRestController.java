@@ -21,7 +21,7 @@ public class EventTypesRestController {
     @Autowired
     private EventTypeService eventTypeService;
 
-    @GetMapping(path = "/event/type")
+    @GetMapping(path = "/event/types")
     public ResponseEntity<List<EvenTypes>> getAllEvenTypes() {
         log.info("getting all eventTypes");
         List<EvenTypes> evenTypes = eventTypeService.getAllEvenTypes();
@@ -53,22 +53,21 @@ public class EventTypesRestController {
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
-    @PostMapping(path = "/event/type/{eventTypeId}")
+    @PutMapping(path = "/event/type/{eventTypeId}")
     public ResponseEntity<Void>
     updateEventType(@PathVariable Integer eventTypeId, @RequestBody EvenTypes evenTypes) {
         log.info("updating eventType:{}", evenTypes);
         EvenTypes evenTypes1 = eventTypeService.findByEventTypeId(eventTypeId);
 
         if (evenTypes1 != null) {
-            evenTypes1.setEventTypeId(evenTypes.getEventTypeId());
-            evenTypes1.setEventid(evenTypes.getEventid());
+            evenTypes1.setEventTypeId(eventTypeId);
             evenTypes1.setEventType(evenTypes.getEventType());
         }
-        eventTypeService.updateEventType(evenTypes);
+        eventTypeService.updateEventType(evenTypes1);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @DeleteMapping(path = "/type/{eventTypeId}")
+    @DeleteMapping(path = "/event/type/{eventTypeId}")
     public ResponseEntity<Void>
     deleteEventType(@PathVariable Integer eventTypeId) {
         log.info("deleting eventTypes with eventTypeId{}:", eventTypeId);

@@ -6,7 +6,6 @@ import com.eventview.repo.EventRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
 import java.util.List;
 
 @Service("eventService")
@@ -27,8 +26,13 @@ public class EventServiceImpl implements EventService {
 
     @Override
     public Events findByEventsId(Integer eventId) {
-            return eventRepo.findByEventsId(eventId);
-        }
+        return eventRepo.findByEventsId(eventId);
+    }
+
+    @Override
+    public EventsPayload findByEventsIdCustom(Integer eventId) {
+        return eventRepo.findByEventsIdCustom(eventId);
+    }
 
     @Override
     public void createEvent(Events event) {
@@ -51,8 +55,13 @@ public class EventServiceImpl implements EventService {
     }
 
     @Override
-    public List<Date> getAllEventDates() {
-        return eventRepo.getAllEventDates();
+    public List<Integer> getAllEventDay() {
+        return eventRepo.getAllEventDay();
+    }
+
+    @Override
+    public List<Integer> getAllEventMonths() {
+        return eventRepo.getAllEventMonths();
     }
 
 }

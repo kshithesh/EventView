@@ -18,5 +18,7 @@ public interface EventTypeService {
 
 	boolean exists(EvenTypes evenTypes);
 
-	String getEventType(Integer eventId);
+	List<String> getEventTypeToday();
+
+	List<String> getEventTypeWeek();
 }

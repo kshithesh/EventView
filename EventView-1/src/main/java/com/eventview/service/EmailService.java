@@ -7,6 +7,8 @@ import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class EmailService {
 
@@ -15,23 +17,40 @@ public class EmailService {
     @Autowired
     private JavaMailSender javaMailSender;
 
-    private EventTypeService eventTypeService;
-    private UserService userService;
 
-    public void sendTextEmail(String sendTo, String subject, String body1, String body2) {
+
+    public EmailService() {
+    }
+
+    public void sendTextEmail(String sendTo, List<String> fNamesNext, List<String> eventTypesNext, List<String> fNamesToday, List<String> eventTypesToday) {
 
         SimpleMailMessage msg = new SimpleMailMessage();
-
+        String strFNamesNext = String.join(",", fNamesNext);
+        String strEventTypesNext = String.join("  ", eventTypesNext);
+        String strFNamesToday = String.join(",", fNamesToday);
+        String strEventTypesToday = String.join(" ", eventTypesToday);
         try {
+            if (sendTo.contains(",")) {
+                String[] emails = sendTo.split(",");
+                for (String email : emails) {
+                    msg.setTo(email);
+                    msg.setSubject("EventView: This week's events");
+                    msg.setText("Today's events:" + "\n" + strFNamesToday + " " + strEventTypesToday + "\n" +
+                            "Upcoming events:" + "\n" + strFNamesNext + " " + strEventTypesNext);
+                    javaMailSender.send(msg);
+                }
+            } else {
                 msg.setTo(sendTo);
-                msg.setSubject("Event:" + subject);
-                msg.setText("Today is " + body1 + "'s " + body2);
+                msg.setSubject("EventView: This week's events");
+                msg.setText("Today's events:" + "\n" + strFNamesToday + "\n" + strEventTypesToday + "\n" +
+                        "Upcoming events:" + "\n" + strFNamesNext + "\n" + strEventTypesNext);
                 javaMailSender.send(msg);
                 log.info("mail sent");
+            }
         }
-        catch (Exception e) {
-            e.printStackTrace();
-        }
+        catch(Exception e){
+                e.printStackTrace();
+            }
 
+        }
     }
-}

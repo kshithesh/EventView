@@ -21,7 +21,7 @@ public class EventTypeRepoImpl implements EventTypeRepo {
 
     @Override
     public List<EvenTypes> getAllEvenTypes() {
-        String SELECT_ALL_EVENT_TYPE = "select event_type_id,event_id,event_type from eventtypes";
+        String SELECT_ALL_EVENT_TYPE = "select event_type_id,event_type from eventtypes";
         return jdbcTemplate.query(SELECT_ALL_EVENT_TYPE, new EvenTypeRowMapper());
     }
 
@@ -39,14 +39,14 @@ public class EventTypeRepoImpl implements EventTypeRepo {
 
     @Override
     public void createEventType(EvenTypes evenTypes) {
-        String INSERT_EVENT_TYPE = "INSERT INTO eventtypes (event_type_id, event_id, event_type) VALUES (?,?,?)";
-        jdbcTemplate.update(INSERT_EVENT_TYPE, evenTypes.getEventTypeId(), evenTypes.getEventid(), evenTypes.getEventType());
+        String INSERT_EVENT_TYPE = "INSERT INTO eventtypes (event_type_id, event_type) VALUES (?,?)";
+        jdbcTemplate.update(INSERT_EVENT_TYPE, evenTypes.getEventTypeId(), evenTypes.getEventType());
     }
 
     @Override
     public void updateEventType(EvenTypes evenTypes) {
-        String UPDATE_EVENT_TYPE = "update eventtypes set event_id=?, event_type=? where event_type_id=?";
-        jdbcTemplate.update(UPDATE_EVENT_TYPE, evenTypes.getEventid(), evenTypes.getEventType(), evenTypes.getEventTypeId());
+        String UPDATE_EVENT_TYPE = "update eventtypes set event_type=? where event_type_id=?";
+        jdbcTemplate.update(UPDATE_EVENT_TYPE, evenTypes.getEventType(), evenTypes.getEventTypeId());
     }
 
     @Override
@@ -67,8 +67,15 @@ public class EventTypeRepoImpl implements EventTypeRepo {
     }
 
     @Override
-    public String getEventType(Integer eventId) {
-        String SELECT_EVENT_TYPE_BY_EVENT = "SELECT event_type FROM eventtypes WHERE event_type_id = (SELECT event_type_id FROM events WHERE events.event_id = ?)";
-        return jdbcTemplate.queryForObject(SELECT_EVENT_TYPE_BY_EVENT, new Object[]{eventId}, String.class);
+    public List<String> getEventTypeToday() {
+        String SELECT_EVENT_TYPE_TODAY = "select event_type from eventtypes where event_type_id in (select event_type_id from events where day(now()) = day(event_date))";
+        return jdbcTemplate.queryForList(SELECT_EVENT_TYPE_TODAY, String.class);
+    }
+
+
+    @Override
+    public List<String> getEventTypeWeek() {
+        String SELECT_EVENT_TYPE_WEEK = "select event_type from eventtypes where event_type_id in (select event_type_id from events where day(event_date) BETWEEN day(now()) and day(NOW()) + 7)";
+        return jdbcTemplate.queryForList(SELECT_EVENT_TYPE_WEEK,String.class);
     }
 }

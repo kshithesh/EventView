@@ -18,7 +18,9 @@ public interface UserService {
 
 	boolean exists(Users users);
 
-	String getEmailByEvent(Integer eventId);
+	List<String> getEmailByEvent(Integer eventId);
 
-	String getFNameByEvent(Integer eventId);
+	List<String> getFNameToday();
+
+	List<String> getFNameWeek();
 }

@@ -2,7 +2,6 @@ package com.eventview.controller;
 
 import com.eventview.exceptions.UserExistsException;
 import com.eventview.model.Users;
-import com.eventview.service.EmailService;
 import com.eventview.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,7 +20,7 @@ public class UsersRestController {
     @Autowired
     private UserService userService;
 
-    @GetMapping(path = "/user")
+    @GetMapping(path = "/users")
     public ResponseEntity<List<Users>> getAllUsers() {
         log.info("getting all users");
         List<Users> users = userService.getAllUsers();
@@ -53,20 +52,20 @@ public class UsersRestController {
     }
 
 
-    @PostMapping(path = "/user/{userId}")
+    @PutMapping(path = "/user/{userId}")
     public ResponseEntity<Void>
     updateUser(@PathVariable Integer userId, @RequestBody Users users) {
         log.info("updating user:{}", users);
         Users users1 = userService.findByUserId(userId);
 
         if (users1 != null) {
-            users1.setUserId(users.getUserId());
+            users1.setUserId(userId);
             users1.setFName(users.getFName());
             users1.setLName(users.getLName());
             users1.setPhone(users.getPhone());
             users1.setEmail(users.getEmail());
         }
-        userService.updateUser(users);
+        userService.updateUser(users1);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 

@@ -3,9 +3,10 @@ package com.eventview.model;
 public class EventsPayload {
 
     private Integer eventId;
-    private String fullName;
+	private String fullName;
     private String eventType;
     private String eventDate;
+
 
 	public Integer getEventId() {
 		return eventId;
@@ -39,9 +40,9 @@ public class EventsPayload {
 		this.eventDate = eventDate;
 	}
 
-	public EventsPayload(Integer eventId, String fullName, String eventType, String eventDate) {
+	public EventsPayload(Integer eventId, String fName, String lName, String eventType, String eventDate) {
 		this.eventId = eventId;
-		this.fullName = fullName;
+		this.fullName = fName + " " + lName;
 		this.eventType = eventType;
 		this.eventDate = eventDate;
 	}

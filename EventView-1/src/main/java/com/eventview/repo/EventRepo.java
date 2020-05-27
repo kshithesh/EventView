@@ -1,6 +1,5 @@
 package com.eventview.repo;
 
-import java.util.Date;
 import java.util.List;
 
 import com.eventview.model.Events;
@@ -12,6 +11,8 @@ public interface EventRepo {
 
 	List<Events> getAllEventsCustom();
 
+	EventsPayload findByEventsIdCustom(Integer eventId);
+
 	Events findByEventsId(Integer eventId);
 
 	void createEvent(Events event);
@@ -22,7 +23,7 @@ public interface EventRepo {
 
 	boolean eventExists(Integer eventTypeId);
 
-	List<Date> getAllEventDates();
+	List<Integer> getAllEventMonths();
 
-
+	List<Integer> getAllEventDay();
 }
