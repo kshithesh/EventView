@@ -5,6 +5,7 @@ import com.eventview.service.EventService;
 import com.eventview.service.EventTypeService;
 import com.eventview.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
@@ -22,7 +23,7 @@ public class ScheduleConfig {
     @Autowired
     private UserService userService;
 
-    @Scheduled(cron = "0 0/08 20 * * *")
+    @Scheduled(cron = "${cron.schedule}")
     public void executes(){
         Integer[] month = eventService.getAllEventMonths().toArray(new Integer[0]);
         List<String> fNamesToday = userService.getFNameToday();
@@ -30,7 +31,7 @@ public class ScheduleConfig {
         List<String> fNamesWeek = userService.getFNameWeek();
         List<String> eventTypesWeek = eventTypeService.getEventTypeWeek();
         if (month.length > 0) {
-            emailService.sendTextEmail("kshiteshrouthu@gmail.com",fNamesToday,eventTypesToday,fNamesWeek, eventTypesWeek);
+            emailService.sendTextEmail(fNamesToday,eventTypesToday,fNamesWeek, eventTypesWeek);
         }
     }
 }

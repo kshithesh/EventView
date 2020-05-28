@@ -1,37 +1,17 @@
 package com.eventview.model;
 
-import javax.persistence.*;
-import javax.validation.constraints.NotNull;
-
-@Entity
-@Table(name = "users")
 public class Users {
 
-    @Id
-    @Column(name = "user_id")
-    @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer userId;
-
-    @Column(name = "first_name")
-    @NotNull
-    private String fName;
-
-    @Column(name = "last_name")
-    @NotNull
-    private String lName;
-
-    @Column(name = "phone")
-    @NotNull
+    private String firstName;
+    private String lastName;
     private String phone;
-
-    @Column(name = "email")
-    @NotNull
     private String email;
 
-    public Users(Integer userId, String fName, String lName, String phone, String email) {
+    public Users(Integer userId, String firstName, String lastName, String phone, String email) {
         this.userId = userId;
-        this.fName = fName;
-        this.lName = lName;
+        this.firstName = firstName;
+        this.lastName = lastName;
         this.phone = phone;
         this.email = email;
     }
@@ -44,24 +24,24 @@ public class Users {
         return userId;
     }
 
-    public void setUserId(Integer userid) {
-        this.userId = userid;
+    public void setUserId(Integer userId) {
+        this.userId = userId;
     }
 
-    public String getFName() {
-        return fName;
+    public String getFirstName() {
+        return firstName;
     }
 
-    public void setFName(String fname) {
-        this.fName = fname;
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
     }
 
-    public String getLName() {
-        return lName;
+    public String getLastName() {
+        return lastName;
     }
 
-    public void setLName(String lname) {
-        this.lName = lname;
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 
     public String getPhone() {

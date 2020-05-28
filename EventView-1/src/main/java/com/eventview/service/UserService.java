@@ -18,8 +18,6 @@ public interface UserService {
 
 	boolean exists(Users users);
 
-	List<String> getEmailByEvent(Integer eventId);
-
 	List<String> getFNameToday();
 
 	List<String> getFNameWeek();

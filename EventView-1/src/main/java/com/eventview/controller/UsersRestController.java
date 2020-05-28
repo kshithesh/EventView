@@ -60,8 +60,8 @@ public class UsersRestController {
 
         if (users1 != null) {
             users1.setUserId(userId);
-            users1.setFName(users.getFName());
-            users1.setLName(users.getLName());
+            users1.setFirstName(users.getFirstName());
+            users1.setLastName(users.getLastName());
             users1.setPhone(users.getPhone());
             users1.setEmail(users.getEmail());
         }

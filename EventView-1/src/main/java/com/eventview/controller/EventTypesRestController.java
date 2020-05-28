@@ -2,6 +2,7 @@ package com.eventview.controller;
 
 
 import com.eventview.exceptions.EventTypeExistsException;
+import com.eventview.exceptions.EventTypeNotFoundException;
 import com.eventview.model.EvenTypes;
 import com.eventview.service.EventTypeService;
 import org.slf4j.Logger;
@@ -58,11 +59,8 @@ public class EventTypesRestController {
     updateEventType(@PathVariable Integer eventTypeId, @RequestBody EvenTypes evenTypes) {
         log.info("updating eventType:{}", evenTypes);
         EvenTypes evenTypes1 = eventTypeService.findByEventTypeId(eventTypeId);
-
-        if (evenTypes1 != null) {
             evenTypes1.setEventTypeId(eventTypeId);
             evenTypes1.setEventType(evenTypes.getEventType());
-        }
         eventTypeService.updateEventType(evenTypes1);
         return new ResponseEntity<>(HttpStatus.OK);
     }

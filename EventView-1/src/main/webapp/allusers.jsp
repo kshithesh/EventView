@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta charset="ISO-8859-1">
-<title>Insert title here</title>
+<title>Users</title>
 <link rel="stylesheet"
 	href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
 	integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
@@ -25,15 +25,15 @@
 <h3>Users List</h3>
 	<table border="1" cellpadding="2" cellspacing="2">
 		<tr>
-			<th>Id</th>
-			<th>first name</th>
+			<th>userId</th>
+			<th>First Name</th>
 			<th>Last Name</th>
 			<th>Phone</th>
 			<th>Email</th>
 		</tr>
 		<c:forEach var="user" items="${Users}">
 			<tr>
-				<td>${user.user_id}</td>
+				<td>${user.userId}</td>
 				<td>${user.first_name}</td>
 				<td>${user.last_name}</td>
 				<td>${user.phone}</td>

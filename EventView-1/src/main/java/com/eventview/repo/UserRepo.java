@@ -18,9 +18,7 @@ public interface UserRepo {
 
 	boolean userExists(Integer userId);
 
-	List<String> getEmailByEvent(Integer eventId);
-
 	List<String> getFNameWeek();
 
-	List<String> getFNameToday();
+	List<String> getFirstName();
 }

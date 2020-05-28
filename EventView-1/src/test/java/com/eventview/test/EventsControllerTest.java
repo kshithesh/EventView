@@ -70,7 +70,7 @@ public class EventsControllerTest {
 
         when(eventService.getAllEvens()).thenReturn(payloads);
 
-        mvc.perform(get("/"))
+        mvc.perform(get("/events"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", hasSize(2)))
                 .andExpect(jsonPath("$[0].eventId", is(101)))
@@ -88,7 +88,7 @@ public class EventsControllerTest {
 
         when(eventService.findByEventsId(102)).thenReturn(events);
 
-        mvc.perform(get("/{eventId}", 102)
+        mvc.perform(get("/event/{eventId}", 102)
                 .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isOk())
@@ -108,7 +108,7 @@ public class EventsControllerTest {
         doNothing().when(eventService).createEvent(events);
 
         mvc.perform(
-                post("/")
+                post("/event")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(asJsonString(events)))
                 .andExpect(status().isCreated());
@@ -127,7 +127,7 @@ public class EventsControllerTest {
         doNothing().when(eventService).updateEvent(events);
 
         mvc.perform(
-                put("/{eventId}", events.getEventId())
+                put("/event/{eventId}", events.getEventId())
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(asJsonString(events)));
         //.andExpect(status().isOk());
@@ -146,7 +146,7 @@ public class EventsControllerTest {
         doNothing().when(eventService).deleteEvent(events.getEventId());
 
         mvc.perform(
-                delete("/{eventid}", events.getEventId()))
+                delete("/event/{eventid}", events.getEventId()))
                 .andExpect(status().isOk());
 
         verify(eventService, times(1)).findByEventsId(events.getEventId());

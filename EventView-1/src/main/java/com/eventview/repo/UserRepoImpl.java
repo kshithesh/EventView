@@ -9,10 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
-import javax.transaction.Transactional;
 import java.util.List;
 
-@Transactional
 @Repository("userRepo")
 public class UserRepoImpl implements UserRepo {
 
@@ -43,7 +41,7 @@ public class UserRepoImpl implements UserRepo {
     public void createUser(Users users) {
         String INSERT_USER = "INSERT INTO users (`user_id`, `first_name`, `last_name`, `phone`, `email`) VALUES (?,?,?,?,?)";
         jdbcTemplate.update(INSERT_USER,
-                users.getUserId(), users.getFName(), users.getLName(), users.getPhone(), users.getEmail());
+                users.getUserId(), users.getFirstName(), users.getLastName(), users.getPhone(), users.getEmail());
         log.info("repo created");
     }
 
@@ -52,7 +50,7 @@ public class UserRepoImpl implements UserRepo {
         try {
             String UPDATE_USER = "update users set first_name=?, last_name=?, phone=?, email=? where user_id=?";
             jdbcTemplate.update(UPDATE_USER,
-                    users.getFName(), users.getLName(), users.getPhone(), users.getEmail(), users.getUserId());
+                    users.getFirstName(), users.getLastName(), users.getPhone(), users.getEmail(), users.getUserId());
         } catch (Exception e) {
             throw new UserNotFoundException("User not found with id: "+users.getUserId());
         }
@@ -76,13 +74,8 @@ public class UserRepoImpl implements UserRepo {
         return count > 0;
     }
 
-    public List<String> getEmailByEvent(Integer eventId) {
-        String SELECT_USER_EMAIL = "SELECT email FROM users WHERE user_id = (SELECT user_id from events where event_id = ?)";
-        return jdbcTemplate.queryForList(SELECT_USER_EMAIL, new Object[]{eventId}, String.class);
-    }
-
     @Override
-    public List<String> getFNameToday() {
+    public List<String> getFirstName() {
         String SELECT_USERNAME_BY_TODAY = "select first_name from users where user_id in (select user_id from events where day(now()) = day(event_date))";
         return jdbcTemplate.queryForList(SELECT_USERNAME_BY_TODAY, String.class);
     }

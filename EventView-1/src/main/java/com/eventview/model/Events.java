@@ -1,33 +1,14 @@
 
 package com.eventview.model;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-
-import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
 
-@Entity(name="Events")
-@Table(name = "events")
 public class Events {
 
-	@Id
-	@Column(name="event_id")
-	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Integer eventId;
-
-	@Column(name="user_id")
-	@NotNull
 	private Integer userId;
-
-	@Column(name="event_type_id")
-	@NotNull
 	private Integer eventTypeId;
-
-	@Column(name="event_date")
-	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern="dd-MM-yyyy")
-	@Temporal(TemporalType.DATE)
-	@NotNull
 	private Date eventDate;
 
 	public Integer getEventId() {

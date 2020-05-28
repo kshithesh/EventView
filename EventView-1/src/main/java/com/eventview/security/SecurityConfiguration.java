@@ -10,16 +10,17 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 @EnableWebSecurity
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
+    /*
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.inMemoryAuthentication()
-                .withUser("routhu")
-                .password(getPasswordEncoder().encode("root"))
-                .roles("ADMIN")
+                .withUser("${user.name1}")
+                .password(getPasswordEncoder().encode("${admin.password1}"))
+                .roles("${role.admin}}")
                 .and()
-                .withUser("pallerla")
-                .password(getPasswordEncoder().encode("user"))
-                .roles("USER");
+                .withUser("${user.name2}")
+                .password(getPasswordEncoder().encode("${user.name2}"))
+                .roles("${role.user}");
     }
 
     @Bean
@@ -27,10 +28,12 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         return new BCryptPasswordEncoder();
     }
 
+    */
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-                .antMatchers("/user/**").hasAnyRole("USER","ADMIN")
+                .antMatchers("/users/**,/events/**,/eventtypes/**").hasAnyRole("USER","ADMIN")
                 .antMatchers("/event/**","/event/type/**","/actuator/**").hasRole("ADMIN")
                 .antMatchers("/").permitAll()
                 .and().httpBasic();

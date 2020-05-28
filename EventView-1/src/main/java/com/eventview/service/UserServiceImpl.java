@@ -50,13 +50,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<String> getEmailByEvent(Integer eventId) {
-        return userRepo.getEmailByEvent(eventId);
-    }
-
-    @Override
     public List<String> getFNameToday() {
-        return userRepo.getFNameToday();
+        return userRepo.getFirstName();
     }
 
     @Override

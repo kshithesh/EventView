@@ -28,8 +28,8 @@
 </head>
 <body>
     <h1>EventViewer</h1>
-    <a href="/event">Events</a>
-    <a href="/user">Users</a>
-    <a href="/event/type">Event Types</a>
+    <a href="/events">Events</a>
+    <a href="/allusers.jsp">Users</a>
+    <a href="/event/types">Event Types</a>
 </body>
 </html>
