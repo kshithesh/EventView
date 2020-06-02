@@ -21,28 +21,27 @@ public class EmailService {
     @Value("${email.address}")
     private String emailAddress;
 
-    public void sendTextEmail(List<String> fNamesNext, List<String> eventTypesNext, List<String> fNamesToday, List<String> eventTypesToday) {
+    public void sendTextEmail(List<String> Today, List<String> NextSevenDays) {
 
         SimpleMailMessage msg = new SimpleMailMessage();
-        String strFNamesNext = String.join(",", fNamesNext);
-        String strEventTypesNext = String.join("  ", eventTypesNext);
-        String strFNamesToday = String.join(",", fNamesToday);
-        String strEventTypesToday = String.join(" ", eventTypesToday);
+        String strTodayEvents = String.join(",", Today);
+        String strUpcomingEvents = String.join(",", NextSevenDays);
+        log.debug("today{}",strTodayEvents);
         try {
             if (emailAddress.contains(",")) {
                 String[] emails = emailAddress.split(",");
                 for (String email : emails) {
                     msg.setTo(email);
                     msg.setSubject("${email.subject}");
-                    msg.setText("Today's events:" + "\n" + strFNamesToday + " " + strEventTypesToday + "\n" +
-                            "Upcoming events:" + "\n" + strFNamesNext + " " + strEventTypesNext);
+                    msg.setText("Today's events:" + "\n" + strTodayEvents + "\n" +
+                            "Upcoming events:" + "\n" + strUpcomingEvents);
                     javaMailSender.send(msg);
                 }
             } else {
                 msg.setTo(emailAddress);
                 msg.setSubject("${email.subject}");
-                msg.setText("Today's events:" + "\n" + strFNamesToday + "\n" + strEventTypesToday + "\n" +
-                        "Upcoming events:" + "\n" + strFNamesNext + "\n" + strEventTypesNext);
+                msg.setText("Today's events:" + "\n" + strTodayEvents + "\n" +
+                        "Upcoming events:" + "\n" + strUpcomingEvents);
                 javaMailSender.send(msg);
                 log.info("mail sent");
             }

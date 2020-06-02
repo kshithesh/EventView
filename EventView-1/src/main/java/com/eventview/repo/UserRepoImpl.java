@@ -39,7 +39,7 @@ public class UserRepoImpl implements UserRepo {
 
     @Override
     public void createUser(Users users) {
-        String INSERT_USER = "INSERT INTO users (`user_id`, `first_name`, `last_name`, `phone`, `email`) VALUES (?,?,?,?,?)";
+        String INSERT_USER = "INSERT INTO users (`user_id`,`first_name`, `last_name`, `phone`, `email`) VALUES (?,?,?,?,?)";
         jdbcTemplate.update(INSERT_USER,
                 users.getUserId(), users.getFirstName(), users.getLastName(), users.getPhone(), users.getEmail());
         log.info("repo created");

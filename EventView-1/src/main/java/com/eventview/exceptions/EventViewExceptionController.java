@@ -11,50 +11,50 @@ import java.sql.Timestamp;
 public class EventViewExceptionController {
 
     @ExceptionHandler(value = EventNotFoundException.class)
-    public ResponseEntity<ErrorResponse> notFoundException(EventNotFoundException enf) {
+    public ResponseEntity<ErrorResponse> notFoundException(EventNotFoundException eventNotFoundException) {
         ErrorResponse errorResponse = new ErrorResponse();
         errorResponse.setStatus(HttpStatus.NOT_FOUND.value());
-        errorResponse.setMessage(enf.getMessage());
+        errorResponse.setMessage(eventNotFoundException.getMessage());
         errorResponse.setTimeStamp(new Timestamp(System.currentTimeMillis()));
         return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
     }
     @ExceptionHandler(value = EventExistsException.class)
-    public ResponseEntity<ErrorResponse> existException(EventExistsException ee){
+    public ResponseEntity<ErrorResponse> existException(EventExistsException eventExistsException){
         ErrorResponse errorResponse = new ErrorResponse();
         errorResponse.setStatus(HttpStatus.CONFLICT.value());
-        errorResponse.setMessage(ee.getMessage());
+        errorResponse.setMessage(eventExistsException.getMessage());
         errorResponse.setTimeStamp(new Timestamp(System.currentTimeMillis()));
         return new ResponseEntity<>(errorResponse, HttpStatus.CONFLICT);
     }
     @ExceptionHandler(value = UserNotFoundException.class)
-    public ResponseEntity<ErrorResponse> userNotFoundException(UserNotFoundException exception) {
+    public ResponseEntity<ErrorResponse> userNotFoundException(UserNotFoundException userNotFoundException) {
         ErrorResponse errorResponse = new ErrorResponse();
         errorResponse.setStatus(HttpStatus.NOT_FOUND.value());
-        errorResponse.setMessage(exception.getMessage());
+        errorResponse.setMessage(userNotFoundException.getMessage());
         errorResponse.setTimeStamp(new Timestamp(System.currentTimeMillis()));
         return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
     }
     @ExceptionHandler(value = UserExistsException.class)
-    public ResponseEntity<ErrorResponse> userExistsException(UserExistsException exception) {
+    public ResponseEntity<ErrorResponse> userExistsException(UserExistsException userExistsException) {
         ErrorResponse errorResponse = new ErrorResponse();
         errorResponse.setStatus(HttpStatus.NOT_FOUND.value());
-        errorResponse.setMessage(exception.getMessage());
+        errorResponse.setMessage(userExistsException.getMessage());
         errorResponse.setTimeStamp(new Timestamp(System.currentTimeMillis()));
         return new ResponseEntity<>(errorResponse, HttpStatus.CONFLICT);
     }
     @ExceptionHandler(value = EventTypeNotFoundException.class)
-    public ResponseEntity<ErrorResponse> eventTypeNotFoundException(EventTypeNotFoundException etnf) {
+    public ResponseEntity<ErrorResponse> eventTypeNotFoundException(EventTypeNotFoundException eventTypeNotFoundException) {
         ErrorResponse errorResponse = new ErrorResponse();
         errorResponse.setStatus(HttpStatus.NOT_FOUND.value());
-        errorResponse.setMessage(etnf.getMessage());
+        errorResponse.setMessage(eventTypeNotFoundException.getMessage());
         errorResponse.setTimeStamp(new Timestamp(System.currentTimeMillis()));
         return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
     }
     @ExceptionHandler(value = EventTypeExistsException.class)
-    public ResponseEntity<ErrorResponse> eventTypeExistsException(EventTypeExistsException ee) {
+    public ResponseEntity<ErrorResponse> eventTypeExistsException(EventTypeExistsException eventTypeExistsException) {
         ErrorResponse errorResponse = new ErrorResponse();
         errorResponse.setStatus(HttpStatus.CONFLICT.value());
-        errorResponse.setMessage(ee.getMessage());
+        errorResponse.setMessage(eventTypeExistsException.getMessage());
         errorResponse.setTimeStamp(new Timestamp(System.currentTimeMillis()));
         return new ResponseEntity<>(errorResponse, HttpStatus.CONFLICT);
     }

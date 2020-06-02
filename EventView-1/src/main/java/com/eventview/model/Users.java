@@ -1,11 +1,31 @@
 package com.eventview.model;
 
+import io.swagger.annotations.ApiModelProperty;
+
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotNull;
+
 public class Users {
 
+
+    @ApiModelProperty(notes = "The database generated UserID")
     private Integer userId;
+
+    @NotNull(message = "FirstName cannot be empty")
+    @ApiModelProperty(notes = "FirstName of the User")
     private String firstName;
+
+    @NotNull(message = "LastName cannot be empty")
+    @ApiModelProperty(notes = "LastName of the User")
     private String lastName;
+
+    @NotNull(message = "Phone Number cannot be empty")
+    @ApiModelProperty(notes = "Phone number of the User")
     private String phone;
+
+    @NotNull(message = "Email cannot be empty")
+    @ApiModelProperty(notes = "E-Mail of the User")
+    @Email
     private String email;
 
     public Users(Integer userId, String firstName, String lastName, String phone, String email) {

@@ -1,14 +1,23 @@
 
 package com.eventview.model;
 
+import io.swagger.annotations.ApiModelProperty;
+
 import javax.validation.constraints.NotNull;
 import java.util.Date;
 
 public class Events {
 
+	@ApiModelProperty(notes = "The database generated EventID")
 	private Integer eventId;
+	@NotNull(message = "UserId cannot be empty")
+	@ApiModelProperty(notes = "UserID from the Users Model")
 	private Integer userId;
+	@NotNull(message = "EventTypeId cannot be empty")
+	@ApiModelProperty(notes = "EventTypeID from the EvenTypes Model")
 	private Integer eventTypeId;
+	@NotNull(message = "EventDate cannot be empty")
+	@ApiModelProperty(notes = "Date of the Event")
 	private Date eventDate;
 
 	public Integer getEventId() {

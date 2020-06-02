@@ -17,8 +17,4 @@ public interface EventTypeRepo {
 	int deleteEventType(Integer eventTypeId);
 
 	boolean eventTypeExists(Integer eventTypeId);
-
-	List<String> getEventTypeToday();
-
-	List<String> getEventTypeWeek();
 }

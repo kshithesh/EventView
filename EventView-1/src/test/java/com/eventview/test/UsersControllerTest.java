@@ -1,7 +1,9 @@
 package com.eventview.test;
 
-import com.eventview.controller.EventsRestController;
+import com.eventview.batch.ScheduleConfig;
 import com.eventview.controller.UsersRestController;
+import com.eventview.exceptions.EventViewExceptionController;
+import com.eventview.exceptions.UserNotFoundException;
 import com.eventview.model.Users;
 import com.eventview.service.UserService;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -14,24 +16,26 @@ import org.mockito.MockitoAnnotations;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.context.web.WebAppConfiguration;
+import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import java.util.Arrays;
 import java.util.List;
 
-import static org.hamcrest.Matchers.*;
+import static org.hamcrest.Matchers.hasSize;
+import static org.hamcrest.Matchers.is;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@WebAppConfiguration
-@RunWith(SpringJUnit4ClassRunner.class)
+@RunWith(SpringRunner.class)
 @SpringBootTest
+@MockBean(ScheduleConfig.class)
 public class UsersControllerTest {
 
     private final Logger log = LoggerFactory.getLogger(UsersControllerTest.class);
@@ -57,11 +61,11 @@ public class UsersControllerTest {
         MockitoAnnotations.initMocks(this);
         mvc = MockMvcBuilders
                 .standaloneSetup(usersRestController)
-                .build();
+                .setControllerAdvice(new EventViewExceptionController()).build();
     }
 
     @Test
-    public void getAllUser() throws Exception {
+    public void getAllUserTest() throws Exception {
         List<Users> users = Arrays.asList(
                 new Users(1, "kshithesh", "routhu", "9533916174",
                         "kshithesh.r@gmail.com"),
@@ -79,8 +83,17 @@ public class UsersControllerTest {
         verifyNoMoreInteractions(userService);
     }
 
+
     @Test
-    public void findByUserId() throws Exception {
+    public void getAllUsers_No_User_Test() throws Exception {
+        when(userService.getAllUsers()).thenThrow(UserNotFoundException.class);
+        mvc.perform(get("/users"))
+                .andExpect(status().isNotFound());
+    }
+
+
+    @Test
+    public void findByUserIdTest() throws Exception {
         Users users = new Users(1, "kshithesh", "routhu", "9533916174",
                 "kshithesh.r@gmail.com");
 
@@ -98,26 +111,28 @@ public class UsersControllerTest {
     }
 
     @Test
-    public void testCreateUser() throws Exception {
+    public void findByUserIdTest_No_User_Test() throws Exception {
+        when(userService.findByUserId(any())).thenThrow(UserNotFoundException.class);
+        mvc.perform(get("/user/1"))
+                .andExpect(status().isNotFound());
+    }
+
+    @Test
+    public void createUserTest() throws Exception {
         Users user1 = new Users(1, "kshithesh", "routhu", "9533916174",
                 "kshithesh.r@gmail.com");
 
         when(userService.exists(user1)).thenReturn(false);
         doNothing().when(userService).createUser(user1);
-        log.info("print user{}", user1);
 
-        mvc.perform(
-                post("/user")
+        mvc.perform(post("/user")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(asJsonString(user1)))
                 .andExpect(status().isCreated());
-        //verify(userService, times(1)).exists(user1);
-        //verify(userService, times(1)).createUser(user1);
-        //verifyNoMoreInteractions(userService);
     }
 
     @Test
-    public void updateUser() throws Exception {
+    public void updateUserTest() throws Exception {
         Users user = new Users(1, "kshithesh", "routhu", "9533916174",
                 "kshithesh.r@gmail.com");
         when(userService.findByUserId(user.getUserId())).thenReturn(user);
@@ -125,19 +140,15 @@ public class UsersControllerTest {
         log.info("success");
 
         mvc.perform(
-                post("/user/{userid}", user.getUserId())
+                put("/user/{userid}", 1)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(asJsonString(user)))
                 .andExpect(status().isOk());
 
-        verify(userService, times(1)).findByUserId(user.getUserId());
-        //verify(userService, times(2)).updateUser(user);
-        //verifyNoMoreInteractions(userService);
-
     }
 
     @Test
-    public void deleteUser() throws Exception {
+    public void deleteUserTest() throws Exception {
         Users users = new Users(1, "kshithesh", "routhu", "9533916174",
                 "kshithesh.r@gmail.com");
 
@@ -146,10 +157,12 @@ public class UsersControllerTest {
 
         mvc.perform(
                 delete("/user/{userid}", users.getUserId()))
-                .andExpect(status().isOk());
+                .andExpect(status().isNoContent());
 
         verify(userService, times(1)).findByUserId(users.getUserId());
         verify(userService, times(1)).deleteUser(users.getUserId());
         verifyNoMoreInteractions(userService);
     }
+
+
 }

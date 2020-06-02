@@ -44,14 +44,4 @@ public class EventTypeServiceImpl implements EventTypeService{
         return eventTypeRepo.eventTypeExists(evenTypes.getEventTypeId());
     }
 
-	@Override
-	public List<String> getEventTypeToday() {
-		return eventTypeRepo.getEventTypeToday();
-	}
-
-	@Override
-	public List<String> getEventTypeWeek() {
-		return eventTypeRepo.getEventTypeWeek();
-	}
-
 }

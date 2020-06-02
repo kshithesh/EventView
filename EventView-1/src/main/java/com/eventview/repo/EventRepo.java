@@ -26,4 +26,8 @@ public interface EventRepo {
 	List<Integer> getAllEventMonths();
 
 	List<Integer> getAllEventDay();
+
+    List<String> getTodayFNameEventType();
+
+    List<String> getUpcomingFNameEventType();
 }

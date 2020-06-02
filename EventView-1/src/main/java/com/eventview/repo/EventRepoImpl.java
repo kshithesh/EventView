@@ -14,6 +14,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Map;
 
 @Repository("eventRepo")
 public class EventRepoImpl implements EventRepo {
@@ -101,5 +102,17 @@ public class EventRepoImpl implements EventRepo {
     public List<Integer> getAllEventDay() {
         String SELECT_DAYS = "select day(event_date) from events where day(now()) = day(event_date)";
         return jdbcTemplate.queryForList(SELECT_DAYS,Integer.class);
+    }
+
+    @Override
+    public List<String> getTodayFNameEventType() {
+        String SELECT_TODAY_FNAME_EVTYPE = "select u.first_name,et.event_type from events e join users u on u.user_id = e.user_id join eventtypes et on et.event_type_id = e.event_type_id where day(e.event_date) = day(now())";
+        return jdbcTemplate.queryForList(SELECT_TODAY_FNAME_EVTYPE,String.class);
+    }
+
+    @Override
+    public List<String> getUpcomingFNameEventType() {
+        String SELECT_UPCOMING_FNAME_EVNTYPE = "select u.first_name,et.event_type from events e join users u on u.user_id = e.user_id join eventtypes et on et.event_type_id = e.event_type_id where month(e.event_date) = month(now()) and day(e.event_date) BETWEEN day(now()) and day(now()) + 7";
+        return jdbcTemplate.queryForList(SELECT_UPCOMING_FNAME_EVNTYPE, String.class);
     }
 }

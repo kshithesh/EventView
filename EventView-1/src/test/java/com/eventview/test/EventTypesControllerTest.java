@@ -1,6 +1,10 @@
 package com.eventview.test;
 
+import com.eventview.batch.ScheduleConfig;
 import com.eventview.controller.EventTypesRestController;
+import com.eventview.exceptions.EventTypeExistsException;
+import com.eventview.exceptions.EventTypeNotFoundException;
+import com.eventview.exceptions.EventViewExceptionController;
 import com.eventview.model.EvenTypes;
 import com.eventview.service.EventTypeService;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -11,9 +15,9 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.context.web.WebAppConfiguration;
+import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
@@ -28,9 +32,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@WebAppConfiguration
-@RunWith(SpringJUnit4ClassRunner.class)
+@RunWith(SpringRunner.class)
 @SpringBootTest
+@MockBean(ScheduleConfig.class)
 public class EventTypesControllerTest {
 
     private MockMvc mvc;
@@ -54,38 +58,44 @@ public class EventTypesControllerTest {
         MockitoAnnotations.initMocks(this);
         mvc = MockMvcBuilders
                 .standaloneSetup(eventTypesRestController)
+                .setControllerAdvice(new EventViewExceptionController())
                 .build();
     }
 
     @Test
-    public void getAllEventTypes() throws Exception {
+    public void getAllEventTypesTest() throws Exception {
         List<EvenTypes> evenTypes = Arrays.asList(new EvenTypes(1,
                         "birthday"),
                 new EvenTypes(2, "anniversary"));
 
         when(eventTypeService.getAllEvenTypes()).thenReturn(evenTypes);
 
-        mvc.perform(get("/types"))
+        mvc.perform(get("/event/types"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", hasSize(2)))
-                .andExpect(jsonPath("$[0].eventid", is(101)))
+                .andExpect(jsonPath("$[0].eventTypeId", is(1)))
                 .andExpect(jsonPath("$[0].eventType", is("birthday")))
-                .andExpect(jsonPath("$[1].eventid", is(102)))
                 .andExpect(jsonPath("$[1].eventType", is("anniversary")));
 
         verify(eventTypeService, times(1)).getAllEvenTypes();
         verifyNoMoreInteractions(eventTypeService);
     }
 
+    @Test
+    public void getAllEventTypes_No_EventType_Test() throws Exception {
+        when(eventTypeService.getAllEvenTypes()).thenThrow(EventTypeNotFoundException.class);
+        mvc.perform(get("/event/types"))
+                .andExpect(status().isNotFound());
+    }
 
     @Test
-    public void findByEventTypeId() throws Exception {
+    public void findByEventTypeIdTest() throws Exception {
         EvenTypes evenTypes = new EvenTypes(1,
                 "birthday");
 
         when(eventTypeService.findByEventTypeId(1)).thenReturn(evenTypes);
 
-        mvc.perform(get("/type/{eventTypeId}", 1)
+        mvc.perform(get("/event/type/{eventTypeId}", 1)
                 .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isOk())
@@ -97,26 +107,46 @@ public class EventTypesControllerTest {
     }
 
     @Test
-    public void createEventType() throws Exception {
+    public void findByEventTypeId_No_EventType_Test() throws Exception {
+        when(eventTypeService.findByEventTypeId(1)).thenThrow(EventTypeNotFoundException.class);
+        mvc.perform(get("/event/type/1"))
+                .andExpect(status().isNotFound());
+    }
+
+    @Test
+    public void createEventTypeTest() throws Exception {
         EvenTypes evenTypes = new EvenTypes(1,
                 "birthday");
-
+        String JSON = "{\n" +
+                "  \"eventTypeId\": 1,\n" +
+                "  \"eventType\":\"birthday\"\n" +
+                "}";
         when(eventTypeService.exists(evenTypes)).thenReturn(false);
         doNothing().when(eventTypeService).createEventType(evenTypes);
 
         mvc.perform(
-                post("/type")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(asJsonString(evenTypes)))
-                .andExpect(status().isCreated());
+                post("/event/type")
+                        .content(JSON).contentType("application/json;charset=UTF-8"))
 
-        //verify(eventTypeService, times(1)).exists(evenTypes);
-        //verify(eventTypeService, times(1)).createEventType(evenTypes);
-        //verifyNoMoreInteractions(eventTypeService);
+                .andExpect(status().isCreated());
+    }
+
+
+    @Test
+    public void createEventType_EventType_Exists_Test() throws Exception {
+        EvenTypes evenTypes = new EvenTypes();
+        evenTypes.setEventTypeId(1);
+        String JSON = "{\n" +
+                "  \"eventTypeId\": 1,\n" +
+                "  \"eventType\":\"birthday\"\n" +
+                "}";
+        when(eventTypeService.exists(evenTypes)).thenThrow(EventTypeExistsException.class);
+        mvc.perform(post("/event/type"))
+                .andExpect(status().isNotFound());
     }
 
     @Test
-    public void updateEventType() throws Exception {
+    public void updateEventTypeTest() throws Exception {
         EvenTypes evenTypes = new EvenTypes(1,
                 "birthday");
 
@@ -124,32 +154,35 @@ public class EventTypesControllerTest {
         doNothing().when(eventTypeService).updateEventType(evenTypes);
 
         mvc.perform(
-                post("/type/{eventtypeid}", evenTypes.getEventTypeId())
+                put("/event/type/{eventtypeid}", 1)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(asJsonString(evenTypes)))
                 .andExpect(status().isOk());
-
-        //verify(eventTypeService, times(1)).findByEventtypeId(evenTypes.geteventtypeid());
-        //verify(eventTypeService, times(1)).updateEventType(evenTypes);
-        //verifyNoMoreInteractions(eventTypeService);
 
     }
 
 
     @Test
-    public void deleteEventType() throws Exception {
+    public void deleteEventTypeTest() throws Exception {
         EvenTypes evenTypes = new EvenTypes(1,
                 "birthday");
 
-        when(eventTypeService.findByEventTypeId(evenTypes.getEventTypeId())).thenReturn(evenTypes);
-        doNothing().when(eventTypeService).deleteEventType(evenTypes.getEventTypeId());
+        when(eventTypeService.findByEventTypeId(1)).thenReturn(evenTypes);
+        doNothing().when(eventTypeService).deleteEventType(1);
 
         mvc.perform(
-                delete("/type/{eventtypeid}", evenTypes.getEventTypeId()))
-                .andExpect(status().isOk());
+                delete("/event/type/{eventtypeid}", evenTypes.getEventTypeId()))
+                .andExpect(status().isNoContent());
 
         verify(eventTypeService, times(1)).findByEventTypeId(evenTypes.getEventTypeId());
         verify(eventTypeService, times(1)).deleteEventType(evenTypes.getEventTypeId());
         verifyNoMoreInteractions(eventTypeService);
+    }
+
+    @Test
+    public void deleteEventType_Not_Found_EventType_Test() throws Exception {
+        when(eventTypeService.findByEventTypeId(1)).thenThrow(EventTypeNotFoundException.class);
+        mvc.perform(delete("/event/type/1"))
+                .andExpect(status().isNotFound());
     }
 }

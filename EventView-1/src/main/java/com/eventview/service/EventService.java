@@ -27,4 +27,7 @@ public interface EventService {
 
 	List<Integer> getAllEventDay();
 
+	List<String> getTodayFNameEventType();
+
+	List<String> getUpcomingFNameEventType();
 }

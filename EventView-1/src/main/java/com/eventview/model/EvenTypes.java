@@ -1,8 +1,16 @@
 package com.eventview.model;
 
+import io.swagger.annotations.ApiModelProperty;
+
+import javax.validation.constraints.NotNull;
+
 public class EvenTypes {
 
+	@ApiModelProperty(notes = "The database generated EventTypeID")
 	private Integer eventTypeId;
+
+	@NotNull(message = "EventType cannot be empty")
+	@ApiModelProperty(notes = "Type of Event")
 	private String eventType;
 
 	public Integer getEventTypeId() {

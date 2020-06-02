@@ -65,17 +65,4 @@ public class EventTypeRepoImpl implements EventTypeRepo {
         int count = jdbcTemplate.queryForObject(EVENT_TYPE_EXISTS, new Object[]{ eventTypeId }, Integer.class);
         return count > 0;
     }
-
-    @Override
-    public List<String> getEventTypeToday() {
-        String SELECT_EVENT_TYPE_TODAY = "select event_type from eventtypes where event_type_id in (select event_type_id from events where day(now()) = day(event_date))";
-        return jdbcTemplate.queryForList(SELECT_EVENT_TYPE_TODAY, String.class);
-    }
-
-
-    @Override
-    public List<String> getEventTypeWeek() {
-        String SELECT_EVENT_TYPE_WEEK = "select event_type from eventtypes where event_type_id in (select event_type_id from events where day(event_date) BETWEEN day(now()) and day(NOW()) + 7)";
-        return jdbcTemplate.queryForList(SELECT_EVENT_TYPE_WEEK,String.class);
-    }
 }

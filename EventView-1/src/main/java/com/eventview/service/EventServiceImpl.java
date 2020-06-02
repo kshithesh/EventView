@@ -60,6 +60,16 @@ public class EventServiceImpl implements EventService {
     }
 
     @Override
+    public List<String> getTodayFNameEventType() {
+        return eventRepo.getTodayFNameEventType();
+    }
+
+    @Override
+    public List<String> getUpcomingFNameEventType() {
+        return eventRepo.getUpcomingFNameEventType();
+    }
+
+    @Override
     public List<Integer> getAllEventMonths() {
         return eventRepo.getAllEventMonths();
     }
