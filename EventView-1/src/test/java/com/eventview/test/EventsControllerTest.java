@@ -2,12 +2,9 @@ package com.eventview.test;
 
 import com.eventview.batch.ScheduleConfig;
 import com.eventview.controller.EventsRestController;
-import com.eventview.exceptions.EventNotFoundException;
 import com.eventview.exceptions.UserExistsException;
-import com.eventview.exceptions.UserNotFoundException;
 import com.eventview.model.Events;
 import com.eventview.model.EventsPayload;
-import com.eventview.model.Users;
 import com.eventview.service.EventService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Before;

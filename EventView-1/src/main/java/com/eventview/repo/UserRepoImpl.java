@@ -73,16 +73,4 @@ public class UserRepoImpl implements UserRepo {
         int count = jdbcTemplate.queryForObject(USER_EXISTS, new Object[] { userId }, Integer.class);
         return count > 0;
     }
-
-    @Override
-    public List<String> getFirstName() {
-        String SELECT_USERNAME_BY_TODAY = "select first_name from users where user_id in (select user_id from events where day(now()) = day(event_date))";
-        return jdbcTemplate.queryForList(SELECT_USERNAME_BY_TODAY, String.class);
-    }
-
-    @Override
-    public List<String> getFNameWeek() {
-        String SELECT_NAME_BY_WEEK = "select first_name from users where user_id in (select user_id from events where day(event_date) BETWEEN day(now()) and day(NOW()) + 7)";
-        return jdbcTemplate.queryForList(SELECT_NAME_BY_WEEK, String.class);
-    }
 }

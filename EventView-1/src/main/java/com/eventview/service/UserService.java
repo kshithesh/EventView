@@ -17,8 +17,4 @@ public interface UserService {
 	void deleteUser(Integer userId);
 
 	boolean exists(Users users);
-
-	List<String> getFNameToday();
-
-	List<String> getFNameWeek();
 }

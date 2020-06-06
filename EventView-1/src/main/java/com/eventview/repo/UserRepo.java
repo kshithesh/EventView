@@ -18,7 +18,4 @@ public interface UserRepo {
 
 	boolean userExists(Integer userId);
 
-	List<String> getFNameWeek();
-
-	List<String> getFirstName();
 }

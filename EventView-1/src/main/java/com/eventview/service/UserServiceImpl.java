@@ -49,14 +49,5 @@ public class UserServiceImpl implements UserService {
         return userRepo.userExists(users.getUserId());
     }
 
-    @Override
-    public List<String> getFNameToday() {
-        return userRepo.getFirstName();
-    }
-
-    @Override
-    public List<String> getFNameWeek() {
-        return userRepo.getFNameWeek();
-    }
 }
 

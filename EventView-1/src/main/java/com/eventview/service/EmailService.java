@@ -8,10 +8,6 @@ import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
-import javax.mail.internet.InternetAddress;
-import java.util.List;
-import java.util.Map;
-
 @Service
 public class EmailService {
 

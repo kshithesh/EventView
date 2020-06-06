@@ -1,7 +1,6 @@
 package com.eventview.controller;
 
 import com.eventview.exceptions.EventExistsException;
-import com.eventview.model.EvenTypes;
 import com.eventview.model.Events;
 import com.eventview.model.EventsPayload;
 import com.eventview.service.EventService;
@@ -9,7 +8,6 @@ import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
