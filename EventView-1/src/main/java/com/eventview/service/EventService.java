@@ -1,15 +1,18 @@
 package com.eventview.service;
 
+import com.eventview.model.EmailText;
 import com.eventview.model.Events;
 import com.eventview.model.EventsPayload;
+import com.eventview.model.Users;
 
 import java.util.List;
+import java.util.Map;
 
 public interface EventService {
 
-	List<EventsPayload> getAllEvens();
+	List<EventsPayload> getAllEventsCustom();
 
-    List<Events> getAllEventsCustom();
+    List<Events> getAllEvents();
 
     EventsPayload findByEventsIdCustom(Integer eventId);
 
@@ -23,11 +26,5 @@ public interface EventService {
 
 	boolean exists(Events event);
 
-	List<Integer> getAllEventMonths();
-
-	List<Integer> getAllEventDay();
-
-	List<String> getTodayFNameEventType();
-
-	List<String> getUpcomingFNameEventType();
+	List<EmailText> getUpcomingFNameEventType();
 }

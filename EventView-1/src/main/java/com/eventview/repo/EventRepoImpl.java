@@ -1,10 +1,11 @@
 package com.eventview.repo;
 
-import ch.qos.logback.core.encoder.EchoEncoder;
+import com.eventview.dao.EmailTextRowMapper;
 import com.eventview.dao.EventRowMapper;
 import com.eventview.dao.EventsPayloadRowMapper;
 import com.eventview.exceptions.EventNotFoundException;
 import com.eventview.exceptions.EventTypeNotFoundException;
+import com.eventview.model.EmailText;
 import com.eventview.model.Events;
 import com.eventview.model.EventsPayload;
 import org.slf4j.Logger;
@@ -14,7 +15,6 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
-import java.util.Map;
 
 @Repository("eventRepo")
 public class EventRepoImpl implements EventRepo {
@@ -26,13 +26,13 @@ public class EventRepoImpl implements EventRepo {
     private JdbcTemplate jdbcTemplate;
 
     @Override
-    public List<EventsPayload> getAllEvents() {
+    public List<EventsPayload> getAllEventsCustom() {
         String SELECT_ALL_EVENTS = "select e.event_id,u.first_name,u.last_name,et.event_type,e.event_date from events e left join users u on e.user_id = u.user_id left join eventtypes et on et.event_type_id=e.event_type_id";
         return jdbcTemplate.query(SELECT_ALL_EVENTS, new EventsPayloadRowMapper());
     }
 
     @Override
-    public List<Events> getAllEventsCustom() {
+    public List<Events> getAllEvents() {
         String SELECT_ALL_EVENTS_CUS = "select event_id,user_id,event_type_id,event_date from events";
         return jdbcTemplate.query(SELECT_ALL_EVENTS_CUS, new EventRowMapper());
     }
@@ -78,8 +78,8 @@ public class EventRepoImpl implements EventRepo {
     public int deleteEvent(Integer eventId) {
         String DELETE_EVENT = "delete from events where event_id=?";
         int size = jdbcTemplate.update(DELETE_EVENT, eventId);
-        if(size==0) {
-            throw new EventNotFoundException("No Event found to delete: "+eventId);
+        if (size == 0) {
+            throw new EventNotFoundException("No Event found to delete: " + eventId);
         }
         return size;
     }
@@ -88,31 +88,15 @@ public class EventRepoImpl implements EventRepo {
     @Override
     public boolean eventExists(Integer eventId) {
         String EVENT_EXISTS = "SELECT count(*) FROM events WHERE event_id = ?";
-        int count = jdbcTemplate.queryForObject(EVENT_EXISTS, new Object[]{ eventId }, Integer.class);
+        int count = jdbcTemplate.queryForObject(EVENT_EXISTS, new Object[]{eventId}, Integer.class);
         return count > 0;
     }
 
     @Override
-    public List<Integer> getAllEventMonths() {
-        String SELECT_MONTHS = "SELECT month(event_date) from events where month(now()) = MONTH(event_date)";
-        return jdbcTemplate.queryForList(SELECT_MONTHS,Integer.class);
-    }
-
-    @Override
-    public List<Integer> getAllEventDay() {
-        String SELECT_DAYS = "select day(event_date) from events where day(now()) = day(event_date)";
-        return jdbcTemplate.queryForList(SELECT_DAYS,Integer.class);
-    }
-
-    @Override
-    public List<String> getTodayFNameEventType() {
-        String SELECT_TODAY_FNAME_EVTYPE = "select u.first_name,et.event_type from events e join users u on u.user_id = e.user_id join eventtypes et on et.event_type_id = e.event_type_id where day(e.event_date) = day(now())";
-        return jdbcTemplate.queryForList(SELECT_TODAY_FNAME_EVTYPE,String.class);
-    }
-
-    @Override
-    public List<String> getUpcomingFNameEventType() {
+    public List<EmailText> getUpcomingFNameEventType() {
         String SELECT_UPCOMING_FNAME_EVNTYPE = "select u.first_name,et.event_type from events e join users u on u.user_id = e.user_id join eventtypes et on et.event_type_id = e.event_type_id where month(e.event_date) = month(now()) and day(e.event_date) BETWEEN day(now()) and day(now()) + 7";
-        return jdbcTemplate.queryForList(SELECT_UPCOMING_FNAME_EVNTYPE, String.class);
+        return jdbcTemplate.query(SELECT_UPCOMING_FNAME_EVNTYPE, new EmailTextRowMapper());
     }
 }
+
+

@@ -2,9 +2,7 @@ package com.eventview.test;
 
 import com.eventview.batch.ScheduleConfig;
 import com.eventview.controller.EventTypesRestController;
-import com.eventview.exceptions.EventTypeExistsException;
-import com.eventview.exceptions.EventTypeNotFoundException;
-import com.eventview.exceptions.EventViewExceptionController;
+import com.eventview.exceptions.*;
 import com.eventview.model.EvenTypes;
 import com.eventview.service.EventTypeService;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -115,8 +113,7 @@ public class EventTypesControllerTest {
 
     @Test
     public void createEventTypeTest() throws Exception {
-        EvenTypes evenTypes = new EvenTypes(1,
-                "birthday");
+        EvenTypes evenTypes = new EvenTypes(1, "birthday");
         String JSON = "{\n" +
                 "  \"eventTypeId\": 1,\n" +
                 "  \"eventType\":\"birthday\"\n" +
@@ -134,15 +131,13 @@ public class EventTypesControllerTest {
 
     @Test
     public void createEventType_EventType_Exists_Test() throws Exception {
-        EvenTypes evenTypes = new EvenTypes();
-        evenTypes.setEventTypeId(1);
-        String JSON = "{\n" +
-                "  \"eventTypeId\": 1,\n" +
-                "  \"eventType\":\"birthday\"\n" +
-                "}";
-        when(eventTypeService.exists(evenTypes)).thenThrow(EventTypeExistsException.class);
+        EvenTypes evenTypes = new EvenTypes(1, "birthday");
+
+        when(eventTypeService.exists(evenTypes)).thenReturn(true);
+        doThrow(EventTypeExistsException.class).when(eventTypeService).createEventType(evenTypes);
         mvc.perform(post("/event/type"))
-                .andExpect(status().isNotFound());
+                .andExpect(status().isBadRequest());
+
     }
 
     @Test
@@ -161,6 +156,12 @@ public class EventTypesControllerTest {
 
     }
 
+    @Test
+    public void updateEventType_EventType_Not_Found_Test() throws Exception {
+        when(eventTypeService.findByEventTypeId(1)).thenThrow(EventTypeNotFoundException.class);
+        mvc.perform(delete("/event/type/1"))
+                .andExpect(status().isNotFound());
+    }
 
     @Test
     public void deleteEventTypeTest() throws Exception {

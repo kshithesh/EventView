@@ -3,8 +3,11 @@ package com.eventview.test;
 import com.eventview.batch.ScheduleConfig;
 import com.eventview.controller.EventsRestController;
 import com.eventview.exceptions.EventNotFoundException;
+import com.eventview.exceptions.UserExistsException;
+import com.eventview.exceptions.UserNotFoundException;
 import com.eventview.model.Events;
 import com.eventview.model.EventsPayload;
+import com.eventview.model.Users;
 import com.eventview.service.EventService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Before;
@@ -66,11 +69,11 @@ public class EventsControllerTest {
 
 
     @Test
-    public void getAllEventsTest() throws Exception {
+    public void getAllEventsCustomTest() throws Exception {
         List<EventsPayload> payloads = Arrays.asList(new EventsPayload(1, "kshithesh", "routhu", "25-08-1996", "anniversary"),
                 new EventsPayload(2, "hrishikesh", "routhu", "10-09-2000", "birthday"));
 
-        when(eventService.getAllEvens()).thenReturn(payloads);
+        when(eventService.getAllEventsCustom()).thenReturn(payloads);
 
         mvc.perform(get("/events"))
                 .andExpect(status().isOk())
@@ -80,17 +83,19 @@ public class EventsControllerTest {
                 .andExpect(jsonPath("$[1].eventId", is(2)))
                 .andExpect(jsonPath("$[1].fullName", is("hrishikesh routhu")));
 
-        verify(eventService, times(1)).getAllEvens();
+        verify(eventService, times(1)).getAllEventsCustom();
         verifyNoMoreInteractions(eventService);
     }
-
+/*
     @Test
-    public void getAllEvents_No_EventType_Test() throws Exception {
-        when(eventService.getAllEvens()).thenThrow(EventNotFoundException.class);
+    public void getAllEventsCustom_No_Event_Test() throws Exception {
+        when(eventService.getAllEventsCustom()).thenThrow(EventNotFoundException.class);
         mvc.perform(get("/events"))
                 .andExpect(status().isNotFound());
     }
 
+
+ */
     @Test
     public void findByEventIdTest() throws Exception {
         EventsPayload payload = new EventsPayload(1, "kshithesh", "routhu", "25-08-1996", "anniversary");
@@ -108,7 +113,14 @@ public class EventsControllerTest {
         verifyNoMoreInteractions(eventService);
     }
 
-
+    /*
+    @Test
+    public void findByEventId_No_Event_Test() throws Exception {
+        when(eventService.findByEventsId(any())).thenThrow(EventNotFoundException.class);
+        mvc.perform(get("/event/1"))
+                .andExpect(status().isNotFound());
+    }
+*/
     @Test
     public void createEventTest() throws Exception {
         Events events = new Events(102, 2, 2, dateFormat.parse("10-09-2000"));
@@ -123,6 +135,16 @@ public class EventsControllerTest {
                 .andExpect(status().isCreated());
     }
 
+    @Test
+    public void createEvent_Event_Exists_Test() throws Exception {
+        Events events = new Events(102, 2, 2, dateFormat.parse("10-09-2000"));
+
+        when(eventService.exists(events)).thenReturn(true);
+        doThrow(UserExistsException.class).when(eventService).createEvent(events);
+        mvc.perform(post("/event"))
+                .andExpect(status().isBadRequest());
+
+    }
 
     @Test
     public void updateEventTest() throws Exception {
@@ -138,6 +160,16 @@ public class EventsControllerTest {
                 .andExpect(status().isOk());
 
     }
+/*
+    @Test
+    public void updateEvent_Event_Not_Found_Test() throws Exception {
+        when(eventService.findByEventsIdCustom(1)).thenThrow(EventNotFoundException.class);
+        mvc.perform(delete("/event/1"))
+                .andExpect(status().isNotFound());
+    }
+
+
+ */
 
     @Test
     public void deleteEventTest() throws Exception {
@@ -154,4 +186,14 @@ public class EventsControllerTest {
         verify(eventService, times(1)).deleteEvent(events.getEventId());
         verifyNoMoreInteractions(eventService);
     }
+
+    /*
+    @Test
+    public void deleteEvent_Not_Found_Event_Test() throws Exception {
+        when(eventService.findByEventsIdCustom(1)).thenThrow(EventNotFoundException.class);
+        mvc.perform(delete("/event/1"))
+                .andExpect(status().isNotFound());
+    }
+
+     */
 }

@@ -1,6 +1,7 @@
 package com.eventview.controller;
 
 import com.eventview.exceptions.EventExistsException;
+import com.eventview.model.EvenTypes;
 import com.eventview.model.Events;
 import com.eventview.model.EventsPayload;
 import com.eventview.service.EventService;
@@ -8,6 +9,7 @@ import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -27,7 +29,7 @@ public class EventsRestController {
     @ApiOperation(value = "View a list of Events")
     public ResponseEntity<List<EventsPayload>> getAllEvents() {
         log.info("getting all events");
-        List<EventsPayload> eventsPayload = eventService.getAllEvens();
+        List<EventsPayload> eventsPayload = eventService.getAllEventsCustom();
 
         if (eventsPayload == null || eventsPayload.isEmpty()) {
             log.info("no users found");
@@ -58,7 +60,7 @@ public class EventsRestController {
 
     @PutMapping(path = "/event/{eventId}")
     @ApiOperation(value = "Update an Event by providing EventID, UserID, EventTypeID and EventDate")
-    public ResponseEntity<Void> updateEvent(@PathVariable Integer eventId, @RequestBody Events events) {
+    public ResponseEntity<Void> updateEvent(@PathVariable Integer eventId,@Valid @RequestBody Events events) {
         log.info("Updating event{}", events);
         Events events1 = eventService.findByEventsId(eventId);
 

@@ -4,6 +4,7 @@ import io.swagger.annotations.ApiModelProperty;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 public class Users {
 
@@ -11,6 +12,7 @@ public class Users {
     @ApiModelProperty(notes = "The database generated UserID")
     private Integer userId;
 
+    @Size(min = 3, message = "Enter valid first name with 3 or more characters")
     @NotNull(message = "FirstName cannot be empty")
     @ApiModelProperty(notes = "FirstName of the User")
     private String firstName;
@@ -19,6 +21,7 @@ public class Users {
     @ApiModelProperty(notes = "LastName of the User")
     private String lastName;
 
+    @Size(min = 10, message = "Enter valid phone number")
     @NotNull(message = "Phone Number cannot be empty")
     @ApiModelProperty(notes = "Phone number of the User")
     private String phone;
@@ -78,5 +81,8 @@ public class Users {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public void setEventTypes(EvenTypes evenTypes) {
     }
 }

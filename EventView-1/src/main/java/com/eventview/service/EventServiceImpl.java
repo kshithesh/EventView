@@ -1,12 +1,15 @@
 package com.eventview.service;
 
+import com.eventview.model.EmailText;
 import com.eventview.model.Events;
 import com.eventview.model.EventsPayload;
+import com.eventview.model.Users;
 import com.eventview.repo.EventRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 
 @Service("eventService")
 public class EventServiceImpl implements EventService {
@@ -15,13 +18,13 @@ public class EventServiceImpl implements EventService {
     private EventRepo eventRepo;
 
     @Override
-    public List<EventsPayload> getAllEvens() {
-        return eventRepo.getAllEvents();
+    public List<EventsPayload> getAllEventsCustom() {
+        return eventRepo.getAllEventsCustom();
     }
 
     @Override
-    public List<Events> getAllEventsCustom() {
-        return eventRepo.getAllEventsCustom();
+    public List<Events> getAllEvents() {
+        return eventRepo.getAllEvents();
     }
 
     @Override
@@ -55,23 +58,8 @@ public class EventServiceImpl implements EventService {
     }
 
     @Override
-    public List<Integer> getAllEventDay() {
-        return eventRepo.getAllEventDay();
-    }
-
-    @Override
-    public List<String> getTodayFNameEventType() {
-        return eventRepo.getTodayFNameEventType();
-    }
-
-    @Override
-    public List<String> getUpcomingFNameEventType() {
+    public List<EmailText> getUpcomingFNameEventType() {
         return eventRepo.getUpcomingFNameEventType();
-    }
-
-    @Override
-    public List<Integer> getAllEventMonths() {
-        return eventRepo.getAllEventMonths();
     }
 
 }

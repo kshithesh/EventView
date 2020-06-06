@@ -61,7 +61,7 @@ public class EventTypesRestController {
     @PutMapping(path = "/event/type/{eventTypeId}")
     @ApiOperation(value = "Update an EventType by providing EventTypeID and EventType")
     public ResponseEntity<Void>
-    updateEventType(@PathVariable Integer eventTypeId, @RequestBody EvenTypes evenTypes) {
+    updateEventType(@PathVariable Integer eventTypeId,@Valid @RequestBody EvenTypes evenTypes) {
         log.info("updating eventType:{}", evenTypes);
         EvenTypes evenTypes1 = eventTypeService.findByEventTypeId(eventTypeId);
             evenTypes1.setEventTypeId(eventTypeId);

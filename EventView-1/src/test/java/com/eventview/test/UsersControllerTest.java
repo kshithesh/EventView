@@ -2,11 +2,14 @@ package com.eventview.test;
 
 import com.eventview.batch.ScheduleConfig;
 import com.eventview.controller.UsersRestController;
+import com.eventview.exceptions.EventTypeNotFoundException;
 import com.eventview.exceptions.EventViewExceptionController;
+import com.eventview.exceptions.UserExistsException;
 import com.eventview.exceptions.UserNotFoundException;
 import com.eventview.model.Users;
 import com.eventview.service.UserService;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.apache.catalina.User;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -111,7 +114,7 @@ public class UsersControllerTest {
     }
 
     @Test
-    public void findByUserIdTest_No_User_Test() throws Exception {
+    public void findByUserId_No_User_Test() throws Exception {
         when(userService.findByUserId(any())).thenThrow(UserNotFoundException.class);
         mvc.perform(get("/user/1"))
                 .andExpect(status().isNotFound());
@@ -132,6 +135,18 @@ public class UsersControllerTest {
     }
 
     @Test
+    public void createUser_User_Exists_Test() throws Exception {
+        Users user1 = new Users(1, "kshithesh", "routhu", "9533916174",
+                "kshithesh.r@gmail.com");
+
+        when(userService.exists(user1)).thenReturn(true);
+        doThrow(UserExistsException.class).when(userService).createUser(user1);
+        mvc.perform(post("/user"))
+                    .andExpect(status().isBadRequest());
+
+    }
+
+    @Test
     public void updateUserTest() throws Exception {
         Users user = new Users(1, "kshithesh", "routhu", "9533916174",
                 "kshithesh.r@gmail.com");
@@ -145,6 +160,13 @@ public class UsersControllerTest {
                         .content(asJsonString(user)))
                 .andExpect(status().isOk());
 
+    }
+
+    @Test
+    public void updateUser_User_Not_Found_Test() throws Exception {
+        when(userService.findByUserId(1)).thenThrow(UserNotFoundException.class);
+        mvc.perform(delete("/user/1"))
+                .andExpect(status().isNotFound());
     }
 
     @Test
@@ -164,5 +186,10 @@ public class UsersControllerTest {
         verifyNoMoreInteractions(userService);
     }
 
-
+    @Test
+    public void deleteUser_Not_Found_User_Test() throws Exception {
+        when(userService.findByUserId(1)).thenThrow(UserNotFoundException.class);
+        mvc.perform(delete("/user/1"))
+                .andExpect(status().isNotFound());
+    }
 }

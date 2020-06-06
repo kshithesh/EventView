@@ -51,7 +51,7 @@ public class EventsPayload {
 
 	public EventsPayload(Integer eventId, String firstName, String lastName, String eventType, String eventDate) {
 		this.eventId = eventId;
-		this.fullName = StringUtils.join(Arrays.asList(new String[]{firstName, lastName}), ' ');
+		this.fullName = StringUtils.join(Arrays.asList(firstName, lastName), ' ');
 		this.eventType = eventType;
 		this.eventDate = eventDate;
 	}

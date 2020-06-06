@@ -58,7 +58,7 @@ public class UsersRestController {
     @PutMapping(path = "/user/{userId}")
     @ApiOperation(value = "Update an User by providing UserID, FirstName, LastName, Phone and E-mail")
     public ResponseEntity<Void>
-    updateUser(@PathVariable Integer userId, @RequestBody Users users) {
+    updateUser(@PathVariable Integer userId,@Valid @RequestBody Users users) {
         log.info("updating user:{}", users);
         Users users1 = userService.findByUserId(userId);
 

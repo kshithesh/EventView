@@ -2,14 +2,16 @@ package com.eventview.batch;
 
 import com.eventview.service.EmailService;
 import com.eventview.service.EventService;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
-import java.util.List;
-
 @Component
 public class ScheduleConfig {
+
+    private ObjectMapper objectMapper = new ObjectMapper();
 
     @Autowired
     private EventService eventService;
@@ -17,14 +19,8 @@ public class ScheduleConfig {
     private EmailService emailService;
 
     @Scheduled(cron = "${cron.schedule}")
-    public void executes(){
+    public void executes() throws JsonProcessingException {
+        emailService.sendTextEmail(objectMapper.writeValueAsString(eventService.getUpcomingFNameEventType()));
 
-        Integer[] month = eventService.getAllEventMonths().toArray(new Integer[0]);
-        List<String> Today = eventService.getTodayFNameEventType();
-        List<String> NextSevenDays = eventService.getUpcomingFNameEventType();
-
-        if (month.length > 0) {
-            emailService.sendTextEmail(Today,NextSevenDays);
-        }
     }
 }

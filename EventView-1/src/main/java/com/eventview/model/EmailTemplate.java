@@ -4,7 +4,7 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.Max;
 
 public class EmailTemplate {
-    @Email
+    @Email(message = "Enter valid email id")
     private String sendTo;
     @Max(value = 100)
     private String subject;

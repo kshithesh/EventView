@@ -1,33 +1,29 @@
 package com.eventview.repo;
 
-import java.util.List;
-
+import com.eventview.model.EmailTemplate;
+import com.eventview.model.EmailText;
 import com.eventview.model.Events;
 import com.eventview.model.EventsPayload;
 
+import java.util.List;
+
 public interface EventRepo {
 
-	List<EventsPayload> getAllEvents();
+    List<EventsPayload> getAllEventsCustom();
 
-	List<Events> getAllEventsCustom();
+    List<Events> getAllEvents();
 
-	EventsPayload findByEventsIdCustom(Integer eventId);
+    EventsPayload findByEventsIdCustom(Integer eventId);
 
-	Events findByEventsId(Integer eventId);
+    Events findByEventsId(Integer eventId);
 
-	void createEvent(Events event);
+    void createEvent(Events event);
 
-	void updateEvent(Events event);
+    void updateEvent(Events event);
 
-	int deleteEvent(Integer eventId);
+    int deleteEvent(Integer eventId);
 
-	boolean eventExists(Integer eventTypeId);
+    boolean eventExists(Integer eventTypeId);
 
-	List<Integer> getAllEventMonths();
-
-	List<Integer> getAllEventDay();
-
-    List<String> getTodayFNameEventType();
-
-    List<String> getUpcomingFNameEventType();
+    List<EmailText> getUpcomingFNameEventType();
 }
