@@ -1,21 +1,21 @@
 package com.eventview.service;
 
-import com.eventview.model.EvenTypes;
+import com.eventview.model.EventTypes;
 
 import java.util.List;
 
 public interface EventTypeService {
 
-    List<EvenTypes> getAllEvenTypes();
+    List<EventTypes> getAllEvenTypes();
 
-    EvenTypes findByEventTypeId(Integer eventTypeId);
+    EventTypes findByEventTypeId(Integer eventTypeId);
 
-    void createEventType(EvenTypes evenTypes);
+    void createEventType(EventTypes eventTypes);
 
-    void updateEventType(EvenTypes evenTypes);
+    void updateEventType(EventTypes eventTypes);
 
     void deleteEventType(Integer eventTypeId);
 
-    boolean exists(EvenTypes evenTypes);
+    boolean exists(EventTypes eventTypes);
 
 }

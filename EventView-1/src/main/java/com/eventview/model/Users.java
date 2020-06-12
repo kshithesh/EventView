@@ -83,6 +83,6 @@ public class Users {
         this.email = email;
     }
 
-    public void setEventTypes(EvenTypes evenTypes) {
+    public void setEventTypes(EventTypes eventTypes) {
     }
 }

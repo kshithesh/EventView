@@ -2,7 +2,7 @@ package com.eventview.repo;
 
 import com.eventview.dao.EvenTypeRowMapper;
 import com.eventview.exceptions.EventTypeNotFoundException;
-import com.eventview.model.EvenTypes;
+import com.eventview.model.EventTypes;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,33 +20,33 @@ public class EventTypeRepoImpl implements EventTypeRepo {
     private JdbcTemplate jdbcTemplate;
 
     @Override
-    public List<EvenTypes> getAllEvenTypes() {
+    public List<EventTypes> getAllEvenTypes() {
         String SELECT_ALL_EVENT_TYPE = "select event_type_id,event_type from eventtypes";
         return jdbcTemplate.query(SELECT_ALL_EVENT_TYPE, new EvenTypeRowMapper());
     }
 
     @Override
-    public EvenTypes findByEventTypeId(Integer eventTypeId) {
+    public EventTypes findByEventTypeId(Integer eventTypeId) {
         try {
             String SELECT_EVENT_TYPE_BY_ID = "select * from eventtypes where event_type_id = ?";
-            EvenTypes evenTypes = jdbcTemplate.queryForObject(SELECT_EVENT_TYPE_BY_ID, new Object[]{eventTypeId}, new EvenTypeRowMapper());
+            EventTypes eventTypes = jdbcTemplate.queryForObject(SELECT_EVENT_TYPE_BY_ID, new Object[]{eventTypeId}, new EvenTypeRowMapper());
             log.info("query generated " + SELECT_EVENT_TYPE_BY_ID + "-----" + eventTypeId);
-			return evenTypes;
+			return eventTypes;
         } catch (Exception e) {
             throw new EventTypeNotFoundException("EventType not found with id: "+ eventTypeId);
         }
     }
 
     @Override
-    public void createEventType(EvenTypes evenTypes) {
+    public void createEventType(EventTypes eventTypes) {
         String INSERT_EVENT_TYPE = "INSERT INTO eventtypes (event_type_id, event_type) VALUES (?,?)";
-        jdbcTemplate.update(INSERT_EVENT_TYPE, evenTypes.getEventTypeId(), evenTypes.getEventType());
+        jdbcTemplate.update(INSERT_EVENT_TYPE, eventTypes.getEventTypeId(), eventTypes.getEventType());
     }
 
     @Override
-    public void updateEventType(EvenTypes evenTypes) {
+    public void updateEventType(EventTypes eventTypes) {
         String UPDATE_EVENT_TYPE = "update eventtypes set event_type=? where event_type_id=?";
-        jdbcTemplate.update(UPDATE_EVENT_TYPE, evenTypes.getEventType(), evenTypes.getEventTypeId());
+        jdbcTemplate.update(UPDATE_EVENT_TYPE, eventTypes.getEventType(), eventTypes.getEventTypeId());
     }
 
     @Override

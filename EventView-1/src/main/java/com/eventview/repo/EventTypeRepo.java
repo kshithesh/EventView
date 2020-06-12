@@ -2,17 +2,17 @@ package com.eventview.repo;
 
 import java.util.List;
 
-import com.eventview.model.EvenTypes;
+import com.eventview.model.EventTypes;
 
 public interface EventTypeRepo {
 
-	List<EvenTypes> getAllEvenTypes();
+	List<EventTypes> getAllEvenTypes();
 
-	EvenTypes findByEventTypeId(Integer eventTypeId);
+	EventTypes findByEventTypeId(Integer eventTypeId);
 
-	void createEventType(EvenTypes evenTypes);
+	void createEventType(EventTypes eventTypes);
 
-	void updateEventType(EvenTypes evenTypes);
+	void updateEventType(EventTypes eventTypes);
 
 	int deleteEventType(Integer eventTypeId);
 

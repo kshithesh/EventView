@@ -60,11 +60,7 @@ public class UserRepoImpl implements UserRepo {
     public int deleteUser(Integer userId) {
         String DELETE_USER = "delete from users where user_id=?";
         Object[] del = new Object[]{userId};
-        int size = jdbcTemplate.update(DELETE_USER, del);
-        if (size == 0) {
-            throw new UserNotFoundException("No User found to delete: " + userId);
-        }
-        return size;
+        return jdbcTemplate.update(DELETE_USER, del);
     }
 
     @SuppressWarnings("ConstantConditions")

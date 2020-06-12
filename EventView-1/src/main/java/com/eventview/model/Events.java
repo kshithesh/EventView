@@ -16,7 +16,7 @@ public class Events {
 	private Integer userId;
 
 	@NotNull(message = "EventTypeId cannot be empty")
-	@ApiModelProperty(notes = "EventTypeID from the EvenTypes Model")
+	@ApiModelProperty(notes = "EventTypeID from the EventTypes Model")
 	private Integer eventTypeId;
 
 	@NotNull(message = "EventDate cannot be empty")

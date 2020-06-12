@@ -3,7 +3,7 @@ package com.eventview.test;
 import com.eventview.batch.ScheduleConfig;
 import com.eventview.controller.EventTypesRestController;
 import com.eventview.exceptions.*;
-import com.eventview.model.EvenTypes;
+import com.eventview.model.EventTypes;
 import com.eventview.service.EventTypeService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Before;
@@ -62,11 +62,11 @@ public class EventTypesControllerTest {
 
     @Test
     public void getAllEventTypesTest() throws Exception {
-        List<EvenTypes> evenTypes = Arrays.asList(new EvenTypes(1,
+        List<EventTypes> eventTypes = Arrays.asList(new EventTypes(1,
                         "birthday"),
-                new EvenTypes(2, "anniversary"));
+                new EventTypes(2, "anniversary"));
 
-        when(eventTypeService.getAllEvenTypes()).thenReturn(evenTypes);
+        when(eventTypeService.getAllEvenTypes()).thenReturn(eventTypes);
 
         mvc.perform(get("/event/types"))
                 .andExpect(status().isOk())
@@ -88,10 +88,10 @@ public class EventTypesControllerTest {
 
     @Test
     public void findByEventTypeIdTest() throws Exception {
-        EvenTypes evenTypes = new EvenTypes(1,
+        EventTypes eventTypes = new EventTypes(1,
                 "birthday");
 
-        when(eventTypeService.findByEventTypeId(1)).thenReturn(evenTypes);
+        when(eventTypeService.findByEventTypeId(1)).thenReturn(eventTypes);
 
         mvc.perform(get("/event/type/{eventTypeId}", 1)
                 .accept(MediaType.APPLICATION_JSON))
@@ -113,13 +113,13 @@ public class EventTypesControllerTest {
 
     @Test
     public void createEventTypeTest() throws Exception {
-        EvenTypes evenTypes = new EvenTypes(1, "birthday");
+        EventTypes eventTypes = new EventTypes(1, "birthday");
         String JSON = "{\n" +
                 "  \"eventTypeId\": 1,\n" +
                 "  \"eventType\":\"birthday\"\n" +
                 "}";
-        when(eventTypeService.exists(evenTypes)).thenReturn(false);
-        doNothing().when(eventTypeService).createEventType(evenTypes);
+        when(eventTypeService.exists(eventTypes)).thenReturn(false);
+        doNothing().when(eventTypeService).createEventType(eventTypes);
 
         mvc.perform(
                 post("/event/type")
@@ -131,10 +131,10 @@ public class EventTypesControllerTest {
 
     @Test
     public void createEventType_EventType_Exists_Test() throws Exception {
-        EvenTypes evenTypes = new EvenTypes(1, "birthday");
+        EventTypes eventTypes = new EventTypes(1, "birthday");
 
-        when(eventTypeService.exists(evenTypes)).thenReturn(true);
-        doThrow(EventTypeExistsException.class).when(eventTypeService).createEventType(evenTypes);
+        when(eventTypeService.exists(eventTypes)).thenReturn(true);
+        doThrow(EventTypeExistsException.class).when(eventTypeService).createEventType(eventTypes);
         mvc.perform(post("/event/type"))
                 .andExpect(status().isBadRequest());
 
@@ -142,16 +142,16 @@ public class EventTypesControllerTest {
 
     @Test
     public void updateEventTypeTest() throws Exception {
-        EvenTypes evenTypes = new EvenTypes(1,
+        EventTypes eventTypes = new EventTypes(1,
                 "birthday");
 
-        when(eventTypeService.findByEventTypeId(evenTypes.getEventTypeId())).thenReturn(evenTypes);
-        doNothing().when(eventTypeService).updateEventType(evenTypes);
+        when(eventTypeService.findByEventTypeId(eventTypes.getEventTypeId())).thenReturn(eventTypes);
+        doNothing().when(eventTypeService).updateEventType(eventTypes);
 
         mvc.perform(
                 put("/event/type/{eventtypeid}", 1)
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(asJsonString(evenTypes)))
+                        .content(asJsonString(eventTypes)))
                 .andExpect(status().isOk());
 
     }
@@ -165,18 +165,18 @@ public class EventTypesControllerTest {
 
     @Test
     public void deleteEventTypeTest() throws Exception {
-        EvenTypes evenTypes = new EvenTypes(1,
+        EventTypes eventTypes = new EventTypes(1,
                 "birthday");
 
-        when(eventTypeService.findByEventTypeId(1)).thenReturn(evenTypes);
+        when(eventTypeService.findByEventTypeId(1)).thenReturn(eventTypes);
         doNothing().when(eventTypeService).deleteEventType(1);
 
         mvc.perform(
-                delete("/event/type/{eventtypeid}", evenTypes.getEventTypeId()))
+                delete("/event/type/{eventtypeid}", eventTypes.getEventTypeId()))
                 .andExpect(status().isNoContent());
 
-        verify(eventTypeService, times(1)).findByEventTypeId(evenTypes.getEventTypeId());
-        verify(eventTypeService, times(1)).deleteEventType(evenTypes.getEventTypeId());
+        verify(eventTypeService, times(1)).findByEventTypeId(eventTypes.getEventTypeId());
+        verify(eventTypeService, times(1)).deleteEventType(eventTypes.getEventTypeId());
         verifyNoMoreInteractions(eventTypeService);
     }
 

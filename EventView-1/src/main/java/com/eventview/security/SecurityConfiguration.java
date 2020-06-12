@@ -30,16 +30,13 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
 
-        http.cors()
-                .and()
-                .csrf()
-                .disable()
+        http.cors().and().csrf().disable()
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeRequests()
-                .antMatchers("/users/**,/events/**,/eventtypes/**").hasAnyRole("USER", "ADMIN")
-                .antMatchers("/event/**", "/event/type/**", "/actuator/**").hasRole("ADMIN")
+                .antMatchers("/users","/events","/event/types").hasRole( "ADMIN")
+                .antMatchers("/event/**", "/event/type/**","/user/**", "/actuator/**").hasRole("ADMIN")
                 .antMatchers("/").permitAll()
                 .and().httpBasic();
     }

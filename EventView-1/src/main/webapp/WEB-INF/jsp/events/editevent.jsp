@@ -1,15 +1,9 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: kshit
-  Date: 5/14/2020
-  Time: 19:31
-  To change this template use File | Settings | File Templates.
---%>
-<%@ page contentType="text/html;charset=UTF-8" %>
-<html>
+<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <head>
+    <a href="${pageContext.request.contextPath}/">Home</a>
     <meta charset="ISO-8859-1">
-    <title>Welcome to EventViewer</title>
+    <title>Events</title>
     <link rel="stylesheet"
           href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
           integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
@@ -26,10 +20,29 @@
             integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
             crossorigin="anonymous"></script>
 </head>
-<body>
-    <h1>EventViewer</h1>
-    <a href="/events">Events</a>
-    <a href="/allusers.jsp">Users</a>
-    <a href="/event/types">Event Types</a>
-</body>
-</html>
+<h1>Edit Event</h1>
+<form:form method="POST" action="/update/event/{eventId}">
+    <table>
+        <tr>
+            <td></td>
+            <td><form:hidden path="eventId"/></td>
+        </tr>
+        <tr>
+            <td>User ID :</td>
+            <td><form:input path="userId"/></td>
+        </tr>
+        <tr>
+            <td>EventType ID :</td>
+            <td><form:input path="eventTypeId"/></td>
+        </tr>
+        <tr>
+            <td>Event Date :</td>
+            <td><form:input type="date" path="eventDate"
+                            min="1940-01-01" max="2018-12-31"/></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td><input type="submit" value="Edit Save"/></td>
+        </tr>
+    </table>
+</form:form>

@@ -5,7 +5,7 @@ import io.swagger.annotations.ApiModelProperty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-public class EvenTypes {
+public class EventTypes {
 
 	@ApiModelProperty(notes = "The database generated EventTypeID")
 	private Integer eventTypeId;
@@ -31,11 +31,11 @@ public class EvenTypes {
 		this.eventType = eventType;
 	}
 
-	public EvenTypes(Integer eventTypeId, String eventType) {
+	public EventTypes(Integer eventTypeId, String eventType) {
 		this.eventTypeId = eventTypeId;
 		this.eventType = eventType;
 	}
 
-	public EvenTypes() {
+	public EventTypes() {
 	}
 }
