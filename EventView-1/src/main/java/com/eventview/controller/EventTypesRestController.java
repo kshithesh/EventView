@@ -4,7 +4,6 @@ package com.eventview.controller;
 import com.eventview.exceptions.EventTypeExistsException;
 import com.eventview.exceptions.EventTypeNotFoundException;
 import com.eventview.model.EventTypes;
-import com.eventview.model.Users;
 import com.eventview.service.EventTypeService;
 import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
