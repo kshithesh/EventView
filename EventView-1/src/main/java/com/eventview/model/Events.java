@@ -2,6 +2,7 @@
 package com.eventview.model;
 
 import io.swagger.annotations.ApiModelProperty;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.validation.constraints.NotNull;
 import java.util.Date;
@@ -19,6 +20,7 @@ public class Events {
 	@ApiModelProperty(notes = "EventTypeID from the EventTypes Model")
 	private Integer eventTypeId;
 
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	@NotNull(message = "EventDate cannot be empty")
 	@ApiModelProperty(notes = "Date of the Event")
 	private Date eventDate;

@@ -63,7 +63,7 @@ public class EventTypesRestController {
     }
 
     @RequestMapping("/edit/event/type/{eventTypeId}")
-    public String editform(@PathVariable("eventTypeId") Integer eventTypeId, Model model){
+    public String editForm(@PathVariable("eventTypeId") Integer eventTypeId, Model model){
         EventTypes eventTypes = eventTypeService.findByEventTypeId(eventTypeId);
         model.addAttribute("command", eventTypes);
         return "eventtypes/editeventtype";

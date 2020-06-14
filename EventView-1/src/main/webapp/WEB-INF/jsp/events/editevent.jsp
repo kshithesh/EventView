@@ -1,5 +1,7 @@
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix="sql" uri="http://java.sun.com/jstl/sql" %>
+<%@ page errorPage="../error.jsp" %>
 <head>
     <a href="${pageContext.request.contextPath}/">Home</a>
     <meta charset="ISO-8859-1">
@@ -25,11 +27,13 @@
     <table>
         <tr>
             <td></td>
-            <td><form:hidden path="eventId"/></td>
+            <td><form:hidden path="eventId"/>
+            </td>
         </tr>
         <tr>
             <td>User ID :</td>
-            <td><form:input path="userId"/></td>
+            <td><form:input path="userId"/>
+            </td>
         </tr>
         <tr>
             <td>EventType ID :</td>

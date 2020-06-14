@@ -8,7 +8,6 @@ import javax.validation.constraints.Size;
 
 public class Users {
 
-
     @ApiModelProperty(notes = "The database generated UserID")
     private Integer userId;
 

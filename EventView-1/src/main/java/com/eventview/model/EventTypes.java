@@ -7,10 +7,11 @@ import javax.validation.constraints.Size;
 
 public class EventTypes {
 
+	@NotNull
 	@ApiModelProperty(notes = "The database generated EventTypeID")
 	private Integer eventTypeId;
 
-	@Size(min = 3, message = "Enter valid EventType with more than 3 characters")
+	@Size(min = 4,max = 14,message = "The eventType must be between {min} and {max} characters long")
 	@NotNull(message = "EventType cannot be empty")
 	@ApiModelProperty(notes = "Type of Event")
 	private String eventType;

@@ -1,5 +1,6 @@
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ page errorPage="../error.jsp" %>
 <head>
     <a href="${pageContext.request.contextPath}/" >Home</a>
     <meta charset="ISO-8859-1">
