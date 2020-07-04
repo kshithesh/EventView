@@ -2,6 +2,7 @@ package com.eventview.test;
 
 import com.eventview.batch.ScheduleConfig;
 import com.eventview.controller.EventsRestController;
+import com.eventview.exceptions.EventNotFoundException;
 import com.eventview.exceptions.UserExistsException;
 import com.eventview.model.Events;
 import com.eventview.model.EventsPayload;
@@ -83,7 +84,7 @@ public class EventsControllerTest {
         verify(eventService, times(1)).getAllEventsCustom();
         verifyNoMoreInteractions(eventService);
     }
-/*
+
     @Test
     public void getAllEventsCustom_No_Event_Test() throws Exception {
         when(eventService.getAllEventsCustom()).thenThrow(EventNotFoundException.class);
@@ -92,7 +93,6 @@ public class EventsControllerTest {
     }
 
 
- */
     @Test
     public void findByEventIdTest() throws Exception {
         EventsPayload payload = new EventsPayload(1, "kshithesh", "routhu", "25-08-1996", "anniversary");
@@ -110,14 +110,14 @@ public class EventsControllerTest {
         verifyNoMoreInteractions(eventService);
     }
 
-    /*
+
     @Test
     public void findByEventId_No_Event_Test() throws Exception {
         when(eventService.findByEventsId(any())).thenThrow(EventNotFoundException.class);
         mvc.perform(get("/event/1"))
                 .andExpect(status().isNotFound());
     }
-*/
+
     @Test
     public void createEventTest() throws Exception {
         Events events = new Events(102, 2, 2, dateFormat.parse("10-09-2000"));
@@ -157,7 +157,8 @@ public class EventsControllerTest {
                 .andExpect(status().isOk());
 
     }
-/*
+
+
     @Test
     public void updateEvent_Event_Not_Found_Test() throws Exception {
         when(eventService.findByEventsIdCustom(1)).thenThrow(EventNotFoundException.class);
@@ -166,7 +167,6 @@ public class EventsControllerTest {
     }
 
 
- */
 
     @Test
     public void deleteEventTest() throws Exception {
@@ -184,13 +184,12 @@ public class EventsControllerTest {
         verifyNoMoreInteractions(eventService);
     }
 
-    /*
+
     @Test
     public void deleteEvent_Not_Found_Event_Test() throws Exception {
         when(eventService.findByEventsIdCustom(1)).thenThrow(EventNotFoundException.class);
         mvc.perform(delete("/event/1"))
-                .andExpect(status().isNotFound());
+                .andExpect(status().isNoContent());
     }
 
-     */
 }

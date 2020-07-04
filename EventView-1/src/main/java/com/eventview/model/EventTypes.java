@@ -7,7 +7,6 @@ import javax.validation.constraints.Size;
 
 public class EventTypes {
 
-	@NotNull
 	@ApiModelProperty(notes = "The database generated EventTypeID")
 	private Integer eventTypeId;
 

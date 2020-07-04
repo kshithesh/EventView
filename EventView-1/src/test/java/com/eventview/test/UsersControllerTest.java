@@ -64,7 +64,7 @@ public class UsersControllerTest {
                 .standaloneSetup(usersRestController)
                 .setControllerAdvice(new EventViewExceptionController()).build();
     }
-/*
+
     @Test
     public void getAllUserTest() throws Exception {
         List<Users> users = Arrays.asList(
@@ -85,7 +85,6 @@ public class UsersControllerTest {
     }
 
 
- */
 
     @Test
     public void getAllUsers_No_User_Test() throws Exception {

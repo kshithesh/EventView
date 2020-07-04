@@ -11,14 +11,13 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
 
-@Controller
+@CrossOrigin(origins = "http://localhost:4200")
+@RestController
 public class EventTypesRestController {
 
     private final Logger log = LoggerFactory.getLogger(EventTypesRestController.class);
@@ -28,13 +27,11 @@ public class EventTypesRestController {
 
     @GetMapping(path = "/event/types")
     @ApiOperation(value = "View a list of EventType")
-    public String getAllEvenTypes(Model model) {
+    public ResponseEntity<List<EventTypes>> getAllEvenTypes() {
         List<EventTypes> eventTypes = eventTypeService.getAllEvenTypes();
         if (eventTypes == null || eventTypes.isEmpty())
             throw new EventTypeNotFoundException("No EventTypes found to retrieve");
-        model.addAttribute("eventtypes", eventTypes);
-        return "eventtypes/vieweventtypes";
-        //return new ResponseEntity<>(eventTypes, HttpStatus.OK);
+        return new ResponseEntity<>(eventTypes, HttpStatus.OK);
     }
 
     @GetMapping(path = "/event/type/{eventTypeId}")
@@ -46,51 +43,39 @@ public class EventTypesRestController {
         return new ResponseEntity<>(eventTypes, HttpStatus.OK);
     }
 
-    @RequestMapping("/event/type/form")
-    public String addForm(Model model){
-        model.addAttribute("command", new EventTypes());
-        return "eventtypes/eventtypeform";
-    }
-
-    @PostMapping(path = "/save/event/type")
+    @PostMapping(path = "/event/type")
     @ApiOperation(value = "Create an EventType by providing EventType")
-    public String createEventType(@Valid @ModelAttribute("eventtypes") EventTypes eventTypes) {
+    public ResponseEntity<EventTypes> createEventType(@Valid @RequestBody EventTypes eventTypes) {
         log.debug("creating new eventTypes:{}", eventTypes);
         if (eventTypeService.exists(eventTypes)) throw new EventTypeExistsException("EventType already exists");
         eventTypeService.createEventType(eventTypes);
         log.debug("eventTypes created");
-        return "redirect:/event/types";
+        return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
-    @RequestMapping("/edit/event/type/{eventTypeId}")
-    public String editForm(@PathVariable("eventTypeId") Integer eventTypeId, Model model){
-        EventTypes eventTypes = eventTypeService.findByEventTypeId(eventTypeId);
-        model.addAttribute("command", eventTypes);
-        return "eventtypes/editeventtype";
-    }
 
-    @PostMapping(path = "/update/event/type/{eventTypeId}")
+    @PutMapping(path = "/event/type/{eventTypeId}")
     @ApiOperation(value = "Update an EventType by providing EventTypeID and EventType")
-    public String updateEventType(@Valid @ModelAttribute("eventtypes") EventTypes eventTypes) {
+    public ResponseEntity<Void> updateEventType(@PathVariable Integer eventTypeId,@Valid @RequestBody EventTypes eventTypes) {
         log.debug("updating eventType:{}", eventTypes);
-        /*
-        EventTypes evenTypes1 = eventTypeService.findByEventTypeId(eventTypeId);
-        evenTypes1.setEventTypeId(eventTypeId);
-        evenTypes1.setEventType(eventTypes.getEventType());
-        */
-        eventTypeService.updateEventType(eventTypes);
-        return "redirect:/event/types";
+        EventTypes eventTypes1 = eventTypeService.findByEventTypeId(eventTypeId);
+        if (eventTypes1 != null) {
+            eventTypes1.setEventTypeId(eventTypeId);
+            eventTypes1.setEventType(eventTypes.getEventType());
+        }
+        eventTypeService.updateEventType(eventTypes1);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @GetMapping(path = "/del/event/type/{eventTypeId}")
+    @DeleteMapping(path = "/event/type/{eventTypeId}")
     @ApiOperation(value = "Delete EventType based on the EventTypeID")
-    public String deleteEventType(@PathVariable Integer eventTypeId) {
+    public ResponseEntity<Void> deleteEventType(@PathVariable Integer eventTypeId) {
         log.info("deleting eventTypes with eventTypeId{}:", eventTypeId);
         EventTypes eventTypes = eventTypeService.findByEventTypeId(eventTypeId);
         if (eventTypes != null) {
             eventTypeService.deleteEventType(eventTypeId);
         }
         log.info("eventType deleted");
-        return "redirect:/event/types";
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }

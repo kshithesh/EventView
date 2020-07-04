@@ -45,7 +45,7 @@ public class EventRepoImpl implements EventRepo {
             log.info("query generated " + SELECT_EVENT_BY_ID + "-----" + eventId);
             return events;
         } catch (Exception e) {
-            throw new EventTypeNotFoundException("Event not founf with id: " + eventId);
+            throw new EventTypeNotFoundException("Event not found with id: " + eventId);
         }
     }
 
